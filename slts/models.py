@@ -1,0 +1,67 @@
+from django.db import models
+from datetime import time
+from localflavor.us.models import USStateField, USZipCodeField
+from phonenumber_field.modelfields import PhoneNumberField
+
+
+class Seminar(models.Model):
+    LOCATION_CHOICES = {
+        "north": "North Campus (Francis Tuttle)",
+        "south": "South Campus (MNTC, S. Penn)",
+    }
+
+    SEMINAR_STATUS_CHOICES = {
+        "draft" : "Draft",
+        "scheduled" : "Scheduled",
+        "completed" : "Completed",
+    }
+
+    title = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=150)
+    description = models.TextField()
+    date = models.DateField()
+    time = models.TimeField(default=time(10,0))
+    location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
+    status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
+    url = models.URLField()
+
+
+class Attendee(models.Model):
+    HEARD_FROM_CHOICES = {
+        "friend"            : "Friend",
+        "edmond l and l"    : "Edmond L&L",
+        "bethany tribune"   : "Bethany Tribune",
+        "other newspaper"   : "Other Newspaper",
+        "flyer"             : "Flyer",
+        "facebook"          : "Facebook",
+        "website"           : "Website",
+        "youtube"           : "YouTube",
+        "mailout"           : "Mailout",
+        "seminar feedback"  : "Feedback Form / Seminar",
+    }
+
+    fname = models.CharField(max_length=20)
+    lname = models.CharField(max_length=40)
+    address = models.CharField(max_length=60)
+    city = models.CharField(max_length=20)
+    state = USStateField()
+    zip_code = USZipCodeField()
+    phone = PhoneNumberField(region="US")
+    email = models.EmailField()
+    heard_from = models.CharField(max_length=16)
+
+
+class Registration(models.Model):
+    REGISTRATION_STATUS_CHOICES = {
+        "registered" : "Registered",
+        "attended" : "Attended",
+        "cancelled" : "Cancelled",
+    }
+
+    seminar = models.ForeignKey(Seminar, on_delete=models.CASCADE)
+    attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
+
+
+
+
