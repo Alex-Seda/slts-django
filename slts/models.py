@@ -25,6 +25,9 @@ class Seminar(models.Model):
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
     url = models.URLField()
 
+    def __str__(self):
+        return self.title
+
 
 class Attendee(models.Model):
     HEARD_FROM_CHOICES = {
@@ -40,15 +43,18 @@ class Attendee(models.Model):
         "seminar feedback"  : "Feedback Form / Seminar",
     }
 
-    fname = models.CharField(max_length=20)
-    lname = models.CharField(max_length=40)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=40)
     address = models.CharField(max_length=60)
     city = models.CharField(max_length=20)
-    state = USStateField()
+    state = USStateField(default="OK")
     zip_code = USZipCodeField()
     phone = PhoneNumberField(region="US")
     email = models.EmailField()
-    heard_from = models.CharField(max_length=16)
+    heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name + ", " + self.email
 
 
 class Registration(models.Model):
@@ -61,6 +67,9 @@ class Registration(models.Model):
     seminar = models.ForeignKey(Seminar, on_delete=models.CASCADE)
     attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
+
+    def __str__(self):
+        return self.seminar + ", " + self.attendee
 
 
 
