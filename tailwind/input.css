@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui;
+  
+  --color-c_dark_purple: #420264;
+  --color-c_gray: #a1a2a4;
+  --color-c_red: #aa0000;
+  --color-c_yellow: #ffd62e;
+  --color-primary: #5D1982;
+  --color-c_purple: #8F44B8;
+  --color-c_light_purple: #CD6FFF;
+}

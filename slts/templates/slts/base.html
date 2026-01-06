@@ -1,37 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Seminar App{% endblock %}</title>
-    
-    <!-- Set Montserrat Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CDN  -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                fontFamily: { sans: ['Montserrat', 'ui-sans-serif', 'system-ui'], }
-                colors: {
-                    // regular color names are abreviated with c_ to differentiate from default colors
-
-                    // from the original site
-                    c_dark_purple: '#420264',
-                    c_gray: '#a1a2a4',
-                    c_red: '#aa0000',
-                    c_yellow: '#ffd62e',
-
-                    // my additions
-                    primary: '#5D1982',
-                    c_purple: '#8F44B8',
-                    c_light_purple: '#CD6FFF',
-                }
-            }
-        }
-    }
-    </script>
+    <link rel="stylesheet" href="{% static 'css/main.css'%}">
 </head>
 <body class="bg-gray-50 text-gray-900">
 
