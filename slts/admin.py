@@ -11,6 +11,25 @@ class RegistrationInline(admin.TabularInline):
 
 
 class SeminarAdmin(SummernoteModelAdmin):
+    # Admin table settings
+    list_display = [
+        'title',
+        'date',
+        'time',
+        'location',
+        'status',
+    ]
+
+    list_filter = [
+        'status',
+        'location',
+    ]
+
+    search_fields = [
+        'title',
+    ]
+
+    # Admin add/edit form settings
     summernote_fields = 'description'
 
     fieldsets = [
@@ -36,6 +55,29 @@ class SeminarAdmin(SummernoteModelAdmin):
 
 
 class AttendeeAdmin(admin.ModelAdmin):
+    list_display = [
+        'first_name',
+        'last_name',
+        'email',
+        'city',
+        'state',
+        'heard_from',
+        # number of seminars attended
+    ]
+
+    list_filter = [
+        'heard_from',
+    ]
+
+    search_fields = [
+        'first_name',
+        'last_name',
+        'address',
+        'city',
+        'zip_code',
+        'phone',
+    ]
+
     fieldsets = [
         ('Name / Email', {'fields': [
             'first_name',
