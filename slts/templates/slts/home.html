@@ -1,11 +1,92 @@
 {% extends "slts/base.html" %}
 
-{% block title %}Home{% endblock %}
-
 {% block content %}
-<h1 class="text-3xl font-bold mb-4">{{ content.title }}</h1>
-<div class="prose">
-    {{ content.body|safe }}
-</div>
+
+<!-- HERO -->
+<section class="bg-c_dark_purple text-white rounded-2xl p-10 mb-12">
+  <h1 class="text-4xl font-bold mb-4">
+    Welcome to Our Community Portal
+  </h1>
+  <p class="text-xl max-w-2xl mb-8 text-c_gray">
+    Find information, forms, and updates — all in one easy place.
+  </p>
+
+  <a href="#services"
+     class="inline-block text-xl font-semibold px-8 py-4 rounded-xl
+            bg-c_yellow text-c_dark_purple hover:opacity-90">
+    Get Started
+  </a>
+</section>
+
+<!-- MAIN ACTIONS -->
+<section id="services" class="mb-16">
+  <h2 class="text-3xl font-bold mb-8 text-primary">
+    What would you like to do?
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <!-- CARD -->
+    <a href="#"
+       class="block border-2 border-c_purple rounded-2xl p-8
+              hover:bg-c_light_purple/10 transition">
+      <h3 class="text-2xl font-semibold mb-2">
+        View Announcements
+      </h3>
+      <p class="text-lg text-gray-700">
+        Read the latest news and important updates.
+      </p>
+    </a>
+
+    <a href="#"
+       class="block border-2 border-c_purple rounded-2xl p-8
+              hover:bg-c_light_purple/10 transition">
+      <h3 class="text-2xl font-semibold mb-2">
+        Download Forms
+      </h3>
+      <p class="text-lg text-gray-700">
+        Access printable forms and documents.
+      </p>
+    </a>
+
+    <a href="#"
+       class="block border-2 border-c_purple rounded-2xl p-8
+              hover:bg-c_light_purple/10 transition">
+      <h3 class="text-2xl font-semibold mb-2">
+        Contact Us
+      </h3>
+      <p class="text-lg text-gray-700">
+        Get help or ask a question.
+      </p>
+    </a>
+
+  </div>
+</section>
+
+<!-- HELP SECTION -->
+<section class="bg-gray-100 rounded-2xl p-10 mb-16">
+  <h2 class="text-3xl font-bold mb-4 text-primary">
+    Need Help?
+  </h2>
+  <p class="text-xl mb-6 max-w-3xl">
+    If you’re unsure where to go, we’re happy to help you.
+    You can call us or send a message — a real person will respond.
+  </p>
+
+  <div class="flex flex-col sm:flex-row gap-6">
+    <a href="tel:1234567890"
+       class="text-xl font-semibold px-8 py-4 rounded-xl
+              bg-primary text-white text-center">
+      Call Us
+    </a>
+
+    <a href="#"
+       class="text-xl font-semibold px-8 py-4 rounded-xl
+              border-2 border-primary text-primary text-center">
+      Send a Message
+    </a>
+  </div>
+</section>
+
 {% endblock %}
 
