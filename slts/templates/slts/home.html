@@ -1,0 +1,11 @@
+{% extends "slts/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">{{ content.title }}</h1>
+<div class="prose">
+    {{ content.body|safe }}
+</div>
+{% endblock %}
+
