@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("SLTS Homepage")
+    return render(request, "slts/home.html")
 

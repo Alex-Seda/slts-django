@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Seminar App{% endblock %}</title>
+    
+    <!-- Set Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: { sans: ['Montserrat', 'ui-sans-serif', 'system-ui'], }
+                colors: {
+                    // regular color names are abreviated with c_ to differentiate from default colors
+
+                    // from the original site
+                    primary: '#420264',
+                    c_gray: '#a1a2a4',
+                    c_red: '#aa0000',
+                    c_yellow: '#ffd62e',
+
+                    // my additions
+                    c_green: '#386641',
+                    coffee: '#492C1D',
+                    cream: '#F9FBB2',
+                }
+            }
+        }
+    }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="bg-primary text-white p-4">
+        <div class="max-w-6xl mx-auto flex justify-between">
+            <div class="font-bold text-xl">Seminar App</div>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:underline">Home</a></li>
+                <li><a href="/seminars/" class="hover:underline">Seminars</a></li>
+                <li><a href="/register/" class="hover:underline">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page content -->
+    <main class="max-w-6xl mx-auto p-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            &copy; {{ now.year }} Seminar App
+        </div>
+    </footer>
+
+</body>
+</html>
+
