@@ -4,15 +4,16 @@ from .models import Attendee, Seminar, Registration
 
 
 
+class RegistrationInline(admin.TabularInline):
+    model = Registration
+    extra = 1
+
+
+
 class SeminarAdmin(SummernoteModelAdmin):
     summernote_fields = 'description'
 
     fieldsets = [
-        (' ', {'fields': [
-            'status',
-            'url',
-        ]}),
-
         ('Content', {'fields': [
             'title',
             'subtitle',
@@ -24,7 +25,13 @@ class SeminarAdmin(SummernoteModelAdmin):
             'time',
             'location',
         ]}),
+
+        ('Visibility', {'fields': [
+            'status',
+            'url',
+        ]}),
     ]
+    inlines = [RegistrationInline]
 
 
 
@@ -48,6 +55,7 @@ class AttendeeAdmin(admin.ModelAdmin):
             'heard_from',
         ]}),
     ]
+    inlines = [RegistrationInline]
 
 
 
