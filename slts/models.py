@@ -17,13 +17,13 @@ class Seminar(models.Model):
     }
 
     title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=150)
-    description = models.TextField()
+    subtitle = models.CharField(max_length=150, blank=True)
+    description = models.TextField(blank=True)
     date = models.DateField()
     time = models.TimeField(default=time(10,0))
     location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
-    url = models.URLField()
+    url = models.URLField(blank=True)
 
     def __str__(self):
         return self.title
@@ -45,13 +45,13 @@ class Attendee(models.Model):
 
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=40)
-    address = models.CharField(max_length=60)
-    city = models.CharField(max_length=20)
+    address = models.CharField(max_length=60, blank=True)
+    city = models.CharField(max_length=20, blank=True)
     state = USStateField(default="OK")
-    zip_code = USZipCodeField()
-    phone = PhoneNumberField(region="US")
+    zip_code = USZipCodeField(blank=True)
+    phone = PhoneNumberField(region="US", blank=True)
     email = models.EmailField()
-    heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES)
+    heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES, blank=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.email
