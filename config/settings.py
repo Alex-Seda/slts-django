@@ -32,9 +32,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'slts.apps.SltsConfig', # custom app
-    'localflavor',          # for US state codes and zip codes
-    'phonenumber_field',    # for phone numbers for attendees
-    'django_summernote',    # for rich text editing (seminar descriptions)
+    'localflavor',          # for US state codes and zip codes                  PACKAGE(S): django-localflavor
+    'phonenumber_field',    # for phone numbers for attendees                   PACKAGE(S): django-phonenumbers, django-phonenumber-field
+    'django_summernote',    # for rich text editing (seminar descriptions)      PACKAGE(S): django-summernote
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
