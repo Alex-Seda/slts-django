@@ -7,5 +7,8 @@ app_name = "slts"
 
 urlpatterns = [
     # frontend pages
-    path("", views.index, name="index"),
+    path("", views.home, name="home"),
+    path("seminars/", views.seminars, name="seminars"),
+    path("seminar_recordings/", views.recordings, name="recordings"),
+    path("about_us/", views.about, name="about"),
 ]

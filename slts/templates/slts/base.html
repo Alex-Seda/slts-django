@@ -1,38 +1,25 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Seminar App{% endblock %}</title>
-
-    <link rel="stylesheet" href="{% static 'css/main.css'%}">
+  <meta charset="UTF-8">
+  <title>{% block title %}Senior Living Truth Series{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<body class="bg-gray-50 text-gray-900">
 
-    <!-- Navbar -->
-    <nav class="bg-primary text-white p-4">
-        <div class="max-w-6xl mx-auto flex justify-between">
-            <div class="font-bold text-xl">Seminar App</div>
-            <ul class="flex space-x-4">
-                <li><a href="/" class="hover:underline">Home</a></li>
-                <li><a href="/seminars/" class="hover:underline">Seminars</a></li>
-                <li><a href="/register/" class="hover:underline">Register</a></li>
-            </ul>
-        </div>
-    </nav>
+<body class="font-sans bg-gray-50 text-gray-900">
 
-    <!-- Page content -->
-    <main class="max-w-6xl mx-auto p-6">
-        {% block content %}{% endblock %}
-    </main>
+  {% include "slts/partials/navbar.html" %}
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white p-4 mt-12">
-        <div class="max-w-6xl mx-auto text-center">
-            &copy; {{ now.year }} Seminar App
-        </div>
-    </footer>
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-c_dark_purple text-white mt-20">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-lg">
+      <p>© {{ now|date:"Y" }} Seminar Program</p>
+    </div>
+  </footer>
 
 </body>
 </html>
