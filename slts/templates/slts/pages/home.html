@@ -1,0 +1,39 @@
+{% extends "slts/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<section class="bg-c_purple text-white rounded-2xl p-10 mb-16">
+  <h1 class="text-4xl font-bold mb-4">
+    Senior Living Truth Series
+  </h1>
+  <p class="text-xl max-w-3xl mb-8 text-gray">
+    Learn, stay informed, and participate in seminars designed specifically for you.
+  </p>
+
+  <a href="{% url 'slts:seminars' %}"
+     class="inline-block bg-c_yellow text-c_dark_purple text-xl font-semibold
+            px-8 py-4 rounded-xl">
+    View Upcoming Seminars
+  </a>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-10">
+  <div class="p-8 border-2 border-c_purple rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-2">Attend a Seminar</h2>
+    <p class="text-lg">Register for upcoming live sessions.</p>
+  </div>
+
+  <div class="p-8 border-2 border-c_purple rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-2">Watch Past Recordings</h2>
+    <p class="text-lg">View seminars you may have missed.</p>
+  </div>
+
+  <div class="p-8 border-2 border-c_purple rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-2">Learn About Us</h2>
+    <p class="text-lg">Meet the people behind the program.</p>
+  </div>
+</section>
+
+{% endblock %}
+

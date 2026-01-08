@@ -1,0 +1,26 @@
+{% extends "slts/base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<h1 class="text-4xl font-bold mb-6">{{ seminar.title }}</h1>
+
+<p class="text-xl mb-4">{{ seminar.description }}</p>
+
+<p class="text-xl mb-8">
+  {{ seminar.date }} at {{ seminar.time }}
+</p>
+
+<form method="post" class="max-w-xl space-y-6">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit"
+          class="bg-primary text-white text-xl font-semibold
+                 px-8 py-4 rounded-xl">
+    Complete Registration
+  </button>
+</form>
+
+{% endblock %}
+
