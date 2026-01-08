@@ -36,15 +36,15 @@ cd tailwind && npm install && cd ..
 1. Bring the live server up
 
     Run the below command in Project Root
- ```bash
+```bash
     python manage.py runserver
- ```
+```
 2. Ensure Tailwind CSS autocompiles with changes
 
-    Run the below command in the tailwind dir
- ```bash
+    Run the below command in the Tailwind directory
+```bash
     npm run watch
- ```
+```
 
 *Leave the window for each command open so that they continue running until you are done working*
 
