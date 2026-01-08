@@ -1,8 +1,8 @@
 # System Package Prerequisites
 - Python
-- Django (Possibly optional with venv?)
+- Django *(Possibly optional with venv?)*
 - Node.js
-- NPM
+- Node Package Manager (npm)
 
 ---
 
@@ -17,11 +17,15 @@ source venv/bin/activate
 ```
 3. Install necessary Django Python packages in venv
 ```bash
-bash pip install django-localflavor django-phonenumbers django-phonenumber-field django-summernote
+pip install \
+django-localflavor \
+django-phonenumbers \
+django-phonenumber-field \
+django-summernote
 ```
 4. Install node modules for Tailwind CSS
 ```bash
-bash cd tailwind && npm install && cd ..
+cd tailwind && npm install && cd ..
 ```
 
 ---
@@ -30,14 +34,14 @@ bash cd tailwind && npm install && cd ..
 
 ## To begin working
 1. Bring the live server up
-    - Run the below command in Project Root
+    Run the below command in Project Root
 ```bash
-python manage.py runserver
+    python manage.py runserver
 ```
 2. Ensure Tailwind CSS autocompiles with changes
-    - Run the below command in the tailwind dir
+    Run the below command in the tailwind dir
 ```bash
-npm run watch
+    npm run watch
 ```
 
 *Leave the window for each command open so that they continue running until you are done working*
