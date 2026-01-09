@@ -4,6 +4,11 @@ from localflavor.us.models import USStateField, USZipCodeField
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+class SeminarQuerySet(models.QuerySet):
+    def open_seminars():
+        return
+
+
 class Seminar(models.Model):
     LOCATION_CHOICES = {
         "north": "North Campus (Francis Tuttle)",

@@ -5,7 +5,7 @@
 
 <h1 class="text-4xl font-bold mb-6">{{ seminar.title }}</h1>
 
-<p class="text-xl mb-4">{{ seminar.description }}</p>
+<div class="text-xl mb-4">{{ seminar.description|safe }}</div> <!-- give this a custom class to add css to the elements. sem_desc.li{} etc. -->
 
 <p class="text-xl mb-8">
   {{ seminar.date }} at {{ seminar.time }}
@@ -14,6 +14,8 @@
 <form method="post" class="max-w-xl space-y-6">
   {% csrf_token %}
   {{ form.as_p }}
+
+  <input type="email" required>
 
   <button type="submit"
           class="bg-primary text-white text-xl font-semibold
