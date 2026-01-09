@@ -12,27 +12,35 @@
   </p>
 
   <a href="{% url 'slts:seminars' %}"
-     class="inline-block bg-c_yellow text-c_dark_purple text-xl font-semibold
-            px-8 py-4 rounded-xl">
-    View Upcoming Seminars
+     class="inline-block bg-white text-c_dark_purple text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_faint_purple">
+    Register Now!
   </a>
 </section>
 
 <section class="grid grid-cols-1 md:grid-cols-3 gap-10">
-  <div class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_light_purple">
-    <h2 class="text-2xl font-semibold mb-2">Attend a Seminar</h2>
-    <p class="text-lg">Register for upcoming live sessions.</p>
-  </div>
+  <a 
+  href="{% url 'slts:seminars' %}"
+  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
+  >
+    <h2 class="text-2xl font-semibold mb-2">2026 Schedule</h2>
+    <p class="text-lg">Browse our 2026 Seminar Schedule</p>
+  </a>
 
-  <div class="p-8 border-2 border-c_purple rounded-2xl">
-    <h2 class="text-2xl font-semibold mb-2">Watch Past Recordings</h2>
-    <p class="text-lg">View seminars you may have missed.</p>
-  </div>
+  <a 
+  href="{% url 'slts:recordings' %}"
+  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
+  >
+    <h2 class="text-2xl font-semibold mb-2">Recorded Seminars</h2>
+    <p class="text-lg">Watch recordings of seminars you may have missed</p>
+  </a>
 
-  <div class="p-8 border-2 border-c_purple rounded-2xl">
-    <h2 class="text-2xl font-semibold mb-2">Learn About Us</h2>
-    <p class="text-lg">Meet the people behind the program.</p>
-  </div>
+  <a 
+  href="{% url 'slts:about' %}"
+  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
+  >
+    <h2 class="text-2xl font-semibold mb-2">About Us</h2>
+    <p class="text-lg">Meet the people behind the program</p>
+  </a>
 </section>
 
 {% endblock %}
