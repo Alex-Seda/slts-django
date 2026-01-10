@@ -5,8 +5,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class SeminarQuerySet(models.QuerySet):
-    def open_seminars():
-        return
+    def open_seminars(self):
+        return self.filter(status="scheduled")
 
 
 class Seminar(models.Model):
@@ -29,6 +29,8 @@ class Seminar(models.Model):
     location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
     url = models.URLField('YouTube URL', blank=True)
+
+    objects = SeminarQuerySet.as_manager()
 
     def __str__(self):
         return self.title
