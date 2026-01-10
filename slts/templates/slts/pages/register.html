@@ -2,25 +2,40 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
+  
+<!-- Information block -->
+<div class="text-center">
+  <h1 class="text-4xl font-bold mb-6">{{ seminar.title }}</h1>
+  
+  <p class="text-xl mb-8">
+    {{ seminar.date }} at {{ seminar.time }}
+  </p>
 
-<h1 class="text-4xl font-bold mb-6">{{ seminar.title }}</h1>
-
-<div class="text-xl mb-4">{{ seminar.description|safe }}</div> <!-- give this a custom class to add css to the elements. sem_desc.li{} etc. -->
-
-<p class="text-xl mb-8">
-  {{ seminar.date }} at {{ seminar.time }}
-</p>
-
-<form method="post" class="max-w-xl space-y-6">
+  <p class="italic text-gray-500 pb-10">You will recieve an email with confirmation or further instructions!</p>
+</div>
+ 
+<!-- Form -->
+<form method="post" class="max-w-xl w-lg space-y-6">
   {% csrf_token %}
   {{ form.as_p }}
 
-  <input type="email" required>
+  <div class="space-y-2">
+    <label for="email" class="block text-sm font-medium text-gray-700">
+      Email address
+    </label>
+  
+    <input id="email"
+           name="email"
+           type="email"
+           required
+           class="w-full rounded-md border border-gray-300 px-3 py-2
+                  focus:border-primary focus:ring-1 focus:ring-primary">
+  </div>
+
 
   <button type="submit"
-          class="bg-primary text-white text-xl font-semibold
-                 px-8 py-4 rounded-xl">
-    Complete Registration
+          class="block ml-auto bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl">
+    Register
   </button>
 </form>
 
