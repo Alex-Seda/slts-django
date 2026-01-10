@@ -8,6 +8,9 @@ class SeminarQuerySet(models.QuerySet):
     def open_seminars(self):
         return self.filter(status="scheduled")
 
+    def past_seminars(self):
+        return self.filter(status="completed")
+
 
 class Seminar(models.Model):
     LOCATION_CHOICES = {

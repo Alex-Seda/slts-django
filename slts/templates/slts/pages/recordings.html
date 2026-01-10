@@ -5,23 +5,25 @@
 
 <h1 class="text-4xl font-bold mb-10">Seminar Recordings</h1>
 
-{% for year, seminars in recordings_by_year.items %}
   <section class="mb-16">
-    <h2 class="text-3xl font-semibold mb-6">{{ year }}</h2>
+    <h2 class="text-3xl font-semibold mb-6">2026 Seminars</h2>
 
     <div class="space-y-6">
-      {% for seminar in seminars %}
+      {% for seminar in past_seminars %}
         <div class="p-6 border-2 border-c_purple rounded-2xl">
           <h3 class="text-2xl font-semibold mb-2">{{ seminar.title }}</h3>
+          {% if seminar.url != "" %}
           <a href="{{ seminar.url }}"
              class="text-xl text-primary underline">
             Watch Recording
           </a>
+          {% else %}
+          <p>Recording not posted. Check back soon!</p>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
   </section>
-{% endfor %}
 
 {% endblock %}
 

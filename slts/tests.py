@@ -1,3 +1,4 @@
 from django.test import TestCase
 
-# Create your tests here.
+# Create test for open seminars
+# Create test for past seminars
