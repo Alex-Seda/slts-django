@@ -7,7 +7,7 @@ __pycache__/
 node_modules/
 
 # Django
-staticfiles/
+static/
 .env
 
 # Database

@@ -15,9 +15,14 @@ python -m venv venv
 ```bash 
 source venv/bin/activate
 ```
+4. Ensure pip is installed
+```bash
+python -m ensurepip --upgrade
+```
 3. Install necessary Django Python packages in venv
 ```bash
 pip install \
+django \ 
 django-localflavor \
 django-phonenumbers \
 django-phonenumber-field \
