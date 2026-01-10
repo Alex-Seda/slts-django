@@ -21,7 +21,8 @@ pip install \
 django-localflavor \
 django-phonenumbers \
 django-phonenumber-field \
-django-summernote
+django-summernote \
+django-widget-tweaks
 ```
 4. Install node modules for Tailwind CSS
 ```bash

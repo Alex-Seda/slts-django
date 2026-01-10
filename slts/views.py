@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse
-from .models import Registration, Attendee, Seminar, SeminarQuerySet
+from .models import Registration, Attendee, Seminar, SeminarQuerySet, RegistrationToken
 from .services import parse_registration_token, send_completion_email, send_confirmation_email
+from .forms import AttendeeForm
 
 
 def home(request):
@@ -49,32 +50,44 @@ def check_email(request):
     return render(request, "slts/pages/check_email.html")
 
 
-def complete_registration(request):
-    token = request.GET.get("token")
-    email, seminar_id = parse_registration_token(token)
-    seminar = Seminar.objects.get(id=seminar_id)
-    template = loader.get_template("slts/pages/complete_registration.html")
+def complete_registration(request, token):
+    # Get token
+    token_obj = get_object_or_404(RegistrationToken, token=token)
+    print("Token object: ", repr(token_obj))
+    print("Token: ", repr(token_obj.token))
 
+    if token_obj.used:
+        return HttpResponseBadRequest("Token already used")
+
+    if token_obj.is_expired():
+        return HttpResponseBadRequest("Token expired")
+
+    # If token is valid and unused, get info out
+    email = token_obj.email
+    seminar = token_obj.seminar
+    
+
+    # if the request was the user submitting the form, process it and mark the token as used
     if request.method == "POST":
         form = AttendeeForm(request.POST)
         if form.is_valid():
             attendee = form.save()
             Registration.objects.create(attendee=attendee, seminar=seminar)
-            return redirect("registration_success")
+            token_obj.used = True
+            token_obj.save()
+            return redirect("slts:registration_success", seminar_id=seminar.id)
+    
+    # otherwise, return the form for them to fill out
     else:
         form = AttendeeForm(initial={"email": email})
+        template = loader.get_template("slts/pages/complete_registration.html")
+        context = {"form": form, "seminar": seminar}
+        return HttpResponse(template.render(context, request))
 
-    context = {"form": form, "seminar": seminar}
 
-    return HttpResponse(template.render(context, request))
-
-
-def registration_success(request):
+def registration_success(request,seminar_id):
     template = loader.get_template("slts/pages/registration_success.html")
-    seminar_id = request.GET.get("seminar_id")
-    seminar = None
-    if seminar_id:
-        seminar = get_object_or_404(Seminar, id=seminar_id)
+    seminar = get_object_or_404(Seminar, id=seminar_id)
 
     context = {"seminar": seminar}
 
