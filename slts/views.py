@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import Attendee, Seminar, SeminarQuerySet
-from .services import parse_registration_token, send_completion_email
+from django.urls import reverse
+from .models import Registration, Attendee, Seminar, SeminarQuerySet
+from .services import parse_registration_token, send_completion_email, send_confirmation_email
 
 
 def home(request):
@@ -39,7 +40,13 @@ def register_submit(request, seminar_id):
         seminar=seminar,
     )
 
-    return redirect(f"{reverse('slts:registration_success')}?seminar_id={seminar.id}")
+    send_confirmation_email(email, seminar.id)
+
+    return redirect("slts:check_email")
+
+
+def check_email(request):
+    return render(request, "slts/pages/check_email.html")
 
 
 def complete_registration(request):
