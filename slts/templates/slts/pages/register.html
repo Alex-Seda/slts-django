@@ -15,7 +15,7 @@
 </div>
  
 <!-- Form -->
-<form method="post" class="max-w-xl w-lg space-y-6">
+<form action="{% url 'slts:register_submit' seminar.id %}" method="post" class="max-w-xl w-lg space-y-6">
   {% csrf_token %}
   {{ form.as_p }}
 

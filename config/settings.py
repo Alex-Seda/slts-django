@@ -132,6 +132,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
+# Email Settings
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" #for local testing, print to the console
+
+
+
+# URL Settings
+SITE_URL = "http://localhost:8000" # for local testing, keep this localhost
+
 
 
 # django-richtextfield settings

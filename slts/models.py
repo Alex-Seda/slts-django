@@ -60,7 +60,7 @@ class Attendee(models.Model):
     state = USStateField(default="OK")
     zip_code = USZipCodeField(blank=True)
     phone = PhoneNumberField(region="US", blank=True)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES, blank=True)
 
     def __str__(self):

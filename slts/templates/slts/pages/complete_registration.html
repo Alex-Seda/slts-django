@@ -1,0 +1,16 @@
+{% extends "slts/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h1>Complete your registration</h1>
+<p>You’re registering for: <strong>{{ seminar.title }}</strong></p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Finish Registration</button>
+</form>
+
+{% endblock %}
+
