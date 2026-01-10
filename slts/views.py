@@ -20,7 +20,10 @@ def register(request, seminar_id):
     return HttpResponse(template.render(context, request))
 
 def recordings(request):
-    return render(request, "slts/pages/regordings.html")
+    past_seminars = Seminar.objects.past_seminars()
+    template = loader.get_template("slts/pages/recordings.html")
+    context = {"past_seminars": past_seminars}
+    return HttpResponse(template.render(context, request))
 
 def about(request):
     return render(request, "slts/pages/about.html")
