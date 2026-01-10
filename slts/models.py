@@ -1,5 +1,7 @@
+import uuid
 from django.db import models
-from datetime import time
+from datetime import time, timedelta
+from django.utils import timezone
 from localflavor.us.models import USStateField, USZipCodeField
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -79,8 +81,15 @@ class Registration(models.Model):
     status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
 
     def __str__(self):
-        return self.seminar.title + ", " + self.attendee.email
+        return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.seminar.title + "\""
 
 
+class RegistrationToken(models.Model):
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    email = models.EmailField()
+    seminar = models.ForeignKey("Seminar", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    used = models.BooleanField(default=False)
 
-
+    def is_expired(self):
+        return self.created_at < timezone.now() - timedelta(days=3)
