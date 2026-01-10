@@ -1,0 +1,19 @@
+{% extends "slts/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-4">Registration Complete!</h1>
+<p class="mb-6 text-lg">
+  Thank you for registering for the <strong>{{ seminar.title }}</strong>.
+</p>
+<p class="mb-6">
+  You’ll receive a confirmation email shortly with details about the seminar.
+  Please keep this email for your records.
+</p>
+<a href="{% url 'home' %}" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition">
+  Back to Home
+</a>
+
+{% endblock %}
+

@@ -1,0 +1,18 @@
+{% extends "slts/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-4 text-red-600">Link Expired</h1>
+<p class="mb-6 text-lg">
+  Sorry, this registration link is no longer valid. Links are active for 3 days from the time they are sent.
+</p>
+<p class="mb-6">
+  To complete your registration, please go back to the seminar you would like to register for and enter your email again. We’ll send you a new link right away!
+</p>
+<a href="{% url 'home' %}" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition">
+  Back to Home
+</a>
+
+{% endblock %}
+
