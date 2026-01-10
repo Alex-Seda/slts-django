@@ -3,6 +3,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from .models import Seminar
 
 
 # Registration token logic for 
@@ -48,6 +50,20 @@ def send_completion_email(email, seminar_id):
         fail_silently=False,
     )
 
+def send_confirmation_email(email, seminar_id):
+    seminar = get_object_or_404(Seminar, id=seminar_id)
+    subject = f"Registration Confirmation - Senior Living Truth Series"
+    message = (
+        f"Thank you for registering for {seminar.title}!\n\n"
+    )
+
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[email],
+        fail_silently=False,
+    )
 
 
 

@@ -79,7 +79,7 @@ class Registration(models.Model):
     status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
 
     def __str__(self):
-        return self.seminar + ", " + self.attendee
+        return self.seminar.title + ", " + self.attendee.email
 
 
 

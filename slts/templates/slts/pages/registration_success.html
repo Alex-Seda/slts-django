@@ -1,19 +1,28 @@
 {% extends "slts/base.html" %}
-{% block title %}Home{% endblock %}
+
+{% block title %}Registration Complete{% endblock %}
 
 {% block content %}
+<div class="flex flex-col items-center justify-center text-center py-20">
+  <div class="bg-white rounded-2xl shadow-lg p-10 w-full max-w-xl">
 
-<h1 class="text-3xl font-bold mb-4">Registration Complete!</h1>
-<p class="mb-6 text-lg">
-  Thank you for registering for the <strong>{{ seminar.title }}</strong>.
-</p>
-<p class="mb-6">
-  You’ll receive a confirmation email shortly with details about the seminar.
-  Please keep this email for your records.
-</p>
-<a href="{% url 'home' %}" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition">
-  Back to Home
-</a>
+    <h1 class="text-4xl font-bold mb-4 text-gray-900">Registration Complete!</h1>
 
+    <p class="text-lg text-gray-600 mb-4">
+      Thank you for registering for the <strong>{{ seminar.title }}</strong>.
+    </p>
+
+    <p class="text-lg text-gray-600 mb-8">
+      You’ll receive a confirmation email shortly with details about the seminar.
+      Please keep this email for your records.
+    </p>
+
+    <a href="{% url 'slts:home' %}" 
+       class="inline-block bg-primary text-white text-lg font-semibold px-8 py-4 rounded-xl hover:bg-primary-dark transition">
+      Back to Home
+    </a>
+
+  </div>
+</div>
 {% endblock %}
 
