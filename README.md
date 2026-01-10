@@ -33,6 +33,14 @@ cd tailwind && npm install && cd ..
 # Development Workflow
 
 ## To begin working
+1. Pull GitHub changes
+2. Run migrations (if models were updated)
+```bash
+    python manage.py makemigrations
+    python manage.py migrate
+```
+
+## Live Updates
 1. Bring the live server up
 
     Run the below command in Project Root
