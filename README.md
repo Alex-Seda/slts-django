@@ -17,7 +17,7 @@ source venv/bin/activate
 3. Install necessary Django Python packages in venv
 ```bash
 pip install \
-django \ 
+django \
 django-environ \
 django-localflavor \
 django-phonenumbers \
