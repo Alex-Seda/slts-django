@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme{
   --font-sans: 'Montserrat', ui-sans-serif, system-ui;
   
   --color-c_dark_purple: #420264;
