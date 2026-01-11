@@ -15,10 +15,6 @@ python -m venv venv
 ```bash 
 source venv/bin/activate
 ```
-4. Ensure pip is installed
-```bash
-python -m ensurepip --upgrade
-```
 3. Install necessary Django Python packages in venv
 ```bash
 pip install \
@@ -34,6 +30,10 @@ django-widget-tweaks
 ```bash
 cd tailwind && npm install && cd ..
 ```
+
+*NOTE: If you update your system, it will break venv. The easiest solution is to just remove the venv directory and run these commands again. This happens because venv is tightly tied with symlinks to the specific version python binaries on your system. When these binaries are updated, the links break.*
+
+*TLDR: After a system update, remove venv and reinstall using these steps.*
 
 ---
 
