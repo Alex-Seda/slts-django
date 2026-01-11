@@ -1,6 +1,5 @@
 # System Package Prerequisites
 - Python
-- Django *(Possibly optional with venv?)*
 - Node.js
 - Node Package Manager (npm)
 
@@ -18,7 +17,7 @@ source venv/bin/activate
 3. Install necessary Django Python packages in venv
 ```bash
 pip install \
-django \ 
+django \
 django-environ \
 django-localflavor \
 django-phonenumbers \
@@ -31,9 +30,9 @@ django-widget-tweaks
 cd tailwind && npm install && cd ..
 ```
 
-*NOTE: If you update your system, it will break venv. The easiest solution is to just remove the venv directory and run these commands again. This happens because venv is tightly tied with symlinks to the specific version python binaries on your system. When these binaries are updated, the links break.*
+*NOTE: If you update your system, it will break venv. The easiest solution is to just remove the venv directory and run through steps 1-3 again. This happens because venv is tightly tied with symlinks to the specific version python binaries on your system. When these binaries are updated, the links break.*
 
-*TLDR: After a system update, remove venv and reinstall using these steps.*
+*TLDR: After a system update, remove venv and reinstall using steps 1-3.*
 
 ---
 
