@@ -1,6 +1,5 @@
 # System Package Prerequisites
 - Python
-- Django *(Possibly optional with venv?)*
 - Node.js
 - Node Package Manager (npm)
 
