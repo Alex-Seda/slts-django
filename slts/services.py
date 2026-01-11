@@ -18,11 +18,11 @@ def generate_registration_token(email, seminar_id):
 
 def parse_registration_token(token, max_age=60*60*24*3):
     try:
-        print("Token after: ", repr(token))
+        # print("Token after: ", repr(token))
         signed = force_str(urlsafe_base64_decode(token))
-        print("Signed data after: ", repr(signed))
+        # print("Signed data after: ", repr(signed))
         data = signing.loads(signed, max_age=max_age)
-        print("Raw data after: " + repr(data))
+        # print("Raw data after: " + repr(data))
         return data["email"], data["seminar_id"]
     except Exception:
         raise ValueError("Invalid or expired token")
@@ -31,8 +31,8 @@ def parse_registration_token(token, max_age=60*60*24*3):
 # Email functionality
 def send_completion_email(email, seminar_id):
     token_obj = generate_registration_token(email, seminar_id)
-    print("Token object: ", repr(token_obj))
-    print("Token: ", repr(token_obj.token))
+    # print("Token object: ", repr(token_obj))
+    # print("Token: ", repr(token_obj.token))
 
     link = f"{settings.SITE_URL}/complete-registration/{token_obj.token}/"
 
