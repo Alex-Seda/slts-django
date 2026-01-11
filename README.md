@@ -23,6 +23,7 @@ python -m ensurepip --upgrade
 ```bash
 pip install \
 django \ 
+django-environ \
 django-localflavor \
 django-phonenumbers \
 django-phonenumber-field \
