@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse
-from .models import Registration, Attendee, Seminar, SeminarQuerySet, RegistrationToken
-from .services import parse_registration_token, send_completion_email, send_confirmation_email
+from django.db import IntegrityError
+from django.contrib import messages
+from .models import Registration, Attendee, Seminar, SeminarQuerySet
+from .services import send_confirmation_email, normalize_phone
 from .forms import AttendeeForm
 
 
@@ -23,70 +25,71 @@ def seminars(request):
 def register(request, seminar_id):
     seminar = get_object_or_404(Seminar, pk=seminar_id)
     template = loader.get_template("slts/pages/register.html")
-    context = {"seminar": seminar}
+    form = AttendeeForm()
+    context = {"form": form, "seminar": seminar}
     return HttpResponse(template.render(context, request))
 
 
 def register_submit(request, seminar_id):
+    form = AttendeeForm(request.POST)   
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
 
-    email = request.POST["email"].lower().strip()
+
+    # If email or phone is set, prep them for finding attendee
+    email = request.POST["email"].lower().strip() if request.POST["email"] else None
+    phone = normalize_phone(request.POST["phone"]) if request.POST["phone"] else None
+    first_name = request.POST["first_name"].lower()
+    
+
+    attendee = None
     seminar = get_object_or_404(Seminar, id=seminar_id)
+ 
+    if email:
+        attendee = Attendee.objects.filter(
+            email=email,
+            first_name__iexact=first_name
+        ).first()
+
+    
+    if not attendee and phone:
+        attendee = Attendee.objects.filter(
+            phone=phone,
+            first_name__iexact=first_name
+        ).first()
+        
+    
+    if not attendee:
+        attendee = form.save()
+
 
     try:
-        attendee = Attendee.objects.get(email=email)
-    except Attendee.DoesNotExist:
-        send_completion_email(email, seminar.id)
-        return render(request, "slts/pages/check_email.html")
+        Registration.objects.get_or_create(
+            attendee=attendee,
+            seminar=seminar,
+        )
 
-    Registration.objects.get_or_create(
-        attendee=attendee,
-        seminar=seminar,
-    )
+    except:
+        messages.error(
+            request,
+            "We couldn’t process your registration. Please check your spelling and try again."
+        )
 
-    send_confirmation_email(email, seminar.id)
-
-    return redirect("slts:check_email")
-
-
-def check_email(request):
-    return render(request, "slts/pages/check_email.html")
-
-
-def complete_registration(request, token):
-    # Get token
-    token_obj = get_object_or_404(RegistrationToken, token=token)
-    print("Token object: ", repr(token_obj))
-    print("Token: ", repr(token_obj.token))
-
-    if token_obj.used:
-        return HttpResponseBadRequest("Token already used")
-
-    if token_obj.is_expired():
-        return HttpResponseBadRequest("Token expired")
-
-    # If token is valid and unused, get info out
-    email = token_obj.email
-    seminar = token_obj.seminar
+        return render(
+            request,
+            "slts/pages/register.html",
+            {
+                "form": form,       # autopopulate filled in data
+                "seminar": seminar,
+            },
+        )
     
 
-    # if the request was the user submitting the form, process it and mark the token as used
-    if request.method == "POST":
-        form = AttendeeForm(request.POST)
-        if form.is_valid():
-            attendee = form.save()
-            Registration.objects.create(attendee=attendee, seminar=seminar)
-            token_obj.used = True
-            token_obj.save()
-            return redirect("slts:registration_success", seminar_id=seminar.id)
+    if email:
+        True
+        #send_confirmation_email(email, seminar.id)
     
-    # otherwise, return the form for them to fill out
-    else:
-        form = AttendeeForm(initial={"email": email})
-        template = loader.get_template("slts/pages/complete_registration.html")
-        context = {"form": form, "seminar": seminar}
-        return HttpResponse(template.render(context, request))
+    return redirect("slts:registration_success", seminar_id=seminar_id)
 
 
 def registration_success(request,seminar_id):
