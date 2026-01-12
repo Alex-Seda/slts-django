@@ -8,7 +8,11 @@ from .forms import AttendeeForm
 
 
 def home(request):
-    return render(request, "slts/pages/home.html")
+    n_seminar = get_object_or_404(SeminarQuerySet, get_next_north_seminar())
+    s_seminar = get_object_or_404(SeminarQuerySet, get_next_south_seminar())
+    template = loader.get_template("slts/pages/home.html")
+    context = {"n_seminar": n_seminar, "s_seminar": s_seminar}
+    return HttpResponse(template.render(context, request))
 
 def seminars(request):
     open_seminars = Seminar.objects.open_seminars()

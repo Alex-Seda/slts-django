@@ -13,6 +13,16 @@ class SeminarQuerySet(models.QuerySet):
     def past_seminars(self):
         return self.filter(status="completed")
 
+    def get_next_north_seminar(self):
+        return (self.filter(location="north", status="scheduled")
+        .order_by("date")
+        .first())
+
+    def get_next_south_seminar(self):
+        return (self.filter(location="south", status="scheduled")
+        .order_by("date")
+        .first())
+
 
 class Seminar(models.Model):
     LOCATION_CHOICES = {
