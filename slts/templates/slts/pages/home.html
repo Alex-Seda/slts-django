@@ -12,13 +12,15 @@
   <div class="mx-auto">
     <div>
       <!-- Add Seminar information here so that they know what seminar they are registering for -->
-      <a href="{% url 'slts:register' 1 %}"
+      <a href="{% url 'slts:register' s_seminar.id %}"
         class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
         Register Now!
       </a>
     </div>
 
-    {% n_seminar.title %}
+    {% if s_seminar %}
+      {{ s_seminar.title }}
+    {% endif %}
     
   </div>
 
