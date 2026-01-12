@@ -9,18 +9,45 @@
     <img src="{% static 'images/2026-hero.png' %}" class="rounded-2xl w-full h-auto">
   </div>
 
-  <div class="mx-auto">
-    <div>
-      <!-- Add Seminar information here so that they know what seminar they are registering for -->
-      <a href="{% url 'slts:register' s_seminar.id %}"
+  <div class="mx-auto flex flex-row gap-10 text-center">
+    <div class="flex flex-col gap-4 p-16 border rounded-2xl bg-white shadow-sm max-w-md">
+      <!-- Seminar Info -->
+      <div class="space-y-1">
+        <h3 class="text-2xl font-bold text-gray-800">{{ n_seminar.title }}</h3>
+        <p class="text-lf text-gray-500">{{ n_seminar.subtitle }}</p>
+      </div>
+
+      <div class="flex flex-col text-lg text-gray-600">
+        <p>{{ n_seminar.date|date:"F j, Y" }}</p>
+        <p>{{ n_seminar.get_location_display }}</p>
+      </div>
+
+      <!-- Register Button -->
+      <a href="{% url 'slts:register' n_seminar.id %}"
         class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
         Register Now!
       </a>
     </div>
 
-    {% if s_seminar %}
-      {{ s_seminar.title }}
-    {% endif %}
+
+    <div class="flex flex-col gap-4 p-16 border rounded-2xl bg-white shadow-sm max-w-md">
+      <!-- Seminar Info -->
+      <div class="space-y-1">
+        <h3 class="text-2xl font-bold text-gray-800">{{ s_seminar.title }}</h3>
+        <p class="text-lf text-gray-500">{{ s_seminar.subtitle }}</p>
+      </div>
+
+      <div class="flex flex-col text-lg text-gray-600">
+        <p>{{ s_seminar.date|date:"F j, Y" }}</p>
+        <p>{{ s_seminar.get_location_display }}</p>
+      </div>
+
+      <!-- Register Button -->
+      <a href="{% url 'slts:register' s_seminar.id %}"
+        class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
+        Register Now!
+      </a>
+    </div>
     
   </div>
 
