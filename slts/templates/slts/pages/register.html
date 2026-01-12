@@ -1,43 +1,56 @@
 {% extends "slts/base.html" %}
+{% load widget_tweaks %}
 {% block title %}Register{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+  <div class="space-y-4 mb-6">
+    {% for message in messages %}
+      <div class="rounded-xl border border-red-300 bg-red-50 px-6 py-4 text-red-800">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+<div class="max-w-3xl min-w-xl mx-auto bg-white shadow-lg rounded-2xl p-10 space-y-6">
   
-<!-- Information block -->
-<div class="text-center">
-  <h1 class="text-4xl font-bold mb-6">{{ seminar.title }}</h1>
+  <h1 class="text-3xl font-bold text-gray-900 text-center">Register</h1>
   
-  <p class="text-xl mb-8">
-    {{ seminar.date }} at {{ seminar.time }}
+  <p class="text-gray-700">
+    You’re registering for: 
+    <span class="font-semibold text-c_purple">{{ seminar.title }}</span>
+  </p>
+  
+  <p class="text-gray-700">
+    That will be held on: 
+    <span class="font-semibold text-c_purple">{{ seminar.date }}</span>
   </p>
 
-  <p class="italic text-gray-500 pb-10">You will recieve an email with confirmation or further instructions!</p>
+  <form action="{% url 'slts:register_submit' seminar.id %}" method="post" class="space-y-4">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div class="flex flex-col">
+        {{ field.label_tag }} 
+        {{ field|add_class:"border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-c_purple focus:outline-none" }}
+        {% if field.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ field.errors }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button 
+      type="submit" 
+      class="w-full bg-c_purple hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-colors">
+      Register
+    </button>
+  </form>
+
 </div>
- 
-<!-- Form -->
-<form action="{% url 'slts:register_submit' seminar.id %}" method="post" class="max-w-xl w-lg space-y-6">
-  {% csrf_token %}
-  {{ form.as_p }}
-
-  <div class="space-y-2">
-    <label for="email" class="block text-sm font-medium text-gray-700">
-      Email address
-    </label>
-  
-    <input id="email"
-           name="email"
-           type="email"
-           required
-           class="w-full rounded-md border border-gray-300 px-3 py-2
-                  focus:border-primary focus:ring-1 focus:ring-primary">
-  </div>
-
-
-  <button type="submit"
-          class="block ml-auto bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl">
-    Register
-  </button>
-</form>
 
 {% endblock %}
+
 

@@ -68,12 +68,12 @@ class Attendee(models.Model):
 
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=40)
-    address = models.CharField(max_length=60, blank=True)
-    city = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=60)
+    city = models.CharField(max_length=20)
     state = USStateField(default="OK")
     zip_code = USZipCodeField(blank=True)
     phone = PhoneNumberField(region="US", blank=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(blank=True)
     heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES, blank=True)
 
     def __str__(self):
@@ -94,13 +94,3 @@ class Registration(models.Model):
     def __str__(self):
         return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.seminar.title + "\""
 
-
-class RegistrationToken(models.Model):
-    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    email = models.EmailField()
-    seminar = models.ForeignKey("Seminar", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    used = models.BooleanField(default=False)
-
-    def is_expired(self):
-        return self.created_at < timezone.now() - timedelta(days=3)
