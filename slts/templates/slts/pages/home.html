@@ -1,47 +1,48 @@
 {% extends "slts/base.html" %}
+{% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
 
-<section class="bg-c_purple text-white rounded-2xl p-10 mb-16">
-  <h1 class="text-4xl font-bold mb-4">
-    Senior Living Truth Series
-  </h1>
-  <p class="text-xl max-w-3xl mb-8 text-gray">
-    Learn, stay informed, and participate in seminars designed specifically for you.
-  </p>
+<div class="flex flex-col gap-10 justify-center">
+  <div class="inline-block shadow-lg shadow-black/50 rounded-2xl">
+    <img src="{% static 'images/2026-hero.png' %}" class="rounded-2xl w-full h-auto">
+  </div>
 
-  <a href="{% url 'slts:register' 1 %}"
-     class="inline-block bg-white text-c_dark_purple text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_faint_purple">
-    Register Now!
-  </a>
-</section>
+  <div class="mx-auto">
+    <!-- Add Seminar information here so that they know what seminar they are registering for -->
+    <a href="{% url 'slts:register' 1 %}"
+      class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
+      Register Now!
+    </a>
+  </div>
 
-<section class="grid grid-cols-1 md:grid-cols-3 gap-10">
-  <a 
-  href="{% url 'slts:seminars' %}"
-  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
-  >
-    <h2 class="text-2xl font-semibold mb-2">2026 Schedule</h2>
-    <p class="text-lg">Browse our 2026 Seminar Schedule</p>
-  </a>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <a 
+    href="{% url 'slts:seminars' %}"
+    class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple hover:shadow-sm shadow-black/30"
+    >
+      <h2 class="text-2xl font-semibold mb-2">2026 Schedule</h2>
+      <p class="text-lg">Browse our 2026 Seminar Schedule</p>
+    </a>
 
-  <a 
-  href="{% url 'slts:recordings' %}"
-  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
-  >
-    <h2 class="text-2xl font-semibold mb-2">Recorded Seminars</h2>
-    <p class="text-lg">Watch recordings of seminars you may have missed</p>
-  </a>
+    <a 
+    href="{% url 'slts:recordings' %}"
+    class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple hover:shadow-sm shadow-black/30"
+    >
+      <h2 class="text-2xl font-semibold mb-2">Recorded Seminars</h2>
+      <p class="text-lg">Watch recordings of seminars you may have missed</p>
+    </a>
 
-  <a 
-  href="{% url 'slts:about' %}"
-  class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple"
-  >
-    <h2 class="text-2xl font-semibold mb-2">About Us</h2>
-    <p class="text-lg">Meet the people behind the program</p>
-  </a>
-</section>
+    <a 
+    href="{% url 'slts:about' %}"
+    class="p-8 border-2 border-c_purple rounded-2xl hover:bg-c_faint_purple hover:shadow-sm shadow-black/30"
+    >
+      <h2 class="text-2xl font-semibold mb-2">About Us</h2>
+      <p class="text-lg">Meet the people behind the program</p>
+    </a>
+  </section>
+</div>
 
 {% endblock %}
 
