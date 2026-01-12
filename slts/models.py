@@ -33,6 +33,7 @@ class Seminar(models.Model):
     time = models.TimeField(default=time(10,0))
     location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
+    image = models.ImageField(upload_to='seminars/', blank=True)
     url = models.URLField('YouTube URL', blank=True)
 
     objects = SeminarQuerySet.as_manager()

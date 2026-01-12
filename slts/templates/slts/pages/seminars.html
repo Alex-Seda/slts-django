@@ -11,6 +11,9 @@
       <div class="p-8 border-2 border-c_purple rounded-2xl">
         <h2 class="text-2xl font-semibold mb-2">{{ seminar.title }}</h2>
         <p class="text-lg mb-4">{{ seminar.subtitle }}</p>
+        {% if seminar.image %}
+          <img src="{{ seminar.image.url }}" alt="{{ seminar.title }}">
+        {% endif %}
         <p class="text-lg mb-6">
           {{ seminar.date }} at {{ seminar.time }}
         </p>
