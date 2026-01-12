@@ -40,24 +40,27 @@ def register_submit(request, seminar_id):
     email = request.POST["email"].lower().strip() if request.POST["email"] else None
     phone = normalize_phone(request.POST["phone"]) if request.POST["phone"] else None
     first_name = request.POST["first_name"].lower()
-    
-
-    attendee = None
     seminar = get_object_or_404(Seminar, id=seminar_id)
- 
+    attendee = None
+
+
+    # Ensure that basic contact info is provided. Email or phone at least.
+    if not (email or phone):
+        messages.error(request, f"You must provide your name and address.\n You must also provide an email AND/OR a phone number.")
+        return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar})
+
+
     if email:
         attendee = Attendee.objects.filter(
             email=email,
             first_name__iexact=first_name
         ).first()
-
     
     if not attendee and phone:
         attendee = Attendee.objects.filter(
             phone=phone,
             first_name__iexact=first_name
         ).first()
-        
     
     if not attendee:
         attendee = form.save()
