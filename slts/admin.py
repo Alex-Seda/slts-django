@@ -35,6 +35,7 @@ class SeminarAdmin(SummernoteModelAdmin):
     fieldsets = [
         ('Content', {'fields': [
             'title',
+            'image',
             'subtitle',
             'description',
         ]}),
@@ -45,7 +46,7 @@ class SeminarAdmin(SummernoteModelAdmin):
             'location',
         ]}),
 
-        ('Visibility', {'fields': [
+        ('Other', {'fields': [
             'status',
             'url',
         ]}),
