@@ -33,6 +33,8 @@ def seminars(request):
 
 def register(request, seminar_id):
     seminar = get_object_or_404(Seminar, pk=seminar_id)
+    if not (seminar.status == "scheduled"):
+        return redirect('slts:home')
     template = loader.get_template("slts/pages/register.html")
     form = AttendeeForm()
     context = {"form": form, "seminar": seminar}
