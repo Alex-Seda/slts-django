@@ -1,103 +1,104 @@
 {% extends "slts/base.html" %}
-{% block title %}About Us | Senior Living Truth Series{% endblock %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
 
 {% block content %}
 
-<!-- Page Title -->
-<header class="mb-16">
-  <h1 class="text-4xl font-semibold mb-4">
-    About Us
-  </h1>
-  <p class="text-xl text-gray-600 max-w-3xl">
-    The Senior Living Truth Series is an educational seminar program
-    focused on honest, practical information for aging adults and
-    their families.
-  </p>
-</header>
+<!-- Page Wrapper -->
+<section class="max-w-5xl mx-auto px-6 py-16 space-y-16">
 
-<!-- Mission -->
-<section class="mb-14">
-  <h2 class="text-2xl font-semibold mb-4">
-    Our Purpose
-  </h2>
-  <div class="bg-c_faint_purple rounded-2xl p-8">
-    <p class="text-lg leading-relaxed">
-      The purpose of the Senior Living Truth Series is to educate,
-      equip, and empower mature adults, caregivers, and families
-      to make informed decisions about aging, senior living,
-      and long-term planning.
+  <!-- Hero / Mission Section -->
+  <div class="bg-white rounded-3xl shadow-lg p-10">
+    <h1 class="text-4xl font-bold text-gray-900 mb-6 text-center">About the Senior Living Truth Series</h1>
+
+    <p class="text-lg text-gray-700 mb-4">
+      The <span class="font-semibold text-primary">Senior Living Truth Series</span> exists to educate, empower, and equip mature adults and their families with honest, practical information about later-life choices — without any sales pitches.
+    </p>
+
+    <p class="text-lg text-gray-700 mb-4">
+      Every month, we offer free seminars and workshops tailored specifically for seniors and lifelong learners. Topics include emergency planning, aging in place, navigating senior living options, managing finances, and understanding modern technology.
+    </p>
+
+    <p class="text-lg text-gray-700">
+      Our goal is simple: provide clear, truthful insight so attendees can make informed decisions with confidence.
     </p>
   </div>
-</section>
 
-<!-- What We Do -->
-<section class="mb-14">
-  <h2 class="text-2xl font-semibold mb-4">
-    What We Provide
-  </h2>
-  <div class="space-y-4 text-lg leading-relaxed max-w-3xl">
-    <p>
-      The Senior Living Truth Series offers free educational seminars
-      that address the real questions people face as they age.
-      Topics include housing transitions, emergency preparedness,
-      financial considerations, fraud awareness, and maintaining
-      quality of life.
-    </p>
-    <p>
-      These seminars are informational in nature. We do not sell
-      products or services, and we do not require participation
-      beyond attending and learning.
-    </p>
-  </div>
-</section>
+  <!-- Meet the Hosts Section -->
+  <div class="space-y-6">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Meet Your Hosts</h2>
 
-<!-- Hosts -->
-<section class="mb-14">
-  <h2 class="text-2xl font-semibold mb-4">
-    Our Hosts
-  </h2>
-  <div class="border-2 border-c_purple rounded-2xl p-8">
-    <p class="text-lg leading-relaxed max-w-3xl">
-      The Senior Living Truth Series is hosted by
-      <strong>Becky and Roberto Seda</strong>.
-      They oversee the program and work to ensure each seminar
-      remains focused on clarity, accuracy, and respect for the
-      audience. Their goal is to provide a welcoming environment
-      where attendees can learn without pressure or obligation.
-    </p>
-  </div>
-</section>
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Roberto Seda -->
+      <div class="flex-1 bg-white rounded-3xl shadow-md p-8 flex flex-col items-center text-center">
+        <img src="{% static 'images/roberto-seda.jpg' %}" alt="Roberto Seda" class="w-40 h-40 rounded-full mb-6 object-cover shadow-lg">
+        <h3 class="text-2xl font-semibold mb-2">Roberto Seda</h3>
+        <p class="text-gray-700 text-lg">
+          Co-owner and co-presenter of the Senior Living Truth Series, Roberto brings years of experience in elder care advocacy and community engagement. His mission is to make complex senior-living topics approachable and actionable.
+        </p>
+      </div>
 
-<!-- History -->
-<section class="mb-14">
-  <h2 class="text-2xl font-semibold mb-4">
-    Program History
-  </h2>
-  <div class="text-lg leading-relaxed max-w-3xl text-gray-700">
-    <p>
-      The Senior Living Truth Series was originally founded by
-      <strong>Nicki Buckelew, Ph.D.</strong> and
-      <strong>Chris Buckelew</strong>.
-      While they are no longer involved in running the program,
-      their early efforts helped establish its commitment to
-      community education and honest discussion.
-    </p>
+      <!-- Becky Seda -->
+      <div class="flex-1 bg-white rounded-3xl shadow-md p-8 flex flex-col items-center text-center">
+        <img src="{% static 'images/becky-seda.jpg' %}" alt="Becky Seda" class="w-40 h-40 rounded-full mb-6 object-cover shadow-lg">
+        <h3 class="text-2xl font-semibold mb-2">Becky Seda</h3>
+        <p class="text-gray-700 text-lg">
+          Co-owner and co-presenter, Becky focuses on making seminars welcoming and inclusive. She ensures each attendee leaves with practical advice, clarity, and confidence to make informed decisions for themselves or loved ones.
+        </p>
+      </div>
+    </div>
   </div>
-</section>
 
-<!-- Closing -->
-<section>
-  <h2 class="text-2xl font-semibold mb-4">
-    Why This Matters
-  </h2>
-  <div class="bg-c_faint_purple rounded-2xl p-8">
-    <p class="text-lg leading-relaxed max-w-3xl">
-      Decisions related to aging can be complex and overwhelming.
-      The Senior Living Truth Series exists to reduce confusion,
-      encourage thoughtful planning, and support individuals and
-      families with clear, trustworthy information.
-    </p>
+  <!-- What Makes Us Different Section -->
+  <div class="bg-white rounded-3xl shadow-lg p-10">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">What Makes Us Different</h2>
+
+    <ul class="list-disc list-inside text-lg text-gray-700 space-y-3">
+      <li><span class="font-semibold">No Sales Pitches</span> — We provide education, not product promotion.</li>
+      <li><span class="font-semibold">Real Experts</span> — Presenters bring trusted professional experience.</li>
+      <li><span class="font-semibold">Community First</span> — Seminars foster connection and conversation.</li>
+      <li><span class="font-semibold">Free & Accessible</span> — Our events are no-cost with clear instructions for attendance.</li>
+    </ul>
   </div>
+
+	<!-- Original Founders Section (Subtle) -->
+	<div class="bg-gray-50 rounded-3xl shadow-md p-6 mt-16">
+	  <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Original Founders</h2>
+	  <div class="flex flex-col sm:flex-row justify-center gap-8 items-center">
+	    
+	    <!-- Founder 1 -->
+	    <div class="flex flex-col items-center text-center">
+	      <img src="{% static 'images/nikki-buckelew.jpg' %}" alt="Nikki Buckelew" class="w-32 h-32 rounded-full mb-2 object-cover shadow-md">
+	      <p class="text-gray-700 font-semibold">Nikki Buckelew</p>
+	    </div>
+	
+	    <!-- Founder 2 -->
+	    <div class="flex flex-col items-center text-center">
+	      <img src="{% static 'images/chris-buckelew.jpg' %}" alt="Chris Buckelew" class="w-32 h-32 rounded-full mb-2 object-cover shadow-md">
+	      <p class="text-gray-700 font-semibold">Chris Buckelew</p>
+	    </div>
+	
+	  </div>
+	  <!-- Respectful Founders Note -->
+	  <div class="bg-gray-50 rounded-3xl p-8 text-center text-gray-700">
+	    <p class="text-lg">
+	      This series was founded by Chris and Nikki Buckelew, and we honor their vision and dedication. 
+        Their goal has always been to provide clarity and support to seniors navigating important life transitions.
+	    </p>
+  </div>
+	</div>
+
+
+
+  <!-- CTA Button -->
+  <div class="text-center">
+    <a href="{% url 'slts:seminars' %}" class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple transition">
+      See Upcoming Seminars
+    </a>
+  </div>
+
 </section>
 
 {% endblock %}
+
