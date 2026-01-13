@@ -8,6 +8,7 @@ node_modules/
 
 # Django
 static/
+staticfiles/
 .env
 
 # Database
