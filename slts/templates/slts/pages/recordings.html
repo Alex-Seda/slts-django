@@ -3,41 +3,66 @@
 
 {% block content %}
 
-<h1 class="text-4xl font-bold mb-10">Seminar Recordings</h1>
+<h1 class="text-5xl font-bold mb-16 text-center">2026 Seminar Recordings</h1>
 
-  <section class="mb-16">
-    <h2 class="text-3xl font-semibold mb-6">2026 Seminars</h2>
-
-    <div class="space-y-6">
-      {% for seminar in past_seminars %}
-        <div class="flex flex-row gap-10 p-6 border-2 border-c_purple rounded-2xl">
-          
-          <!-- Left Section (Video) -->
-          {% if seminar.url != "" %}
-            <iframe 
-            src="https://www.youtube.com/embed/BhTc46VOPS8?si=yLDIRoR2fe9nApKa" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen></iframe>
+<section class="mb-24">
+  <div class="space-y-14">
+    {% for seminar in past_seminars %}
+      <div class="bg-white rounded-3xl shadow-lg p-10 flex flex-col lg:flex-row gap-12">
+        
+        <!-- Left: Video -->
+        <div class="lg:w-1/2">
+          {% if seminar.url %}
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <iframe
+                src="{{ seminar.url }}"
+                class="w-full h-full margin-auto"
+                title="Seminar Recording"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
           {% else %}
-            <p>Recording not posted. Check back soon!</p>
+            <div class="aspect-video flex items-center justify-center rounded-2xl bg-gray-100 text-gray-500 text-lg">
+              Recording not posted yet
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Right: Info -->
+        <div class="lg:w-1/2 flex flex-col gap-6">
+          
+          <!-- Meta -->
+          <div class="flex flex-wrap gap-4 text-base text-gray-600">
+            <span class="px-4 py-2 rounded-full bg-gray-100">
+              {{ seminar.date }}
+            </span>
+            <span class="px-4 py-2 rounded-full bg-gray-100">
+              {{ seminar.get_location_display }}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h2 class="text-3xl font-semibold leading-snug">
+            {{ seminar.title }}
+          </h2>
+
+          <!-- Subtitle -->
+          {% if seminar.subtitle %}
+            <p class="text-xl text-gray-700 leading-relaxed">
+              {{ seminar.subtitle }}
+            </p>
           {% endif %}
 
-          <!-- Right Section (Info) -->
-          <div class="flex flex-col gap-4">
-            <h3 class="text-2xl font-semibold mb-2">{{ seminar.title }}</h3>
-            <p>{{ seminar.subtite }}</p>
-            <p>{{ seminar.date }}</p>
-            <p>{{ seminar.location }}</p>
-            <p>{{ seminar.description }}</p>
-          </div>
-          
         </div>
-      {% endfor %}
-    </div>
-  </section>
+
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
 
 {% endblock %}
 
