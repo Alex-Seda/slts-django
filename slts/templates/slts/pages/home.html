@@ -11,7 +11,7 @@
 
   <div class="mx-auto flex flex-row gap-10 text-center">
     
-    
+    {% if n_seminar %}
     <div class="flex flex-1 flex-col gap-4 p-12 justify-center border rounded-2xl bg-white shadow-sm max-w-md">
       <!-- Seminar Info -->
       <div class="space-y-1">
@@ -30,8 +30,10 @@
         Register Now!
       </a>
     </div>
+    {% endif %}
 
 
+    {% if s_seminar %}
     <div class="flex flex-1 flex-col gap-4 p-12 justify-center border rounded-2xl bg-white shadow-sm max-w-md">
       <!-- Seminar Info -->
       <div class="space-y-1">
@@ -50,6 +52,7 @@
         Register Now!
       </a>
     </div>
+    {% endif %}
     
 
   </div>
