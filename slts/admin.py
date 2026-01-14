@@ -103,6 +103,13 @@ class AttendeeAdmin(admin.ModelAdmin):
     inlines = [RegistrationInline]
 
 
+class UserAdmin(admin.ModelAdmin):
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            return self.readonly_fields + ("is_superuser",)
+        return self.readonly_fields
+
+
 
 
 admin.site.register(Seminar, SeminarAdmin)

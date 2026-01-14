@@ -178,3 +178,17 @@ DJRICHTEXTFIELD_CONFIG = {
         'width': 700
     }
 }
+
+
+# admin ui package settings
+JAZZMIN_SETTINGS = {
+    "site_brand": "SLTS Admin",
+    "site_title": "SLTS Admin",
+    "site_header": "SLTS Dashboard",
+    "welcome_sign": "Welcome to SLTS Administration",
+    "copyright": "Senior Living Truth Series",
+    "search_model": "auth.User",
+    "topmenu_links": [
+        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
+    ],
+}
