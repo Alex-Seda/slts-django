@@ -11,6 +11,8 @@ class RegistrationInline(admin.TabularInline):
 
 
 class SeminarAdmin(SummernoteModelAdmin):
+    ordering = ("date",)
+
     # Admin table settings
     list_display = [
         'title',

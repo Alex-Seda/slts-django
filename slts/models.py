@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from datetime import time, timedelta
+from datetime import time, timedelta, date
 from django.utils import timezone
 from localflavor.us.models import USStateField, USZipCodeField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -22,6 +22,12 @@ class SeminarQuerySet(models.QuerySet):
         return (self.filter(location="south", status="scheduled")
         .order_by("date")
         .first())
+
+    def get_seminars_by_year(self, year):
+        return (self.filter( date__gte=date(year, 1, 1), date__lte=date(year, 12, 31), )
+        .exclude(status="draft")
+        .order_by("date")
+        )
 
 
 class Seminar(models.Model):

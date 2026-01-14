@@ -13,3 +13,4 @@ staticfiles/
 
 # Database
 db.sqlite3
+media/
