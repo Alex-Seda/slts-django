@@ -24,6 +24,7 @@ django-phonenumbers \
 django-phonenumber-field \
 django-summernote \
 django-widget-tweaks \
+django-jazzmin \
 pillow
 ```
 4. Install node modules for Tailwind CSS
@@ -46,6 +47,10 @@ cd tailwind && npm install && cd ..
     python manage.py makemigrations
     python manage.py migrate
 ```
+3. Update venv packages (run the updated pip install command above, it will ignore all packages you already have)
+4. Download your development backups
+    - This is only needed if you are working on different machines
+    - If you save the media/images, static/images, .env, and db.sqlite3 to a safe location, you can just download them to effectively have the same dev environment everywhere
 
 ## Live Updates
 1. Bring the live server up
@@ -65,5 +70,6 @@ cd tailwind && npm install && cd ..
 
 
 ## When finished
+1. Save 
 Press Ctrl+C on both running commands to quit them
 

@@ -18,16 +18,11 @@ def home(request):
 
 def seminars(request):
     campus = request.GET.get("campus", "all")
-    open_seminars = Seminar.objects.order_by("date")
+    seminars_2026 = Seminar.objects.get_seminars_by_year(2026)
     template = loader.get_template("slts/pages/seminars.html")
     context = {
         "campus": campus,
-        "open_seminars": open_seminars,
-        "campuses": [
-            ("all", "All Campuses"),
-            ("north", "North Campus"),
-            ("south", "South Campus"),
-        ],
+        "seminars_2026": seminars_2026,
     }
     return HttpResponse(template.render(context, request))
 

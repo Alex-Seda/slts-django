@@ -6,7 +6,7 @@
 <h1 class="text-5xl font-bold mb-16 text-center">2026 Seminar Recordings</h1>
 
 <section class="mb-24">
-  <div class="space-y-14">
+  <div class="space-y-14 xl:w-300">
     {% for seminar in past_seminars %}
       <div class="bg-white rounded-3xl shadow-lg p-10 flex flex-col lg:flex-row gap-12">
         
@@ -33,16 +33,7 @@
 
         <!-- Right: Info -->
         <div class="lg:w-1/2 flex flex-col gap-6">
-          
-          <!-- Meta -->
-          <div class="flex flex-wrap gap-4 text-base text-gray-600">
-            <span class="px-4 py-2 rounded-full bg-gray-100">
-              {{ seminar.date }}
-            </span>
-            <span class="px-4 py-2 rounded-full bg-gray-100">
-              {{ seminar.get_location_display }}
-            </span>
-          </div>
+
 
           <!-- Title -->
           <h2 class="text-3xl font-semibold leading-snug">
@@ -55,6 +46,39 @@
               {{ seminar.subtitle }}
             </p>
           {% endif %}
+
+          <!-- Meta -->
+          <div class="flex flex-wrap gap-4 text-base text-gray-600">
+            <span class="px-4 py-2 rounded-full bg-gray-100">
+              {{ seminar.date }}
+            </span>
+            <span class="
+              px-4 py-2 rounded-full
+              {% if seminar.location == 'north' %}
+                bg-c_bg_purple
+              {% elif seminar.location == 'south' %}
+                bg-orange-100
+              {% else %}
+                bg-gray-100
+              {% endif %}
+              ">
+              {{ seminar.get_location_display }}
+            </span>
+          </div>
+          
+          <!-- Collapsible Description -->
+          {% if seminar.description %}
+            <details class="mt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-primary">
+                Read more about this seminar
+              </summary>
+
+              <div class="mt-4 prose prose-lg max-w-none text-gray-800">
+                {{ seminar.description|safe }}
+              </div>
+            </details>
+          {% endif %}
+
 
         </div>
 
