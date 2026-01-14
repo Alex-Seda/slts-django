@@ -1,26 +1,44 @@
 {% load static %}
 
 <nav class="bg-c_dark_purple text-white">
-  <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-    
-    <!-- Site Identity -->
-    <div class="h-20 flex flex-row align-center justify-center">
-      <div>
-        <img src="{% static 'images/favicon.ico' %}" class="rounded-md h-full w-auto">
-      </div>
-	    <a href="{% url 'slts:home' %}" class="text-2xl font-bold w-full">
-	      Senior Living Truth Series
-	    </a>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <img src="{% static 'images/favicon.ico' %}" class="h-12 w-auto rounded-md">
+      <a href="{% url 'slts:home' %}" class="text-2xl font-bold whitespace-nowrap hidden md:inline">
+        Senior Living Truth Series
+      </a>
     </div>
 
-    <!-- Navigation -->
-    <div class="flex flex-col md:flex-row gap-6 text-xl">
-      <a href="{% url 'slts:home' %}" class="hover:bg-c_purple p-1 rounded-md">Home</a>
-      <a href="{% url 'slts:seminars' %}" class="hover:bg-c_purple p-1 rounded-md">2026 Schedule</a>
-      <a href="{% url 'slts:recordings' %}" class="hover:bg-c_purple p-1 rounded-md">Recordings</a>
-      <a href="{% url 'slts:about' %}" class="hover:bg-c_purple p-1 rounded-md">About Us</a>
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button id="menu-btn" class="focus:outline-none">
+        <!-- Hamburger Icon -->
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation Links -->
+    <div id="menu" class="hidden md:flex flex-col md:flex-row gap-4 md:gap-6 text-lg md:text-xl mt-4 md:mt-0">
+      <a href="{% url 'slts:home' %}" class="hover:bg-c_purple px-3 py-2 rounded-md">Home</a>
+      <a href="{% url 'slts:seminars' %}" class="hover:bg-c_purple px-3 py-2 rounded-md">2026 Schedule</a>
+      <a href="{% url 'slts:recordings' %}" class="hover:bg-c_purple px-3 py-2 rounded-md">Recordings</a>
+      <a href="https://www.facebook.com/SLTSOKC/" class="hover:bg-c_purple px-3 py-2 rounded-md">Facebook</a>
+      <a href="{% url 'slts:about' %}" class="hover:bg-c_purple px-3 py-2 rounded-md">About Us</a>
     </div>
 
   </div>
-</nav>
 
+  <!-- Mobile Menu Script -->
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+</nav>
