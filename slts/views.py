@@ -4,7 +4,7 @@ from django.template import loader
 from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib import messages
-from .models import Registration, Attendee, Seminar, SeminarQuerySet
+from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet
 from .services import send_confirmation_email, normalize_phone
 from .forms import AttendeeForm
 
@@ -12,8 +12,9 @@ from .forms import AttendeeForm
 def home(request):
     n_seminar = Seminar.objects.get_next_north_seminar()
     s_seminar = Seminar.objects.get_next_south_seminar()
+    education_partners = EducationPartner.objects.all()
     template = loader.get_template("slts/pages/home.html")
-    context = {"n_seminar": n_seminar, "s_seminar": s_seminar}
+    context = {"n_seminar": n_seminar, "s_seminar": s_seminar, "education_partners": education_partners}
     return HttpResponse(template.render(context, request))
 
 def seminars(request):
