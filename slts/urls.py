@@ -23,6 +23,7 @@ urlpatterns = [
     path('<int:seminar_id>/registration-success/', views.registration_success, name='registration_success'),
 
     # Other Pages
+    path("education_partners/", views.education_partners, name="education_partners"),
     path("about_us/", views.about, name="about"),
 ]
 
