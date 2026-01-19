@@ -82,10 +82,12 @@ class AttendeeAdmin(admin.ModelAdmin):
     ]
 
     fieldsets = [
-        ('Name / Email', {'fields': [
+        ('Attendee Information', {'fields': [
             'first_name',
             'last_name',
             'email',
+            'phone',
+            'heard_from',
         ]}),
 
         ('Address', {'fields': [
@@ -95,10 +97,6 @@ class AttendeeAdmin(admin.ModelAdmin):
             'zip_code',
         ]}),
 
-        ('Other Information', {'fields': [
-            'phone',
-            'heard_from',
-        ]}),
     ]
     inlines = [RegistrationInline]
 
