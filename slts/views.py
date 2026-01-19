@@ -120,6 +120,12 @@ def recordings(request):
     context = {"past_seminars": past_seminars}
     return HttpResponse(template.render(context, request))
 
+def education_partners(request):
+    education_partners = EducationPartner.objects.all()
+    template = loader.get_template("slts/pages/education_partners.html")
+    context = {"education_partners": education_partners}
+    return HttpResponse(template.render(context, request))
+
 def about(request):
     education_partners = EducationPartner.objects.all()
     template = loader.get_template("slts/pages/about.html")

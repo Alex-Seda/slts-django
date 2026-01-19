@@ -156,7 +156,9 @@ class UserAdmin(admin.ModelAdmin):
         return self.readonly_fields
 
 
-class EducationPartnerAdmin(admin.ModelAdmin):
+class EducationPartnerAdmin(SummernoteModelAdmin):
+    summernote_fields = 'description'
+    
     list_display = [
         'name'
     ]
