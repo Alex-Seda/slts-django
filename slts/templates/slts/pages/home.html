@@ -110,7 +110,30 @@
     </div>
   </section>
 
-<!-- Education Partner Carousel (After model is made) -->
+
+  <div id="carousel" class="relative w-full" data-carousel="slide">
+    <!-- Carousel wrapper -->
+    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+      {% for partner in education_partners %}
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+          <img src="{{ partner.image.url }}" 
+              href="{{ partner.url }}"
+              class="absolute block w-full h-full object-cover" 
+              alt="Slide {{ forloop.counter }}">
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Slider controls -->
+    <button type="button" data-carousel-prev class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none">
+      &#10094;
+    </button>
+    <button type="button" data-carousel-next class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none">
+      &#10095;
+    </button>
+  </div>
+
+
 
 </div>
 
