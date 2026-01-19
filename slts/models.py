@@ -100,3 +100,12 @@ class Registration(models.Model):
     def __str__(self):
         return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.seminar.title + "\""
 
+
+class EducationPartner(models.Model):
+    name = models.CharField(max_length=60)
+    image = models.ImageField(upload_to='education-partners/')
+    url = models.URLField('Website Link', blank=True)
+
+    def __str__(self):
+        return self.name
+

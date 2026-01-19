@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Attendee, Seminar, Registration
+from .models import Attendee, Seminar, Registration, EducationPartner
 
 
 
@@ -108,7 +108,18 @@ class UserAdmin(admin.ModelAdmin):
         return self.readonly_fields
 
 
+class EducationPartnerAdmin(admin.ModelAdmin):
+    list_display = [
+        'name'
+    ]
+
+    search_fields = [
+        'name'
+    ]
+
+
 
 
 admin.site.register(Seminar, SeminarAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
+admin.site.register(EducationPartner, EducationPartnerAdmin)
