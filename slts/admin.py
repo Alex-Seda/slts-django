@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
 from .models import Attendee, Seminar, Registration, EducationPartner
 
@@ -12,6 +14,32 @@ class RegistrationInline(admin.TabularInline):
 
 class SeminarAdmin(SummernoteModelAdmin):
     ordering = ("date",)
+
+    def attendance_summary(self, obj):
+        count = obj.registrations.count()
+        return format_html(
+            '<strong style="font-size:20px;">{} attendees</strong>',
+            count
+        )
+
+    attendance_summary.short_description = "Attendance"
+
+
+    def average_rating_display(self, obj):
+        avg = obj.registrations.aggregate(avg=Avg('rating'))['avg'] or 0
+        stars = '★' * round(avg) + '☆' * (5 - round(avg))
+
+        return format_html(
+            '<div>      <span style="font-size:32px;">{}</span>     <strong style="font-size:16px;">({})</strong>       </div>',
+            stars, avg
+        )
+
+    average_rating_display.short_description = "Average Rating"
+
+    readonly_fields = (
+        'attendance_summary',
+        'average_rating_display',
+    )
 
     # Admin table settings
     list_display = [
@@ -35,10 +63,17 @@ class SeminarAdmin(SummernoteModelAdmin):
     summernote_fields = 'description'
 
     fieldsets = [
-        ('Content', {'fields': [
+        ('Overview', {'fields': [
+            'attendance_summary',
+            'average_rating_display',
+        ]}),
+
+        ('Edit Content', {'fields': [
             'title',
-            'image',
             'subtitle',
+            'status',
+            'url',
+            'image',
             'description',
         ]}),
 
@@ -47,17 +82,29 @@ class SeminarAdmin(SummernoteModelAdmin):
             'time',
             'location',
         ]}),
-
-        ('Other', {'fields': [
-            'status',
-            'url',
-        ]}),
     ]
     inlines = [RegistrationInline]
 
 
 
 class AttendeeAdmin(admin.ModelAdmin):
+    def attendance_summary(self, obj):
+        count = obj.registrations.count()
+        if count==1:
+            return format_html(
+                '<strong style="font-size:16px;">{} seminar attended</strong>',
+                count
+            )
+        else:
+            return format_html(
+                '<strong style="font-size:16px;">{} seminar(s) attended</strong>',
+                count
+            )
+
+    attendance_summary.short_description = "Attendance"
+
+    readonly_fields = ('attendance_summary',)
+
     list_display = [
         'first_name',
         'last_name',
@@ -87,6 +134,7 @@ class AttendeeAdmin(admin.ModelAdmin):
             'last_name',
             'email',
             'phone',
+            'attendance_summary',
             'heard_from',
         ]}),
 

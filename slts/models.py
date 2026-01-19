@@ -94,8 +94,8 @@ class Registration(models.Model):
     }
     RATINGS_CHOICES = [(1,1),(2,2),(3,3),(4,4),(5,5)]
 
-    seminar = models.ForeignKey(Seminar, on_delete=models.CASCADE)
-    attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE)
+    seminar = models.ForeignKey(Seminar, on_delete=models.CASCADE, related_name='registrations')
+    attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE, related_name='registrations')
     rating = models.PositiveSmallIntegerField(choices=RATINGS_CHOICES, default=3)
     status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
 
