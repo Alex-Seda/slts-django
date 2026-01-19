@@ -118,5 +118,8 @@ def recordings(request):
     return HttpResponse(template.render(context, request))
 
 def about(request):
-    return render(request, "slts/pages/about.html")
+    education_partners = EducationPartner.objects.all()
+    template = loader.get_template("slts/pages/about.html")
+    context = {"education_partners": education_partners}
+    return HttpResponse(template.render(context, request))
 
