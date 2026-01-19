@@ -46,34 +46,37 @@ def register_submit(request, seminar_id):
     # If email or phone is set, prep them for finding attendee
     email = request.POST["email"].lower().strip() if request.POST["email"] else None
     phone = normalize_phone(request.POST["phone"]) if request.POST["phone"] else None
+    address = request.POST["address"] if request.POST["address"] else None
+    city = request.POST["city"] if request.POST["city"] else None
     first_name = request.POST["first_name"].lower()
+    last_name = request.POST["last_name"].lower()
     seminar = get_object_or_404(Seminar, id=seminar_id)
     attendee = None
 
 
     # Ensure that basic contact info is provided. Email or phone at least.
-    if not (email or phone):
-        messages.error(request, f"You must provide your name and address.\n You must also provide an email AND/OR a phone number.")
+    if not ((email or phone) and address and city and first_name and last_name):
+        messages.error(request, "You must provide your name and address.\n You must also provide an email AND/OR a phone number.")
         return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar})
 
 
-    if email:
+    elif email:
         attendee = Attendee.objects.filter(
             email=email,
             first_name__iexact=first_name
         ).first()
     
-    if not attendee and phone:
+    elif phone:
         attendee = Attendee.objects.filter(
             phone=phone,
             first_name__iexact=first_name
         ).first()
-    
-    if not attendee:
-        attendee = form.save()
-
+        
 
     try:
+        if not attendee:            # The previous lines do not guarantee a match, even if the phone or email exists, so this is not an "elif" or "else"
+            attendee = form.save()
+
         Registration.objects.get_or_create(
             attendee=attendee,
             seminar=seminar,
