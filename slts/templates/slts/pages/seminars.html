@@ -5,17 +5,17 @@
 
 {% block content %}
 
-<h1 class="text-6xl font-bold text-gray-900 mb-6 text-center">2026 Seminar Schedule</h1>
+<h1 class="text-5xl xl:text-6xl font-bold text-gray-900 mb-6 text-center">2026 Seminar Schedule</h1>
 
 
 <!-- Schedule -->
 {% if seminars_2026 %}
   <div class="space-y-12">
     {% for seminar in seminars_2026 %}
-      <div class="bg-white rounded-3xl shadow-md p-10 flex flex-col gap-10 lg:flex-row xl:gap-30 xl:w-300">
+      <div class="bg-white rounded-3xl shadow-md px-4 py-10 sm:px-10 flex flex-col items-center gap-10 lg:flex-row xl:gap-30 xl:w-300">
 
         {% if seminar.image %}
-          <div class="w-80 h-80 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
+          <div class="w-50 h-50 sm:w-80 sm:h-80 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
             <img 
               src="{{ seminar.image.url }}"
               alt="{{ seminar.title }}"
@@ -39,8 +39,8 @@
           {% endif %}
 
           <!-- Meta -->
-          <p class="text-lg text-gray-600">
-            <span class="font-bold">
+          <p class="flex flex-col lg:flex-row text-lg text-gray-600">
+            <span class="font-bold px-4 py-2">
               {{ seminar.date }} at {{ seminar.time }}
             </span>
             <span class="
