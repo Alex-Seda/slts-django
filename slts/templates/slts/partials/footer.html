@@ -1,0 +1,41 @@
+{% load static %}
+
+<footer class="bg-c_dark_purple text-white py-8 mt-12">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <!-- About / Branding -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Senior Living Truth Series</h3>
+      <p class="text-gray-300 text-sm">
+        Connecting attendees with seminars and workshops efficiently.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Quick Links</h3>
+      <ul class="text-gray-300 text-sm space-y-1">
+        <li><a href="{% url 'slts:home' %}" class="hover:text-white">Home</a></li>
+        <li><a href="{% url 'slts:seminars' %}" class="hover:text-white">Seminars</a></li>
+        <li><a href="{% url 'slts:about' %}" class="hover:text-white">About</a></li>
+        <!--
+        <li><a href="{% url 'slts:home' %}" class="hover:text-white">Contact</a></li>
+        -->
+      </ul>
+    </div>
+
+    <!-- Contact / Socials -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Contact</h3>
+      <p class="text-gray-300 text-sm">Email: <a href="mailto:support@slts.com" class="hover:text-white">support@slts.com</a></p>
+      <div class="flex space-x-3 mt-2">
+        <a href="https://www.facebook.com/SLTSOKC/" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-8 border-t border-gray-700 pt-4 text-center text-gray-400 text-xs">
+    &copy; 2026 Senior Living Truth Series. All rights reserved.
+  </div>
+</footer>
