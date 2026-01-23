@@ -25,7 +25,8 @@ django-phonenumber-field \
 django-summernote \
 django-widget-tweaks \
 django-jazzmin \
-pillow
+pillow \
+gunicorn psycopg[binary]
 ```
 4. Install node modules for Tailwind CSS
 ```bash
