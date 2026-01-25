@@ -91,7 +91,11 @@ class SeminarAdmin(SummernoteModelAdmin):
 class AttendeeAdmin(admin.ModelAdmin):
     def attendance_summary(self, obj):
         count = obj.registrations.count()
-        if count==1:
+        if obj is None:
+            return "—"
+
+        count = obj.registrations.count()
+        if count == 1:
             return format_html(
                 '<strong style="font-size:16px;">{} seminar attended</strong>',
                 count
@@ -105,8 +109,6 @@ class AttendeeAdmin(admin.ModelAdmin):
     attendance_summary.short_description = "Attendance"
 
     readonly_fields = ('attendance_summary',)
-
-    list_per_page = 10
 
     list_display = [
         'first_name',
@@ -150,6 +152,8 @@ class AttendeeAdmin(admin.ModelAdmin):
 
     ]
     inlines = [RegistrationInline]
+
+    list_per_page = 10
 
 
 class UserAdmin(admin.ModelAdmin):
