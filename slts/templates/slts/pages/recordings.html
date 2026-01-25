@@ -80,6 +80,12 @@
             </details>
           {% endif %}
 
+          <!-- Download Link for Handouts -->
+          {% if seminar.handout %}
+            <a href="{{ seminar.handout.url }}" download class="cursor-pointer text-primary font-semibold text-lg">
+              Download Handout
+            </a>
+          {% endif %}
 
         </div>
 
