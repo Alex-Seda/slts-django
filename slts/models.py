@@ -131,10 +131,17 @@ class Registration(models.Model):
 
 
 class EducationPartner(models.Model):
+    LOCATION_CHOICES = {
+        "north" : "North",
+        "south" : "South",
+        "both"  : "Both",
+    }
+
     name = models.CharField(max_length=60)
     image = models.ImageField(upload_to='education-partners/')
     url = models.URLField('Website Link', blank=True)
     description = models.TextField(blank=True)
+    partner_location = models.CharField(max_length=5, choices=LOCATION_CHOICES, blank=True)
 
     def __str__(self):
         return self.name
