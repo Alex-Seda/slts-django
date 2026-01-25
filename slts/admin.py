@@ -90,7 +90,6 @@ class SeminarAdmin(SummernoteModelAdmin):
 
 class AttendeeAdmin(admin.ModelAdmin):
     def attendance_summary(self, obj):
-        count = obj.registrations.count()
         if obj is None:
             return "—"
 
