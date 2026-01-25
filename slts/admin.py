@@ -75,6 +75,7 @@ class SeminarAdmin(SummernoteModelAdmin):
             'status',
             'url',
             'image',
+            'handout',
             'description',
         ]}),
 
