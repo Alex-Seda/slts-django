@@ -4,6 +4,7 @@ from django.template import loader
 from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib import messages
+from datetime import datetime
 from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet
 from .services import send_confirmation_email, normalize_phone
 from .forms import AttendeeForm
@@ -13,8 +14,9 @@ def home(request):
     n_seminar = Seminar.objects.get_next_north_seminar()
     s_seminar = Seminar.objects.get_next_south_seminar()
     education_partners = EducationPartner.objects.all()
+    current_year = datetime.now().year
     template = loader.get_template("slts/pages/home.html")
-    context = {"n_seminar": n_seminar, "s_seminar": s_seminar, "education_partners": education_partners}
+    context = {"n_seminar": n_seminar, "s_seminar": s_seminar, "education_partners": education_partners, "current_year": current_year}
     return HttpResponse(template.render(context, request))
 
 def seminars(request):
@@ -114,10 +116,12 @@ def registration_success(request,seminar_id):
     return HttpResponse(template.render(context, request))
 
 
-def recordings(request):
-    past_seminars = Seminar.objects.past_seminars()
+def recordings(request, year):
+    if year>2026 or year<2024:
+        return redirect("slts:home")
+    past_seminars = Seminar.objects.get_past_seminars_by_year(year)
     template = loader.get_template("slts/pages/recordings.html")
-    context = {"past_seminars": past_seminars}
+    context = {"past_seminars": past_seminars, "year": year}
     return HttpResponse(template.render(context, request))
 
 def education_partners(request):

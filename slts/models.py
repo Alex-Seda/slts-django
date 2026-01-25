@@ -1,7 +1,7 @@
 import re
 import uuid
 from django.db import models
-from datetime import time, timedelta, date
+from datetime import time, timedelta, date, datetime
 from django.utils import timezone
 from localflavor.us.models import USStateField, USZipCodeField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -28,6 +28,16 @@ class SeminarQuerySet(models.QuerySet):
         return (self.filter( date__gte=date(year, 1, 1), date__lte=date(year, 12, 31), )
         .exclude(status="draft")
         .order_by("date")
+        )
+    
+    def get_past_seminars_by_year(self,year):
+        if year == datetime.now().year:
+            filter_string = "-date"
+        else:
+            filter_string = "date"
+        return (self.filter( date__gte=date(year, 1, 1), date__lte=date(year, 12, 31), )
+        .filter(status="completed")
+        .order_by(filter_string)
         )
 
 
