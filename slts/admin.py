@@ -13,7 +13,7 @@ class RegistrationInline(admin.TabularInline):
 
 
 class SeminarAdmin(SummernoteModelAdmin):
-    ordering = ("date",)
+    ordering = ("-date",)
 
     def attendance_summary(self, obj):
         count = obj.registrations.count()
