@@ -143,40 +143,44 @@
 </section>
 
 
+<!-- Google Reviews Script -->
 <script>
-const track = document.getElementById('carousel-track');
-const container = document.getElementById('carousel-container');
+  const track = document.getElementById('carousel-track');
+  const container = document.getElementById('carousel-container');
 
-let speed = 1.5; // pixels per frame
-let offset = 0;
-let animationId;
+  let speed = 1.5; // pixels per frame
+  let offset = 0;
+  let animationId;
 
-function step() {
-  offset += speed;
-  if(offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
-  track.style.transform = `translateX(-${offset}px)`;
-  animationId = requestAnimationFrame(step);
-}
-
-function toggleFAQ(button) {
-  const content = button.nextElementSibling;
-  const icon = button.querySelector('svg');
-
-  if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-    content.style.maxHeight = '0';
-    icon.classList.remove('rotate-180');
-  } else {
-    content.style.maxHeight = content.scrollHeight + 'px';
-    icon.classList.add('rotate-180');
+  function step() {
+    offset += speed;
+    if(offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
+    track.style.transform = `translateX(-${offset}px)`;
+    animationId = requestAnimationFrame(step);
   }
-}
 
-// Start animation
-animationId = requestAnimationFrame(step);
+  // Start animation
+  animationId = requestAnimationFrame(step);
 
-// Pause on hover
-container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
-container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
+  // Pause on hover
+  container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
+  container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
+</script>
+
+<!-- FAQs Script -->
+<script>
+  function toggleFAQ(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('svg');
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      content.style.maxHeight = '0';
+      icon.classList.remove('rotate-180');
+    } else {
+      content.style.maxHeight = content.scrollHeight + 'px';
+      icon.classList.add('rotate-180');
+    }
+  }
 </script>
 
 {% endblock %}
