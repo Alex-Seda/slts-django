@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib import messages
 from datetime import datetime
-from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet
+from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet, FAQ, GoogleReview
 from .services import send_confirmation_email, normalize_phone
 from .forms import AttendeeForm
 
@@ -14,9 +14,16 @@ def home(request):
     n_seminar = Seminar.objects.get_next_north_seminar()
     s_seminar = Seminar.objects.get_next_south_seminar()
     education_partners = EducationPartner.objects.all()
+    faqs = FAQ.objects.all()
     current_year = datetime.now().year
     template = loader.get_template("slts/pages/home.html")
-    context = {"n_seminar": n_seminar, "s_seminar": s_seminar, "education_partners": education_partners, "current_year": current_year}
+    context = {
+        "n_seminar": n_seminar, 
+        "s_seminar": s_seminar, 
+        "education_partners": education_partners, 
+        "current_year": current_year,
+        "faqs": faqs,
+    }
     return HttpResponse(template.render(context, request))
 
 def seminars(request):
@@ -132,7 +139,8 @@ def education_partners(request):
 
 def about(request):
     education_partners = EducationPartner.objects.all()
+    faqs = FAQ.objects.all()
     template = loader.get_template("slts/pages/about.html")
-    context = {"education_partners": education_partners}
+    context = {"education_partners": education_partners, "faqs": faqs,}
     return HttpResponse(template.render(context, request))
 

@@ -152,7 +152,7 @@ class FAQ(models.Model):
     answer = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.question
 
 
 class GoogleReview(models.Model):
