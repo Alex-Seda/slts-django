@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Attendee, Seminar, Registration, EducationPartner
+from .models import Attendee, Seminar, Registration, EducationPartner, FAQ, GoogleReview
 
 
 
@@ -192,8 +192,33 @@ class EducationPartnerAdmin(SummernoteModelAdmin):
     ]
 
 
+class FaqAdmin(admin.ModelAdmin):
+    list_per_page = 10
+
+    list_display = [
+        'question',
+    ]
+
+    search_fields = [
+        'question',
+    ]
+
+
+class GoogleReviewAdmin(admin.ModelAdmin):
+    list_per_page = 10
+
+    list_display = [
+        'name',
+    ]
+
+    search_fields = [
+        'name',
+    ]
+
 
 
 admin.site.register(Seminar, SeminarAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(EducationPartner, EducationPartnerAdmin)
+admin.site.register(FAQ, FaqAdmin)
+admin.site.register(GoogleReview, GoogleReviewAdmin)

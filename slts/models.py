@@ -146,3 +146,19 @@ class EducationPartner(models.Model):
     def __str__(self):
         return self.name
 
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=100)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class GoogleReview(models.Model):
+    name = models.CharField(max_length=60)
+    review = models.TextField()
+
+    def __str__(self):
+        return self.name
+
