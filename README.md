@@ -24,7 +24,7 @@ django-phonenumbers \
 django-phonenumber-field \
 django-summernote \
 django-widget-tweaks \
-django-jazzmin \
+django-daisy \
 pillow \
 gunicorn psycopg[binary]
 ```

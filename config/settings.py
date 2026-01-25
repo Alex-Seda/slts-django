@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     'localflavor',          # for US state codes and zip codes                                  PACKAGE(S): django-localflavor
     'phonenumber_field',    # for phone numbers for attendees                                   PACKAGE(S): django-phonenumbers, django-phonenumber-field
     'widget_tweaks',        # for auto gen form customization (complete_registration.html)      PACKAGE(S): widget_tweaks
-    'jazzmin',              # for nice looking admin UI
+    'django_daisy',         # for nice looking admin UI
     'django_summernote',    # for rich text editing (seminar descriptions)                      PACKAGE(S): django-summernote
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
