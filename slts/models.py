@@ -1,3 +1,4 @@
+import re
 import uuid
 from django.db import models
 from datetime import time, timedelta, date
@@ -53,6 +54,21 @@ class Seminar(models.Model):
     url = models.URLField('YouTube URL', blank=True)
 
     objects = SeminarQuerySet.as_manager()
+
+    def to_embed_url(self):
+        youtube_url = self.url
+        if not youtube_url:
+            return None
+
+        match = re.search(r"(?:v=)([a-zA-Z0-9_-]{11})", youtube_url)
+        if match:
+            return f"https://www.youtube.com/embed/{match.group(1)}"
+
+        match = re.search(r"youtu\.be/([a-zA-Z0-9_-]{11})", youtube_url)
+        if match:
+            return f"https://www.youtube.com/embed/{match.group(1)}"
+
+        return None
 
     def __str__(self):
         return self.title
