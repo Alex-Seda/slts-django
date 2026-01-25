@@ -13,9 +13,9 @@ urlpatterns = [
     # Home Page
     path("", views.home, name="home"),
 
-    # Seminar Related Pages
+    # Seminars Related Pages
     path("seminars/", views.seminars, name="seminars"),
-    path("seminar_recordings/", views.recordings, name="recordings"),
+    path("<int:year>/seminar_recordings/", views.recordings, name="recordings"),
 
     # Registration Related Pages
     path("<int:seminar_id>/register/", views.register, name="register"),

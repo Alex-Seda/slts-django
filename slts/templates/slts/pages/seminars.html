@@ -78,7 +78,7 @@
             Register
           </a>
           {% elif seminar.status == "completed" and seminar.url != "" %}
-            <a href="{% url 'slts:recordings' %}"
+            <a href="{% url 'slts:recordings' 2026 %}"
              class="mt-6 inline-block bg-primary text-white text-lg font-semibold mx-auto px-6 py-3 rounded-xl">
             View Recording
           </a>

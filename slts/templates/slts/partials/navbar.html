@@ -14,10 +14,24 @@
     </div>
 
     <!-- Desktop Navigation -->
-    <div class="hidden lg:flex gap-6 text-xl text-center items-center">
+    <div class="hidden lg:flex gap-4 text-xl text-center items-center">
       <a href="{% url 'slts:home' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">Home</a>
       <a href="{% url 'slts:seminars' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">2026 Schedule</a>
-      <a href="{% url 'slts:recordings' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">Recordings</a>
+      
+      <div class="relative group inline-block">
+        <!-- Button -->
+        <span class="px-4 py-2 rounded-lg cursor-pointer hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out font-medium">
+          Recordings
+        </span>
+
+        <!-- Dropdown -->
+        <div class="absolute left-0 top-full mt-1 hidden group-hover:block w-full bg-c_dark_purple border border-c_purple rounded-md shadow-xl z-50">
+          <a href="{% url 'slts:recordings' 2026 %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">2026</a>
+          <a href="{% url 'slts:recordings' 2025 %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">2025</a>
+          <a href="{% url 'slts:recordings' 2024 %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">2024</a>
+        </div>
+      </div>
+
       <a href="https://www.facebook.com/SLTSOKC/" class="hover:bg-c_purple px-1 py-1 rounded-md">Facebook</a>
       <a href="{% url 'slts:education_partners' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">Education Partners</a>
       <a href="{% url 'slts:about' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">About Us</a>
@@ -63,7 +77,24 @@
 
     <a href="{% url 'slts:home' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">Home</a>
     <a href="{% url 'slts:seminars' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">2026 Schedule</a>
-    <a href="{% url 'slts:recordings' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">Recordings</a>
+    
+    <!-- Recordings Dropdown -->
+    <div class="flex flex-col">
+      <button id="recordings-btn"
+              class="flex justify-between items-center w-full px-4 py-3 hover:bg-c_purple rounded-md focus:outline-none">
+        Recordings
+        <svg id="recordings-chevron" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div id="recordings-submenu" class="flex flex-col ml-4 mt-1 space-y-1 hidden">
+        <a href="{% url 'slts:recordings' 2026 %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">2026</a>
+        <a href="{% url 'slts:recordings' 2025 %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">2025</a>
+        <a href="{% url 'slts:recordings' 2024 %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">2024</a>
+      </div>
+    </div>
+
     <a href="https://www.facebook.com/SLTSOKC/" class="hover:bg-c_purple px-4 py-3 rounded-md">Facebook</a>
     <a href="{% url 'slts:education_partners' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">Education Partners</a>
     <a href="{% url 'slts:about' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">About Us</a>
@@ -71,12 +102,15 @@
   </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
   const menuBtn = document.getElementById('menu-btn');
   const closeBtn = document.getElementById('close-btn');
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('backdrop');
+
+  const recordingsBtn = document.getElementById('recordings-btn');
+  const recordingsSubmenu = document.getElementById('recordings-submenu');
+  const recordingsChevron = document.getElementById('recordings-chevron');
 
   function openMenu() {
     sidebar.classList.remove('translate-x-full');
@@ -90,8 +124,16 @@
     document.body.classList.remove('overflow-hidden');
   }
 
+  function toggleRecordingsSubMenu() {
+    recordingsSubmenu.classList.toggle('hidden');
+    recordingsChevron.classList.toggle('rotate-180');
+  }
+
   menuBtn.addEventListener('click', openMenu);
   closeBtn.addEventListener('click', closeMenu);
   backdrop.addEventListener('click', closeMenu);
+
+  recordingsBtn.addEventListener('click', toggleRecordingsSubMenu);
 </script>
+
 
