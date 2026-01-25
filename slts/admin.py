@@ -14,6 +14,7 @@ class RegistrationInline(admin.TabularInline):
 
 class SeminarAdmin(SummernoteModelAdmin):
     ordering = ("-date",)
+    list_per_page = 10
 
     def attendance_summary(self, obj):
         count = obj.registrations.count()
@@ -105,6 +106,8 @@ class AttendeeAdmin(admin.ModelAdmin):
 
     readonly_fields = ('attendance_summary',)
 
+    list_per_page = 10
+
     list_display = [
         'first_name',
         'last_name',
@@ -154,10 +157,14 @@ class UserAdmin(admin.ModelAdmin):
         if not request.user.is_superuser:
             return self.readonly_fields + ("is_superuser",)
         return self.readonly_fields
+    
+    list_per_page = 10
 
 
 class EducationPartnerAdmin(SummernoteModelAdmin):
     summernote_fields = 'description'
+
+    list_per_page = 10
     
     list_display = [
         'name'
