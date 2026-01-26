@@ -16,10 +16,10 @@
       <!-- Seminar Info -->
       <div class="space-y-1">
         <h3 class="text-2xl font-bold text-gray-800">{{ n_seminar.title }}</h3>
-        <p class="text-lf text-gray-500">{{ n_seminar.subtitle }}</p>
+        <p class="text-lf text-gray-700">{{ n_seminar.subtitle }}</p>
       </div>
 
-      <div class="flex flex-col text-lg text-gray-600">
+      <div class="flex flex-col text-lg text-gray-700 font-bold">
         <p>{{ n_seminar.date|date:"F j, Y" }}</p>
         <p>{{ n_seminar.get_location_display }}</p>
       </div>
@@ -38,10 +38,10 @@
       <!-- Seminar Info -->
       <div class="space-y-1">
         <h3 class="text-2xl font-bold text-gray-800">{{ s_seminar.title }}</h3>
-        <p class="text-lf text-gray-500">{{ s_seminar.subtitle }}</p>
+        <p class="text-lf text-gray-700">{{ s_seminar.subtitle }}</p>
       </div>
 
-      <div class="flex flex-col text-lg text-gray-600">
+      <div class="flex flex-col text-lg text-gray-700 font-bold">
         <p>{{ s_seminar.date|date:"F j, Y" }}</p>
         <p>{{ s_seminar.get_location_display }}</p>
       </div>
