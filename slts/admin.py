@@ -46,7 +46,6 @@ class SeminarAdmin(SummernoteModelAdmin):
     list_display = [
         'title',
         'date',
-        'time',
         'location',
         'status',
     ]
