@@ -108,8 +108,7 @@ def register_submit(request, seminar_id):
     
 
     if email:
-        True
-        #send_confirmation_email(email, seminar.id)
+        send_confirmation_email(email, seminar.id)
     
     return redirect("slts:registration_success", seminar_id=seminar_id)
 
