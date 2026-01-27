@@ -36,7 +36,6 @@ def send_confirmation_email(email, seminar_id):
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email], # email variable from arguments goes here
-            fail_silently=False,
         )
     except SMTPException as e:  
         logger = logging.getLogger(__name__)
