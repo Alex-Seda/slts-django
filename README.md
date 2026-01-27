@@ -16,17 +16,7 @@ source venv/bin/activate
 ```
 3. Install necessary Django Python packages in venv
 ```bash
-pip install \
-django \
-django-environ \
-django-localflavor \
-django-phonenumbers \
-django-phonenumber-field \
-django-summernote \
-django-widget-tweaks \
-django-daisy \
-pillow \
-gunicorn psycopg[binary]
+pip install -r requirements.txt
 ```
 4. Install node modules for Tailwind CSS
 ```bash
