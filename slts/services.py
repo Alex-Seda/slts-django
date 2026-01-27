@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from .models import Seminar
 import re
+import logging
 
 
 
@@ -29,13 +30,17 @@ def send_confirmation_email(email, seminar_id):
     subject = f"Registration Confirmation - Senior Living Truth Series"
     message = f"Thank you for registering for {seminar.title}!\n\n"
 
-    send_mail(
-        subject=subject,
-        message=message,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[email], # email variable from arguments goes here
-        fail_silently=False,
-    )
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email], # email variable from arguments goes here
+            fail_silently=False,
+        )
+    except SMTPException as e:  
+        logger = logging.getLogger(__name__)
+        logger.error(f"Email failed: {e}")
 
 
 
