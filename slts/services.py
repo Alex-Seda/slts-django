@@ -1,10 +1,15 @@
-from django.core.mail import send_mail
+import re
+import os
+import logging
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from .models import Seminar
-import re
-import logging
 
+
+logger = logging.getLogger(__name__)
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 
 
 def normalize_phone(phone: str | None) -> str | None:
@@ -31,16 +36,49 @@ def send_confirmation_email(email, seminar_id):
     message = f"Thank you for registering for {seminar.title}!\n\n"
 
     try:
-        send_mail(
+        send_email(
             subject=subject,
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email], # email variable from arguments goes here
+            to_emails=[email],
         )
     except SMTPException as e:  
         logger = logging.getLogger(__name__)
         logger.error(f"Email failed: {e}")
 
 
+def send_email(subject, message, from_email, to_emails):
+    if isinstance(to_emails, str):
+        to_emails = [to_emails]
+
+    mail = Mail(
+        from_email=from_email,
+        to_emails=to_emails,
+        subject=subject,
+        plain_text_content=message
+    )
+
+    try:
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(mail)
+        logger.info(f"Email sent: {response.status_code}")
+    except Exception as e:
+        logger.error(f"SendGrid API error: {e}")
 
 
+def test_email():
+    message = Mail(
+        from_email='from_email@example.com',
+        to_emails='to@example.com',
+        subject='Sending with Twilio SendGrid is Fun',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        # sg.set_sendgrid_data_residency("eu")
+        # uncomment the above line if you are sending mail using a regional EU subuser
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)
