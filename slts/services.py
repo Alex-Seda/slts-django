@@ -27,15 +27,13 @@ def normalize_phone(phone: str | None) -> str | None:
 def send_confirmation_email(email, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
     subject = f"Registration Confirmation - Senior Living Truth Series"
-    message = (
-        f"Thank you for registering for {seminar.title}!\n\n"
-    )
+    message = f"Thank you for registering for {seminar.title}!\n\n"
 
     send_mail(
         subject=subject,
         message=message,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[email],
+        recipient_list=[email], # email variable from arguments goes here
         fail_silently=False,
     )
 
