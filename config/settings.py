@@ -183,15 +183,26 @@ DJRICHTEXTFIELD_CONFIG = {
 }
 
 
-# admin ui package settings
-JAZZMIN_SETTINGS = {
-    "site_brand": "SLTS Admin",
-    "site_title": "SLTS Admin",
-    "site_header": "SLTS Dashboard",
-    "welcome_sign": "Welcome to SLTS Administration",
-    "copyright": "Senior Living Truth Series",
-    "search_model": "auth.User",
-    "topmenu_links": [
-        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
-    ],
+DAISY_SETTINGS = {
+    'SITE_TITLE': 'SLTS Admin',  # The title of the site 
+    'SITE_HEADER': 'Administration',  # Header text displayed in the admin panel
+    'INDEX_TITLE': 'Hi, welcome to your dashboard',  # The title for the index page of dashboard
+    'SITE_LOGO': '/static/images/favicon.ico',  # Path to the logo image displayed in the sidebar
+    'EXTRA_STYLES': [],  # List of extra stylesheets to be loaded in base.html (optional)
+    'EXTRA_SCRIPTS': [],  # List of extra script URLs to be loaded in base.html (optional)
+    'LOAD_FULL_STYLES': False,  # If True, loads full DaisyUI components in the admin (useful if you have custom template overrides)
+    'SHOW_CHANGELIST_FILTER': False,  # If True, the filter sidebar will open by default on changelist views
+    'APPS_REORDER': {
+        # Custom configurations for third-party apps that can't be modified directly in their `apps.py`
+        'auth': {
+            'icon': 'fa-solid fa-person-military-pointing',  # FontAwesome icon for the 'auth' app
+            'name': 'Authentication',  # Custom name for the 'auth' app
+            'hide': False,  # Whether to hide the 'auth' app from the sidebar (set to True to hide)
+            'app': 'users',  # The actual app to display in the sidebar (e.g., rename 'auth' to 'users')
+            'divider_title': "Auth",  # Divider title for the 'auth' section
+        },
+        'social_django': {
+            'icon': 'fa-solid fa-users-gear',  # Custom FontAwesome icon for the 'social_django' app
+        },
+    },
 }

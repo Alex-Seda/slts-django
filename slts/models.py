@@ -100,6 +100,9 @@ class Attendee(models.Model):
         "seminar feedback"  : "Feedback Form / Seminar",
     }
 
+    search_fields = ['name']  # required for autocomplete
+    autocomplete_fields = ['married_to']  # <-- searchable dropdown
+
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=40)
     married_to = models.OneToOneField(
@@ -122,6 +125,26 @@ class Attendee(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.email
 
+    def save(self, *args, **kwargs):
+        # Track old spouse before saving
+        old_spouse = None
+        if self.pk:
+            old_spouse = Attendee.objects.filter(pk=self.pk).first().married_to
+
+        super().save(*args, **kwargs)
+
+        # If married_to changed, update the other side
+        if old_spouse != self.married_to:
+            # Remove old spouse link
+            if old_spouse and old_spouse.married_to == self:
+                old_spouse.married_to = None
+                old_spouse.save()
+
+            # Set new spouse link
+            if self.married_to and self.married_to.married_to != self:
+                self.married_to.married_to = self
+                self.married_to.save()
+                
 
 class Registration(models.Model):
     REGISTRATION_STATUS_CHOICES = {
