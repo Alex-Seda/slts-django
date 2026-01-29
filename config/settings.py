@@ -15,7 +15,7 @@ import environ as django_environ
 import os
 
 
-env = django_environ.Env(
+djenv = django_environ.Env(
     DEBUG=(bool, False)
 )
 
@@ -24,18 +24,18 @@ env = django_environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-env.read_env(os.path.join(BASE_DIR, '.env'))
+djenv.read_env(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = djenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+DEBUG = djenv('DEBUG')
+ALLOWED_HOSTS = djenv.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -92,12 +92,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env("DB_ENGINE"),
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT"),
+        'ENGINE': djenv("DB_ENGINE"),
+        'NAME': djenv("DB_NAME"),
+        'USER': djenv("DB_USER"),
+        'PASSWORD': djenv("DB_PASSWORD"),
+        'HOST': djenv("DB_HOST"),
+        'PORT': djenv("DB_PORT"),
     }
 }
 
@@ -138,12 +138,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static",]
-STATIC_ROOT = env("STATIC_ROOT")
+STATIC_ROOT = djenv("STATIC_ROOT")
 
 
 # Media files (User uploaded images)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = env("MEDIA_ROOT")
+MEDIA_ROOT = djenv("MEDIA_ROOT")
 
 
 # Default primary key field type
@@ -155,13 +155,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Email Settings
-SENDGRID_API_KEY = env("SENDGRID_API_KEY")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
+EMAIL_HOST = djenv("EMAIL_HOST")
+EMAIL_HOST_USER = djenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = djenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = djenv("EMAIL_PORT")
+EMAIL_USE_TLS = djenv("EMAIL_USE_TLS")
+EMAIL_BACKEND = djenv("EMAIL_BACKEND")
+DEFAULT_FROM_EMAIL = djenv("DEFAULT_FROM_EMAIL")
 
 
 # URL Settings
-SITE_URL = env('SITE_URL')
+SITE_URL = djenv('SITE_URL')
 
 
 
