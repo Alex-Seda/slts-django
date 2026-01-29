@@ -5,6 +5,7 @@ from datetime import time, timedelta, date, datetime
 from django.utils import timezone
 from localflavor.us.models import USStateField, USZipCodeField
 from phonenumber_field.modelfields import PhoneNumberField
+from taggit.managers import TaggableManager
 
 
 class SeminarQuerySet(models.QuerySet):
@@ -101,6 +102,13 @@ class Attendee(models.Model):
 
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=40)
+    married_to = models.OneToOneField(
+        'self',
+        on_delete=models.SET_NULL,
+        related_name='spouse',
+        null=True,
+        blank=True
+    )
     address = models.CharField(max_length=60)
     city = models.CharField(max_length=20)
     state = USStateField(default="OK")
@@ -108,6 +116,8 @@ class Attendee(models.Model):
     phone = PhoneNumberField(region="US", blank=True)
     email = models.EmailField(blank=True)
     heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES, blank=True)
+    notes = models.TextField(blank=True)
+    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.email
