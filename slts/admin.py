@@ -11,6 +11,22 @@ class RegistrationInline(admin.TabularInline):
     extra = 1
 
 
+class TagListFilter(admin.SimpleListFilter):
+    title = ('tag')  # Display title in admin
+    parameter_name = 'tag'  # URL query parameter
+
+    def lookups(self, request, model_admin):
+        # Return a list of (value, label) for the filter options
+        tags = set(t.name for t in model_admin.model.tags.all())  # naive, only works for small sets
+        return [(tag, tag) for tag in tags]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(tags__name=self.value())
+        return queryset
+
+
+
 
 class SeminarAdmin(SummernoteModelAdmin):
     ordering = ("-date",)
@@ -104,23 +120,31 @@ class AttendeeAdmin(admin.ModelAdmin):
                 '<strong style="font-size:16px;">{} seminar(s) attended</strong>',
                 count
             )
-
     attendance_summary.short_description = "Attendance"
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('tags')
 
-    readonly_fields = ('attendance_summary',)
+    def tag_list(self, obj):
+        return u", ".join(o.name for o in obj.tags.all())
+
+    search_fields = ['name']  # required for autocomplete
+    autocomplete_fields = ['married_to']  # <-- searchable dropdown    
+    readonly_fields = ['attendance_summary']
 
     list_display = [
         'first_name',
         'last_name',
         'email',
         'city',
-        'state',
         'heard_from',
+        'tag_list'
         # number of seminars attended
     ]
 
     list_filter = [
         'heard_from',
+        TagListFilter
     ]
 
     search_fields = [
@@ -136,6 +160,9 @@ class AttendeeAdmin(admin.ModelAdmin):
         ('Attendee Information', {'fields': [
             'first_name',
             'last_name',
+            'tags',
+            'notes',
+            'married_to',
             'email',
             'phone',
             'attendance_summary',
