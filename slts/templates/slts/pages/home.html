@@ -4,22 +4,20 @@
 
 {% block content %}
 
-<div class="flex flex-col gap-10 justify-center">
-  <div class="inline-block shadow-md shadow-black/50 rounded-2xl">
-    <img src="{% static 'images/2026-hero.png' %}" class="rounded-2xl w-full h-auto">
-  </div>
+<div class="flex flex-col justify-center bg-c_transparent_purple">
+  <img src="{% static 'images/SLTS_WIDE.webp' %}" class="w-full h-auto">
 
-  <div class="mx-auto flex flex-col lg:flex-row gap-10 text-center">
+  <div class="mx-auto flex flex-col lg:flex-row gap-10 text-center -mt-60 z-10 ">
     
     {% if n_seminar %}
-    <div class="flex flex-1 flex-col gap-4 p-12 justify-center border rounded-2xl bg-white shadow-sm max-w-md">
+    <div class="flex flex-1 flex-col gap-4 p-12 justify-center  rounded-md bg-c_faint_purple/90  max-w-md bg-blur-md">
       <!-- Seminar Info -->
       <div class="space-y-1">
         <h3 class="text-2xl font-bold text-gray-800">{{ n_seminar.title }}</h3>
-        <p class="text-lf text-gray-700">{{ n_seminar.subtitle }}</p>
+        <p class="text-lf font-semibold text-gray-700">{{ n_seminar.subtitle }}</p>
       </div>
 
-      <div class="flex flex-col text-lg text-gray-700 font-bold">
+      <div class="flex flex-col text-lg text-gray-700 font-extrabold">
         <p>{{ n_seminar.date|date:"F j, Y" }}</p>
         <p>{{ n_seminar.get_location_display }}</p>
       </div>
@@ -34,14 +32,14 @@
 
 
     {% if s_seminar %}
-    <div class="flex flex-1 flex-col gap-4 p-12 justify-center border rounded-2xl bg-white shadow-sm max-w-md">
+    <div class="flex flex-1 flex-col gap-4 p-12 justify-center  rounded-md bg-c_faint_purple/90  max-w-md bg-blur-md">
       <!-- Seminar Info -->
       <div class="space-y-1">
         <h3 class="text-2xl font-bold text-gray-800">{{ s_seminar.title }}</h3>
-        <p class="text-lf text-gray-700">{{ s_seminar.subtitle }}</p>
+        <p class="text-lf font-semibold text-gray-700">{{ s_seminar.subtitle }}</p>
       </div>
 
-      <div class="flex flex-col text-lg text-gray-700 font-bold">
+      <div class="flex flex-col text-lg text-gray-700 font-extrabold">
         <p>{{ s_seminar.date|date:"F j, Y" }}</p>
         <p>{{ s_seminar.get_location_display }}</p>
       </div>
@@ -57,7 +55,7 @@
 
   </div>
 
-  <section class="bg-white rounded-2xl p-10 shadow-lg mt-16">
+  <section class="bg-c_transparent_purple py-40 px-10 mt-16">
     <div class="max-w-4xl mx-auto text-center flex flex-col md:flex-row items-center gap-20">
       
       <!-- Host image -->
@@ -67,7 +65,7 @@
       
       <!-- Host info -->
       <div class="md:text-left text-center">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">Meet Your Hosts</h2>
+        <h2 class="text-5xl font-bold text-gray-900 mb-4">Meet Your Hosts</h2>
         <p class="text-lg text-gray-700 mb-4">
           Roberto and Becky Seda are the passionate owners of <span class="font-semibold text-primary">Senior Living Truth Series</span>. 
           With years of experience guiding families and seniors through the complexities of senior living options, they bring clarity, compassion, 
@@ -82,8 +80,8 @@
   </section>
 
 
-  <section class="bg-white rounded-2xl p-4 sm:p-10 shadow-lg mt-16 overflow-hidden">
-    <h2 class="text-4xl text-center font-bold text-gray-900 mb-8">Education Partners</h2>
+  <section class="bg-white px-4 sm:py-36 border-y-5 border-primary sm:px-10 overflow-hidden">
+    <h2 class="text-6xl text-center font-bold text-gray-900 mb-30">Education Partners</h2>
 
     <div id="carousel-container" class="relative w-full overflow-hidden">
       <div id="carousel-track" class="flex gap-6">
@@ -107,8 +105,8 @@
   </section>
 
 
-  <section class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+  <section class="max-w-6xl mx-auto px-4 py-30">
+    <h2 class="text-5xl font-bold text-center mb-20">Frequently Asked Questions</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
       {% for faq in faqs %}
