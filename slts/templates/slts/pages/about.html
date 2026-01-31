@@ -6,33 +6,41 @@
 {% block content %}
 
 <!-- Page Wrapper -->
-<section class="max-w-5xl mx-auto px-6 py-16 space-y-16">
+<section class="mx-auto pt-50 bg-white">
 
-  <!-- Hero / Mission Section -->
-  <div class="bg-white rounded-3xl shadow-lg p-10">
-    <h1 class="text-4xl font-bold text-gray-900 mb-6 text-center">About the Senior Living Truth Series</h1>
+  <!-- Title -->
+  <div class="bg-white">
+    <h1 class="text-7xl font-bold text-gray-900 text-center">About the Senior Living Truth Series</h1>
 
-    <p class="text-lg text-gray-700 mb-4">
-      The <span class="font-semibold text-primary">Senior Living Truth Series</span> exists to educate, empower, and equip mature adults and their families with honest, practical information about later-life choices — without any sales pitches.
-    </p>
-
-    <p class="text-lg text-gray-700 mb-4">
-      Every month, we offer free seminars and workshops tailored specifically for seniors and lifelong learners. Topics include emergency planning, aging in place, navigating senior living options, managing finances, and understanding modern technology.
-    </p>
-
-    <p class="text-lg text-gray-700">
-      Our goal is simple: provide clear, truthful insight so attendees can make informed decisions with confidence.
-    </p>
+    <p class="text-3xl py-10 text-center"><em>Honest Conversations that Make a Difference</em></p>
   </div>
 
+  <!-- Our Mission -->
+  <div class="flex flex-row gap-10 mt-20 bg-c_transparent_purple">
+    <img src="{% static 'images/becky-listening.webp' %}" 
+        alt="Roberto and Becky Seda" 
+        class="hidden lg:block w-120 2xl:w-1/2 h-auto mx-auto mx-0 object-cover">
+
+    <div class="flex flex-col max-w-5xl m-auto px-16 lg:pl-0 lg:pr-10 gap-18 py-20">
+      <h2 class="text-5xl font-bold text-gray-800 text-center">Our Mission</h2>
+
+      <div class="text-center lg:text-left flex flex-col gap-12 text-xl text-gray-700">
+        <p>The <span class="font-semibold text-primary">Senior Living Truth Series</span> exists to educate, empower, and equip mature adults and their families with honest, practical information about later-life choices — without any sales pitches.</p>
+        <p>Every month, we offer free seminars and workshops tailored specifically for seniors and lifelong learners. Topics include emergency planning, aging in place, navigating senior living options, managing finances, and understanding modern technology.</p>
+        <p>Our goal is simple: provide clear, truthful insight so attendees can make informed decisions with confidence.</p>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Meet the Hosts Section -->
-  <div class="space-y-6">
-    <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Meet Your Hosts</h2>
+  <div class="space-y-6 bg-gray-800 p-20 xl:p-40">
+    <h2 class="text-6xl font-semibold text-gray-100 mb-24 text-center">Meet Your Hosts</h2>
 
     <div class="flex flex-col lg:flex-row-reverse gap-8">
       <!-- Becky Seda -->
-      <div class="flex-1 bg-gray-100 rounded-3xl shadow-md p-8 flex flex-col items-center text-center">
-        <img src="{% static 'images/becky-seda.jpg' %}" alt="Becky Seda" class="w-40 h-40 rounded-full mb-6 object-cover shadow-lg">
+      <div class="flex-1 bg-gray-100 p-8 flex flex-col items-center text-center">
+        <img src="{% static 'images/becky-seda.jpg' %}" alt="Becky Seda" class="w-40 h-40 rounded-full mb-6 object-cover">
         <h3 class="text-2xl font-semibold mb-2">Becky Seda</h3>
         <p class="text-gray-700 text-lg">
           Co-owner and co-presenter, Becky focuses on making seminars welcoming and inclusive. She ensures each attendee leaves with practical advice, clarity, and confidence to make informed decisions for themselves or loved ones.
@@ -40,8 +48,8 @@
       </div>
 
       <!-- Roberto Seda -->
-      <div class="flex-1 bg-gray-100 rounded-3xl shadow-md p-8 flex flex-col items-center text-center">
-        <img src="{% static 'images/roberto-seda.jpg' %}" alt="Roberto Seda" class="w-40 h-40 rounded-full mb-6 object-cover shadow-lg">
+      <div class="flex-1 bg-gray-100 p-8 flex flex-col items-center text-center">
+        <img src="{% static 'images/roberto-seda.jpg' %}" alt="Roberto Seda" class="w-40 h-40 rounded-full mb-6 object-cover">
         <h3 class="text-2xl font-semibold mb-2">Roberto Seda</h3>
         <p class="text-gray-700 text-lg">
           Co-owner and co-presenter of the Senior Living Truth Series, Roberto brings years of experience in elder care advocacy and community engagement. His mission is to make complex senior-living topics approachable and actionable.
@@ -50,37 +58,42 @@
     </div>
   </div>
 
-  <!-- What Makes Us Different Section -->
-  <div class="bg-gray-200 rounded-3xl shadow-lg p-10">
-    <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">What Makes Us Different</h2>
+  <!-- What Makes Us Different Section -->   
+  <div class="flex flex-row gap-10 bg-gray-300">
+    <div class="flex flex-col max-w-5xl m-auto px-16 lg:pr-0 lg:pl-30 text-gray-700 gap-24 py-20">
+      <h2 class="text-center lg:text-left text-5xl font-bold text-gray-900">What Makes Us Different</h2>
+      <div class="flex flex-col gap-12 text-2xl">
+        <li><span class="font-semibold">No Sales Pitches</span> — We provide education, not product promotion.</li>
+        <li><span class="font-semibold">Real Experts</span> — Presenters bring trusted professional experience.</li>
+        <li><span class="font-semibold">Community First</span> — Seminars foster connection and conversation.</li>
+        <li><span class="font-semibold">Free & Accessible</span> — Our events are no-cost with clear instructions for attendance.</li>
+      </div>
+    </div>
 
-    <ul class="list-disc list-inside text-lg text-gray-700 space-y-3">
-      <li><span class="font-semibold">No Sales Pitches</span> — We provide education, not product promotion.</li>
-      <li><span class="font-semibold">Real Experts</span> — Presenters bring trusted professional experience.</li>
-      <li><span class="font-semibold">Community First</span> — Seminars foster connection and conversation.</li>
-      <li><span class="font-semibold">Free & Accessible</span> — Our events are no-cost with clear instructions for attendance.</li>
-    </ul>
+    <img src="{% static 'images/audience-listening.webp' %}" 
+        alt="Roberto and Becky Seda" 
+        class="hidden lg:block w-120 2xl:w-1/2 h-auto mx-auto mx-0 object-cover">
   </div>
 
 	<!-- Original Founders Section (Subtle) -->
-	<div class="bg-gray-50 rounded-3xl shadow-md p-6 mt-16">
-	  <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Original Founders</h2>
-	  <div class="flex flex-col sm:flex-row justify-center gap-8 items-center">
+	<div class="bg-gray-50 py-30 py-auto">
+	  <h2 class="text-4xl font-semibold text-gray-800 mb-14 text-center items-center">Original Founders</h2>
+	  <div class="flex flex-col sm:flex-row justify-center gap-6 sm:gap-40 items-center">
 	    
 	    <div class="flex flex-col items-center text-center">
-	      <img src="{% static 'images/chris-buckelew.jpg' %}" alt="Chris Buckelew" class="w-32 h-32 rounded-full mb-2 object-cover shadow-md">
+	      <img src="{% static 'images/chris-buckelew.jpg' %}" alt="Chris Buckelew" class="w-50 h-auto rounded-full mb-2 object-cover">
 	      <p class="text-gray-700 font-semibold">Chris Buckelew</p>
 	    </div>
 
 	    <div class="flex flex-col items-center text-center">
-	      <img src="{% static 'images/nikki-buckelew.jpg' %}" alt="Nikki Buckelew" class="w-32 h-32 rounded-full mb-2 object-cover shadow-md">
+	      <img src="{% static 'images/nikki-buckelew.jpg' %}" alt="Nikki Buckelew" class="w-50 h-auto rounded-full mb-2 object-cover">
 	      <p class="text-gray-700 font-semibold">Nikki Buckelew</p>
 	    </div>
 	
 	  </div>
 	  <!-- Founders Note -->
-	  <div class="bg-gray-50 rounded-3xl p-8 text-center text-gray-700">
-	    <p class="text-lg">
+	  <div class="p-8 text-center text-gray-700 max-w-5xl mx-auto">
+	    <p class="text-xl">
 	      This series was founded by Chris and Nikki Buckelew, and we honor their vision and dedication. 
         Their goal has always been to provide clarity and support to seniors navigating important life transitions.
 	    </p>
@@ -89,8 +102,8 @@
 
 
   <!-- Education Partners -->
-  <section class="bg-white rounded-2xl p-4 sm:p-10 shadow-lg mt-16 overflow-hidden">
-    <h2 class="text-4xl text-center font-bold text-gray-900 mb-8">Education Partners</h2>
+  <section class="bg-white py-36 overflow-hidden">
+    <h2 class="text-6xl text-center font-bold text-gray-900 mb-30 px-10">Education Partners</h2>
 
     <div id="carousel-container" class="relative w-full overflow-hidden">
       <div id="carousel-track" class="flex gap-6">
@@ -114,12 +127,12 @@
   </section>
 
 
-  <section class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+  <section class="bg-gray-200 mx-auto px-6 py-30">
+    <h2 class="text-5xl font-bold text-center mb-20 px-10">Frequently Asked Questions</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start max-w-6xl mx-auto">
       {% for faq in faqs %}
-        <div class="bg-white shadow-md shadow-black/25 rounded-2xl overflow-hidden flex flex-col items-start">
+        <div class="bg-white shadow-sm shadow-black/25 rounded-2xl overflow-hidden flex flex-col items-start">
           <button 
             type="button"
             class="w-full px-6 py-4 text-left flex justify-between items-center font-medium focus:outline-none focus:ring-2 focus:ring-primary"
