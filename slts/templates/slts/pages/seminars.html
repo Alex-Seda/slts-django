@@ -5,15 +5,15 @@
 
 {% block content %}
 
-<h1 class="text-5xl xl:text-6xl font-bold text-gray-900 mb-6 text-center">2026 Seminar Schedule</h1>
+<h1 class="text-5xl xl:text-6xl font-bold text-gray-900 mb-6 text-center mt-40">2026 Seminar Schedule</h1>
 <hr class="my-4 border-black/20">
 
-
+<div class="mb-20">
 <!-- Schedule -->
 {% if seminars_2026 %}
   <div class="space-y-12">
     {% for seminar in seminars_2026 %}
-      <div class="bg-white rounded-3xl shadow-md px-4 py-10 sm:px-10 flex flex-col items-center gap-10 lg:flex-row xl:gap-30 xl:w-300">
+      <div class="bg-white rounded-3xl shadow-sm border-1 border-black/20 px-4 py-10 sm:px-10 flex flex-col items-center gap-10 lg:flex-row xl:gap-30 xl:w-300">
 
         {% if seminar.image %}
           <div class="w-50 h-50 sm:w-80 sm:h-80 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
@@ -93,6 +93,7 @@
     No seminars are currently open for registration.
   </p>
 {% endif %}
+</div>
 
 
 
