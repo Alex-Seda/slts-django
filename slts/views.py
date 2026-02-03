@@ -13,7 +13,7 @@ from .forms import AttendeeForm
 def home(request):
     n_seminar = Seminar.objects.get_next_north_seminar()
     s_seminar = Seminar.objects.get_next_south_seminar()
-    education_partners = EducationPartner.objects.all()
+    education_partners = EducationPartner.objects.filter(active=True)
     faqs = FAQ.objects.all()
     current_year = datetime.now().year
     template = loader.get_template("slts/pages/home.html")
@@ -137,7 +137,7 @@ def education_partners(request):
     return HttpResponse(template.render(context, request))
 
 def about(request):
-    education_partners = EducationPartner.objects.all()
+    education_partners = EducationPartner.objects.filter(active=True)
     faqs = FAQ.objects.all()
     template = loader.get_template("slts/pages/about.html")
     context = {"education_partners": education_partners, "faqs": faqs,}
