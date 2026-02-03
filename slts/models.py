@@ -176,7 +176,7 @@ class EducationPartner(models.Model):
     name = models.CharField(max_length=60)
     image = models.ImageField(upload_to='education-partners/')
     url = models.URLField('Website Link', blank=True)
-    description = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
     partner_location = models.CharField(max_length=5, choices=LOCATION_CHOICES, blank=True)
     active = models.BooleanField(default=True)
 
