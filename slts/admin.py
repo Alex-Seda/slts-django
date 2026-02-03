@@ -121,7 +121,7 @@ class AttendeeAdmin(admin.ModelAdmin):
                 count
             )
     attendance_summary.short_description = "Attendance"
-    
+
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
 
@@ -192,8 +192,6 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class EducationPartnerAdmin(SummernoteModelAdmin):
-    summernote_fields = 'description'
-
     list_per_page = 10
 
     list_display = [
@@ -217,7 +215,7 @@ class EducationPartnerAdmin(SummernoteModelAdmin):
         'active',
         'image',
         'url',
-        'description',
+        'notes',
     ]
 
 
