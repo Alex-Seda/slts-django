@@ -195,14 +195,16 @@ class EducationPartnerAdmin(SummernoteModelAdmin):
     summernote_fields = 'description'
 
     list_per_page = 10
-    
+
     list_display = [
         'name',
-        'partner_location'
+        'partner_location',
+        'active'
     ]
 
     list_filter = [
         'partner_location',
+        'active'
     ]
 
     search_fields = [
@@ -212,6 +214,7 @@ class EducationPartnerAdmin(SummernoteModelAdmin):
     fields = [
         'name',
         'partner_location',
+        'active',
         'image',
         'url',
         'description',
