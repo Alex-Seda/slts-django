@@ -47,7 +47,7 @@ def register(request, seminar_id):
 
 
 def register_submit(request, seminar_id):
-    form = AttendeeForm(request.POST)   
+    form = AttendeeForm(request.POST)
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
 
@@ -74,13 +74,13 @@ def register_submit(request, seminar_id):
             email=email,
             first_name__iexact=first_name
         ).first()
-    
+
     elif phone:
         attendee = Attendee.objects.filter(
             phone=phone,
             first_name__iexact=first_name
         ).first()
-        
+
 
     try:
         if not attendee:            # The previous lines do not guarantee a match, even if the phone or email exists, so this is not an "elif" or "else"
@@ -105,11 +105,11 @@ def register_submit(request, seminar_id):
                 "seminar": seminar,
             },
         )
-    
+
 
     if email:
         send_confirmation_email(email, seminar.id)
-    
+
     return redirect("slts:registration_success", seminar_id=seminar_id)
 
 
@@ -131,7 +131,7 @@ def recordings(request, year):
     return HttpResponse(template.render(context, request))
 
 def education_partners(request):
-    education_partners = EducationPartner.objects.all()
+    education_partners = EducationPartner.objects.filter(active=True)
     template = loader.get_template("slts/pages/education_partners.html")
     context = {"education_partners": education_partners}
     return HttpResponse(template.render(context, request))

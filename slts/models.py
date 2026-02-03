@@ -30,7 +30,7 @@ class SeminarQuerySet(models.QuerySet):
         .exclude(status="draft")
         .order_by("date")
         )
-    
+
     def get_past_seminars_by_year(self,year):
         if year == datetime.now().year:
             filter_string = "-date"
@@ -92,12 +92,15 @@ class Attendee(models.Model):
         "edmond l and l"    : "Edmond L&L",
         "bethany tribune"   : "Bethany Tribune",
         "other newspaper"   : "Other Newspaper",
+        "news station"      : "News Station",
         "flyer"             : "Flyer",
         "facebook"          : "Facebook",
         "website"           : "Website",
         "youtube"           : "YouTube",
+        "internet"          : "Internet",
         "mailout"           : "Mailout",
         "seminar feedback"  : "Feedback Form / Seminar",
+        "education partner" : "Education Partner",
     }
 
     search_fields = ['name']  # required for autocomplete
@@ -118,7 +121,7 @@ class Attendee(models.Model):
     zip_code = USZipCodeField(blank=True)
     phone = PhoneNumberField(region="US", blank=True)
     email = models.EmailField(blank=True)
-    heard_from = models.CharField("Heard About Us From", max_length=16, choices=HEARD_FROM_CHOICES, blank=True)
+    heard_from = models.CharField("Heard About Us From", max_length=17, choices=HEARD_FROM_CHOICES, blank=True)
     notes = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
 
@@ -144,7 +147,7 @@ class Attendee(models.Model):
             if self.married_to and self.married_to.married_to != self:
                 self.married_to.married_to = self
                 self.married_to.save()
-                
+
 
 class Registration(models.Model):
     REGISTRATION_STATUS_CHOICES = {
@@ -175,6 +178,7 @@ class EducationPartner(models.Model):
     url = models.URLField('Website Link', blank=True)
     description = models.TextField(blank=True)
     partner_location = models.CharField(max_length=5, choices=LOCATION_CHOICES, blank=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
