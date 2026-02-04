@@ -122,6 +122,8 @@ class Attendee(models.Model):
     phone = PhoneNumberField(region="US", blank=True)
     email = models.EmailField(blank=True)
     heard_from = models.CharField("Heard About Us From", max_length=17, choices=HEARD_FROM_CHOICES, blank=True)
+    local = models.BooleanField(default=True)
+    deceased = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
 

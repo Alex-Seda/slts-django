@@ -135,7 +135,6 @@ class AttendeeAdmin(admin.ModelAdmin):
     list_display = [
         'first_name',
         'last_name',
-        'email',
         'city',
         'heard_from',
         'tag_list'
@@ -144,6 +143,8 @@ class AttendeeAdmin(admin.ModelAdmin):
 
     list_filter = [
         'heard_from',
+        'local',
+        'deceased',
         TagListFilter
     ]
 
@@ -161,6 +162,8 @@ class AttendeeAdmin(admin.ModelAdmin):
             'first_name',
             'last_name',
             'tags',
+            'local',
+            'deceased',
             'notes',
             'married_to',
             'email',
@@ -243,9 +246,9 @@ class GoogleReviewAdmin(admin.ModelAdmin):
     ]
 
 
-
-admin.site.register(Seminar, SeminarAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
+admin.site.register(Seminar, SeminarAdmin)
+
 admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(GoogleReview, GoogleReviewAdmin)
