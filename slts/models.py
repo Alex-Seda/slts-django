@@ -165,6 +165,7 @@ class Attendee(models.Model):
     deceased = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
+    birthday = models.DateField(blank=True,null=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.email
