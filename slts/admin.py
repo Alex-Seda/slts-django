@@ -2,13 +2,17 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Attendee, Seminar, Registration, EducationPartner, FAQ, GoogleReview
+from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview
 
 
 
 class RegistrationInline(admin.TabularInline):
     model = Registration
-    extra = 1
+    extra = 0
+
+class EventRegistrationInline(admin.TabularInline):
+    model = EventRegistration
+    extra = 0
 
 
 class TagListFilter(admin.SimpleListFilter):
@@ -245,10 +249,47 @@ class GoogleReviewAdmin(admin.ModelAdmin):
         'name',
     ]
 
+class OtherEventAdmin(SummernoteModelAdmin):
+    ordering = ('-date',)
+    list_per_page = 10
+
+    list_display = [
+        'title',
+        'date',
+        'event_type',
+        'location',
+        'status'
+    ]
+
+    list_filter = [
+        'event_type',
+        'location',
+        'status'
+    ]
+
+    summernote_fields = 'description'
+
+    fieldsets = [
+        ('Content', {'fields': [
+            'title',
+            'event_type',
+            'status',
+            'image',
+            'description',
+        ]}),
+
+        ('Scheduling', {'fields': [
+            'date',
+            'time',
+            'location',
+        ]}),
+    ]
+    inlines = [EventRegistrationInline]
+
 
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Seminar, SeminarAdmin)
-
+admin.site.register(OtherEvent, OtherEventAdmin)
 admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(GoogleReview, GoogleReviewAdmin)

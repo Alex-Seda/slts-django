@@ -42,6 +42,13 @@ class SeminarQuerySet(models.QuerySet):
         )
 
 
+class EventQuerySet(models.QuerySet):
+    def get_tours(self):
+        return self.filter(type='tour')
+    def get_expert_insights(self):
+        return self.filter(type='exin')
+
+
 class Seminar(models.Model):
     LOCATION_CHOICES = {
         "north": "North Campus (Francis Tuttle)",
@@ -81,6 +88,38 @@ class Seminar(models.Model):
             return f"https://www.youtube.com/embed/{match.group(1)}"
 
         return None
+
+    def __str__(self):
+        return self.title
+
+
+class OtherEvent(models.Model):
+    LOCATION_CHOICES = {
+        "north": "North Campus (Francis Tuttle)",
+        "south": "South Campus (MNTC, S. Penn)",
+    }
+
+    EVENT_STATUS_CHOICES = {
+        "draft" : "Draft",
+        "scheduled" : "Scheduled",
+        "completed" : "Completed",
+    }
+
+    TYPE_CHOICES = {
+        'tour': 'Tour',
+        'exin': 'Expert Insights'
+    }
+
+    title = models.CharField(max_length=100)
+    event_type = models.CharField(max_length=4, choices=TYPE_CHOICES)
+    description = models.TextField(blank=True)
+    date = models.DateField()
+    time = models.TimeField(default=time(10,0))
+    location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
+    status = models.CharField(max_length=9, choices=EVENT_STATUS_CHOICES)
+    image = models.ImageField(upload_to='events/', blank=True)
+
+    objects = EventQuerySet.as_manager()
 
     def __str__(self):
         return self.title
@@ -166,6 +205,21 @@ class Registration(models.Model):
 
     def __str__(self):
         return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.seminar.title + "\""
+
+
+class EventRegistration(models.Model):
+    REGISTRATION_STATUS_CHOICES = {
+        "registered" : "Registered",
+        "attended" : "Attended",
+        "cancelled" : "Cancelled",
+    }
+
+    event = models.ForeignKey(OtherEvent, on_delete=models.CASCADE, related_name='eventRegistrations')
+    attendee = models.ForeignKey(Attendee, on_delete=models.CASCADE, related_name='eventRegistrations')
+    status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
+
+    def __str__(self):
+        return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.event.title + "\""
 
 
 class EducationPartner(models.Model):
