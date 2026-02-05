@@ -8,10 +8,12 @@ from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistrati
 
 class RegistrationInline(admin.TabularInline):
     model = Registration
+    autocomplete_fields = ['attendee', 'seminar']
     extra = 0
 
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
+    autocomplete_fields = ['attendee', 'event']
     extra = 0
 
 
@@ -194,7 +196,7 @@ class UserAdmin(admin.ModelAdmin):
         if not request.user.is_superuser:
             return self.readonly_fields + ("is_superuser",)
         return self.readonly_fields
-    
+
     list_per_page = 10
 
 
@@ -252,6 +254,10 @@ class GoogleReviewAdmin(admin.ModelAdmin):
 class OtherEventAdmin(SummernoteModelAdmin):
     ordering = ('-date',)
     list_per_page = 10
+
+    search_fields = [
+        'title',
+    ]
 
     list_display = [
         'title',
