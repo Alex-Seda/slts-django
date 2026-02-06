@@ -25,6 +25,8 @@ urlpatterns = [
     # Other Pages
     path("education_partners/", views.education_partners, name="education_partners"),
     path("about_us/", views.about, name="about"),
+    path("terms-of-use/", views.terms_of_use, name="terms_of_use"),
+    path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
 ]
 
 
