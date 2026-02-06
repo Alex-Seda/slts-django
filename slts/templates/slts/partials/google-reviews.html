@@ -37,7 +37,7 @@
 </section>
 
 <style>
-    .testimonials {
+.testimonials {
   padding: 2rem;
   background: var(--background);
   text-align: center;
@@ -156,6 +156,29 @@
   right: -10rem;
 }
 
+
+@media (max-width: 768px) {
+  .testimonial-list {
+    height: 30rem;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+  .testimonial-item {
+    width: 95%;
+    left: 2.5%;
+    transform: translate(-50%, -50%) scale(1);
+    font-size: 0.2rem;
+  }
+
+  .testimonial-arrow.left {
+    left: 0;
+  }
+
+  .testimonial-arrow.right {
+    right: 0;
+  }
+}
 </style>
 
 
