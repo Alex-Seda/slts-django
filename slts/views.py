@@ -14,13 +14,15 @@ def home(request):
     n_seminar = Seminar.objects.get_next_north_seminar()
     s_seminar = Seminar.objects.get_next_south_seminar()
     education_partners = EducationPartner.objects.filter(active=True)
+    testimonials = GoogleReview.objects.all()
     faqs = FAQ.objects.all()
     current_year = datetime.now().year
     template = loader.get_template("slts/pages/home.html")
     context = {
         "n_seminar": n_seminar, 
         "s_seminar": s_seminar, 
-        "education_partners": education_partners, 
+        "education_partners": education_partners,
+        "testimonials": testimonials,
         "current_year": current_year,
         "faqs": faqs,
     }
