@@ -145,3 +145,12 @@ def about(request):
     context = {"education_partners": education_partners, "faqs": faqs,}
     return HttpResponse(template.render(context, request))
 
+def terms_of_use(request):
+    template = loader.get_template("slts/pages/terms_of_use.html")
+    context={}
+    return HttpResponse(template.render(context, request))
+
+def privacy_policy(request):
+    template = loader.get_template("slts/pages/privacy_policy.html")
+    context={}
+    return HttpResponse(template.render(context, request))
