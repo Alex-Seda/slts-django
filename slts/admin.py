@@ -172,10 +172,11 @@ class AttendeeAdmin(admin.ModelAdmin):
             'deceased',
             'notes',
             'married_to',
+            'birthday',
             'email',
             'phone',
-            'attendance_summary',
             'heard_from',
+            'attendance_summary'
         ]}),
 
         ('Address', {'fields': [
