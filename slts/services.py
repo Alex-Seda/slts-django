@@ -93,7 +93,7 @@ def export_sign_in_sheet_csv(seminar):
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        f'attachment; filename="sign_in_{seminar.date}.csv"'
+        f'attachment; filename="sign_in_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
     )
 
     writer = csv.writer(response)
@@ -113,7 +113,7 @@ def export_nametags_csv(seminar, include_header=False):
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        f'attachment; filename="nametags_{seminar.date}.csv"'
+        f'attachment; filename="nametags_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
     )
 
     writer = csv.writer(response)
