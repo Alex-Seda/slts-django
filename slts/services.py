@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from datetime import time, timedelta, date, datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from .models import Seminar, Registration
+from .models import Seminar, Registration, Attendee
 
 
 logger = logging.getLogger(__name__)
@@ -110,3 +110,60 @@ def export_seminar_registrations_csv(seminar):
         ])
 
     return response
+
+
+
+
+def get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from):
+    candidates = Attendee.objects.none()
+    if email != "":
+        candidates = Attendee.objects.filter(email=email)
+    if phone:
+        candidates = candidates or Attendee.objects.filter(phone=phone)
+    attendee = candidates.filter(first_name__iexact=first_name).first()
+    if not attendee:
+        attendee = Attendee.objects.create(
+            first_name=first_name.title(),
+            last_name=last_name.title(),
+            email=email,
+            phone=phone,
+            address=address,
+            city=city,
+            zip_code=zip_code,
+            heard_from=heard_from
+        )
+    return attendee
+
+
+def get_or_create_spouse(first_name, last_name, email, phone, address, city, zip_code, heard_from, attendee):
+    spouse_first = first_name.strip().title()
+    spouse_last = last_name.strip().title()
+    spouse = Attendee.objects.filter(first_name__iexact=spouse_first, last_name__iexact=spouse_last).first()
+    if not spouse:
+        # create new if no match
+        spouse = Attendee.objects.create(
+            first_name=spouse_first,
+            last_name=spouse_last,
+            email=email,
+            phone=phone,
+            address=address,
+            city=city,
+            zip_code=zip_code,
+            heard_from=heard_from
+        )
+        
+    # Remove old spouse links if either attendee is married
+    if attendee.married_to:
+        old = attendee.married_to
+        old.married_to = None
+        old.save()
+
+    if spouse.married_to:
+        old = spouse.married_to
+        old.married_to = None
+        old.save()
+
+    spouse.married_to = attendee
+    spouse.save()
+
+    return spouse
