@@ -3,11 +3,20 @@
 
 {% block object-tools-items %}
     {{ block.super }}
-    {% if export_url %}
-        <li class="list-none">
-            <a href="{{ export_url }}" class="btn btn-primary">
-                Export Attendees
-            </a>
-        </li>
-    {% endif %}
+    <div class="space-y-2">
+        {% if seminar_export_signin %}
+            <li class="list-none">
+                <a href="{{ seminar_export_signin }}" class="btn btn-primary">
+                    Export Sign-In Sheet
+                </a>
+            </li>
+        {% endif %}
+        {% if seminar_export_nametags %}
+            <li class="list-none">
+                <a href="{{ seminar_export_nametags }}" class="btn btn-primary">
+                    Export Nametags
+                </a>
+            </li>
+        {% endif %}
+    </div>
 {% endblock %}
