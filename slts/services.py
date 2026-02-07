@@ -13,15 +13,18 @@ from .models import Seminar
 logger = logging.getLogger(__name__)
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 
-NORTH_ADDRESS='''Francis Tuttle Technology Center - The Purple Room
-12777 N Rockwell Ave
-Oklahoma City, OK 73142
-Use the Northwest Hall Entrance - (Follow The Purple Signs)'''
+NORTH_ADDRESS='''
+<p>Francis Tuttle Technology Center - The Purple Room</p>
+<p>12777 N Rockwell Ave</p>
+<p>Oklahoma City, OK 73142</p>
+<p>Use the Northwest Hall Entrance - (Follow The Purple Signs)</p>
+'''
 
-SOUTH_ADDRESS='''Moore Norman Technology Center
-13301 S. Pennsylvania Ave,
-Oklahoma City, OK 73170
-(Follow The Purple Signs)'''
+SOUTH_ADDRESS='''
+<p>Moore Norman Technology Center</p>
+<p>13301 S. Pennsylvania Ave,</p>
+<p>Oklahoma City, OK 73170</p>
+<p>(Follow The Purple Signs)</p>'''
 
 
 def normalize_phone(phone: str | None) -> str | None:
@@ -45,18 +48,20 @@ def normalize_phone(phone: str | None) -> str | None:
 def send_confirmation_email(email, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
     subject = "Senior Living Truth Series Confirmation - " + seminar.date.strftime("%B") + " " + str(seminar.date.year)
-    html_message = f"""Thank you for registering for:
+    html_message = f"""
+    <p>Thank you for registering for:</p>
 
-<b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b>
+    <p><b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b></p>
 
-<strong>{seminar.date.strftime("%A").upper()}</strong>, {seminar.date.strftime("%B")} {seminar.date.day} @ {seminar.time.strftime("%I:%M %p")} (Doors open at {(datetime.combine(date.today(), seminar.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})
+    <p><strong>{seminar.date.strftime("%A").upper()}</strong>, {seminar.date.strftime("%B")} {seminar.date.day} @ {seminar.time.strftime("%I:%M %p")} 
+    (Doors open at {(datetime.combine(date.today(), seminar.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})</p>
 
-{NORTH_ADDRESS if seminar.location =='north' else SOUTH_ADDRESS}
+    {NORTH_ADDRESS if seminar.location =='north' else SOUTH_ADDRESS}
 
-P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!
+    <p>P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!</p>
 
-We look forward to seeing you soon!
-"""
+    <p>We look forward to seeing you soon!</p>
+    """
 
 
     try:
