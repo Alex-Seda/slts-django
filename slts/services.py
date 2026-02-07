@@ -14,17 +14,17 @@ logger = logging.getLogger(__name__)
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 
 NORTH_ADDRESS='''
-<p>Francis Tuttle Technology Center - The Purple Room</p>
-<p>12777 N Rockwell Ave</p>
-<p>Oklahoma City, OK 73142</p>
-<p>Use the Northwest Hall Entrance - (Follow The Purple Signs)</p>
+<p>Francis Tuttle Technology Center - The Purple Room<br>
+12777 N Rockwell Ave<br>
+Oklahoma City, OK 73142<br>
+Use the Northwest Hall Entrance - (Follow The Purple Signs)<br></p>
 '''
 
 SOUTH_ADDRESS='''
-<p>Moore Norman Technology Center</p>
-<p>13301 S. Pennsylvania Ave,</p>
-<p>Oklahoma City, OK 73170</p>
-<p>(Follow The Purple Signs)</p>'''
+<p>Moore Norman Technology Center<br>
+13301 S. Pennsylvania Ave,<br>
+Oklahoma City, OK 73170<br>
+(Follow The Purple Signs)<br></p>'''
 
 
 def normalize_phone(phone: str | None) -> str | None:
@@ -49,16 +49,16 @@ def send_confirmation_email(email, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
     subject = "Senior Living Truth Series Confirmation - " + seminar.date.strftime("%B") + " " + str(seminar.date.year)
     html_message = f"""
-    <p>Thank you for registering for:</p>
+    <p>Thank you for registering for:<br></p>
 
-    <p><b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b></p>
+    <p><b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b><br></p>
 
     <p><strong>{seminar.date.strftime("%A").upper()}</strong>, {seminar.date.strftime("%B")} {seminar.date.day} @ {seminar.time.strftime("%I:%M %p")} 
-    (Doors open at {(datetime.combine(date.today(), seminar.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})</p>
+    (Doors open at {(datetime.combine(date.today(), seminar.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br></p>
 
     {NORTH_ADDRESS if seminar.location =='north' else SOUTH_ADDRESS}
 
-    <p>P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!</p>
+    <p>P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!<br></p>
 
     <p>We look forward to seeing you soon!</p>
     """
