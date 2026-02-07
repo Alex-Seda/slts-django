@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.contrib import messages
 from datetime import datetime
 from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet, FAQ, GoogleReview
-from .services import send_confirmation_email, normalize_phone
+from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse
 from .forms import AttendeeForm
 
 
@@ -50,19 +50,29 @@ def register(request, seminar_id):
 
 def register_submit(request, seminar_id):
     form = AttendeeForm(request.POST)
+    seminar = get_object_or_404(Seminar, id=seminar_id)
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
 
 
-    # If email or phone is set, prep them for finding attendee
-    email = request.POST["email"].lower().strip() if request.POST["email"] else None
-    phone = normalize_phone(request.POST["phone"]) if request.POST["phone"] else None
-    address = request.POST["address"] if request.POST["address"] else None
-    city = request.POST["city"] if request.POST["city"] else None
+    # If form does not pass the validation check, do not proceed
+    # (This uses the validation functions in the AttendeeForm)
+    if not form.is_valid():
+        return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar},)
+
+
+    # Get all fields from form submission
+    email = request.POST["email"].lower().strip() or ""
+    phone = normalize_phone(request.POST.get("phone")) if request.POST.get("phone") else ""
+    address = request.POST["address"] or None
+    city = request.POST["city"] or None
+    zip_code = request.POST["zip_code"] or ""
+    heard_from = request.POST["heard_from"] or ""
     first_name = request.POST["first_name"].lower()
     last_name = request.POST["last_name"].lower()
-    seminar = get_object_or_404(Seminar, id=seminar_id)
+    spouse_first_name = request.POST.get("spouse_first_name", "").strip().lower() or None
     attendee = None
+    spouse = None
 
 
     # Ensure that basic contact info is provided. Email or phone at least.
@@ -71,33 +81,21 @@ def register_submit(request, seminar_id):
         return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar})
 
 
-    elif email:
-        attendee = Attendee.objects.filter(
-            email=email,
-            first_name__iexact=first_name
-        ).first()
-
-    elif phone:
-        attendee = Attendee.objects.filter(
-            phone=phone,
-            first_name__iexact=first_name
-        ).first()
-
-
     try:
-        if not attendee:            # The previous lines do not guarantee a match, even if the phone or email exists, so this is not an "elif" or "else"
-            attendee = form.save()
+        attendee = get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from)
+        Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
 
-        Registration.objects.get_or_create(
-            attendee=attendee,
-            seminar=seminar,
-        )
+        # Optional spouse
+        if spouse_first_name:
+            spouse = get_or_create_spouse(spouse_first_name, last_name, email, phone, address, city, zip_code, heard_from, attendee)
+            Registration.objects.get_or_create(attendee=spouse, seminar=seminar)
 
-    except:
+    except Exception as e:
         messages.error(
             request,
             "We couldn’t process your registration. Please check your spelling and try again."
         )
+        print("Registration error: ", e)
 
         return render(
             request,
