@@ -29,6 +29,15 @@ Oklahoma City, OK 73170<br>
 (Follow The Purple Signs)<br></p>'''
 
 
+def _registrations_for_seminar(seminar):
+    return (
+        Registration.objects
+        .filter(seminar=seminar)
+        .select_related("attendee")
+        .order_by("attendee__last_name", "attendee__first_name")
+    )
+
+
 def normalize_phone(phone: str | None) -> str | None:
     if not phone:
         return None
@@ -79,38 +88,45 @@ def send_confirmation_email(email, seminar_id):
         logger.error(f"Email failed: {e}")
 
 
-def export_seminar_registrations_csv(seminar):
-    registrations = (
-        Registration.objects
-        .filter(seminar=seminar)
-        .select_related("attendee")
-        .order_by("attendee__last_name")
-    )
+def export_sign_in_sheet_csv(seminar):
+    registrations = _registrations_for_seminar(seminar)
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        f'attachment; filename="{seminar.title.replace(" ","")}_{seminar.date}.csv"'
+        f'attachment; filename="sign_in_{seminar.date}.csv"'
     )
 
     writer = csv.writer(response)
-    writer.writerow([
-        "#",
-        "First Name",
-        "Last Name",
-        "Email",
-        ""
-    ])
+    writer.writerow(["First Name", "Last Name", "Check In"])
 
-    for idx, reg in enumerate(registrations, start=1):
+    for reg in registrations:
         writer.writerow([
-            idx,
             reg.attendee.first_name,
             reg.attendee.last_name,
-            reg.attendee.email,
+            "",  # intentionally blank
         ])
 
     return response
 
+def export_nametags_csv(seminar, include_header=False):
+    registrations = _registrations_for_seminar(seminar)
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        f'attachment; filename="nametags_{seminar.date}.csv"'
+    )
+
+    writer = csv.writer(response)
+
+    if include_header:
+        writer.writerow(["Name"])
+
+    for reg in registrations:
+        writer.writerow([
+            f"{reg.attendee.first_name} {reg.attendee.last_name}"
+        ])
+
+    return response
 
 
 

@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
-from .admin_views import seminar_export_csv
+from .admin_views import export_signin, export_nametags
 from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview
 
 
@@ -71,23 +71,30 @@ class SeminarAdmin(SummernoteModelAdmin):
         urls = super().get_urls()
         custom_urls = [
             path(
-                "<int:seminar_id>/export/",
-                self.admin_site.admin_view(seminar_export_csv),
-                name="seminar_export_csv",
-            )
+                "<int:seminar_id>/export_sign_in/",
+                self.admin_site.admin_view(export_signin),
+                name="seminar_export_signin",
+            ),
+            path(
+                "<int:seminar_id>/export_nametags/",
+                self.admin_site.admin_view(export_nametags),
+                name="seminar_export_nametags",
+            ),
         ]
         return custom_urls + urls
 
-    # Add the export button to the Edit Seminar Page
+    # Add the export buttons to the Edit Seminar Page
     def change_view(self, request, object_id, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context["export_url"] = reverse(
-            "admin:seminar_export_csv",
+        extra_context["seminar_export_signin"] = reverse(
+            "admin:seminar_export_signin",
             args=[object_id],
         )
-        return super().change_view(
-            request, object_id, form_url, extra_context=extra_context
+        extra_context["seminar_export_nametags"] = reverse(
+            "admin:seminar_export_nametags",
+            args=[object_id],
         )
+        return super().change_view(request, object_id, form_url, extra_context)
 
 
 
