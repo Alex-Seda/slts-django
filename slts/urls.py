@@ -1,15 +1,13 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-
+from .admin_views import seminar_export_csv
 from . import views
 
 
 app_name = "slts"
 
 urlpatterns = [
-    # Frontend pages
-
     # Home Page
     path("", views.home, name="home"),
 

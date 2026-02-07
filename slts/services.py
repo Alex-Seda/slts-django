@@ -1,13 +1,15 @@
 import re
 import os
+import csv
 import logging
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from datetime import time, timedelta, date, datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from .models import Seminar
+from .models import Seminar, Registration
 
 
 logger = logging.getLogger(__name__)
@@ -77,3 +79,34 @@ def send_confirmation_email(email, seminar_id):
         logger.error(f"Email failed: {e}")
 
 
+def export_seminar_registrations_csv(seminar):
+    registrations = (
+        Registration.objects
+        .filter(seminar=seminar)
+        .select_related("attendee")
+        .order_by("attendee__last_name")
+    )
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        f'attachment; filename="{seminar.title.replace(" ","")}_{seminar.date}.csv"'
+    )
+
+    writer = csv.writer(response)
+    writer.writerow([
+        "#",
+        "First Name",
+        "Last Name",
+        "Email",
+        ""
+    ])
+
+    for idx, reg in enumerate(registrations, start=1):
+        writer.writerow([
+            idx,
+            reg.attendee.first_name,
+            reg.attendee.last_name,
+            reg.attendee.email,
+        ])
+
+    return response

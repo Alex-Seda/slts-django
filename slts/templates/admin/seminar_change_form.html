@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    {% if export_url %}
+        <li class="list-none">
+            <a href="{{ export_url }}" class="btn btn-primary">
+                Export Attendees
+            </a>
+        </li>
+    {% endif %}
+{% endblock %}

@@ -1,7 +1,12 @@
+import csv
+from django.urls import path, reverse
 from django.contrib import admin
 from django.utils.html import format_html
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
+from .admin_views import seminar_export_csv
 from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview
 
 
@@ -37,17 +42,20 @@ class TagListFilter(admin.SimpleListFilter):
 class SeminarAdmin(SummernoteModelAdmin):
     ordering = ("-date",)
     list_per_page = 10
+    change_form_template = "admin/seminar_change_form.html"
 
+
+
+    # Attendance Summary for quick view of registrations
     def attendance_summary(self, obj):
         count = obj.registrations.count()
         return format_html(
             '<strong style="font-size:20px;">{} attendees</strong>',
             count
         )
-
     attendance_summary.short_description = "Attendance"
 
-
+    # Average rating for quick view of seminar ratings
     def average_rating_display(self, obj):
         avg = obj.registrations.aggregate(avg=Avg('rating'))['avg'] or 0
         stars = '★' * round(avg) + '☆' * (5 - round(avg))
@@ -56,8 +64,32 @@ class SeminarAdmin(SummernoteModelAdmin):
             '<div>      <span style="font-size:32px;">{}</span>     <strong style="font-size:16px;">({})</strong>       </div>',
             stars, avg
         )
-
     average_rating_display.short_description = "Average Rating"
+
+    # Add Export URL for Post Requests
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "<int:seminar_id>/export/",
+                self.admin_site.admin_view(seminar_export_csv),
+                name="seminar_export_csv",
+            )
+        ]
+        return custom_urls + urls
+
+    # Add the export button to the Edit Seminar Page
+    def change_view(self, request, object_id, form_url="", extra_context=None):
+        extra_context = extra_context or {}
+        extra_context["export_url"] = reverse(
+            "admin:seminar_export_csv",
+            args=[object_id],
+        )
+        return super().change_view(
+            request, object_id, form_url, extra_context=extra_context
+        )
+
+
 
     readonly_fields = (
         'attendance_summary',
