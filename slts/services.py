@@ -45,7 +45,7 @@ def normalize_phone(phone: str | None) -> str | None:
 def send_confirmation_email(email, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
     subject = "Senior Living Truth Series Confirmation - " + seminar.date.strftime("%B") + " " + str(seminar.date.year)
-    message = f"""Thank you for registering for:
+    html_message = f"""Thank you for registering for:
 
 <b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b>
 
@@ -62,7 +62,8 @@ We look forward to seeing you soon!
     try:
         send_mail(
             subject=subject,
-            message=message,
+            message="",
+            html_message=html_message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
         )
