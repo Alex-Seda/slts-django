@@ -2,8 +2,8 @@
 <section class="bg-white py-36 overflow-hidden">
     <h2 class="text-6xl text-center font-bold text-gray-900 mb-30 px-10">Education Partners</h2>
 
-    <div id="carousel-container" class="relative w-full overflow-hidden">
-        <div id="carousel-track" class="absolute left-0 top-0 flex gap-6 will-change-transform">
+    <div id="carousel-container" class="relative w-full overflow-hidden h-32">
+        <div id="carousel-track" class="flex gap-6 will-change-transform">
         {% for partner in education_partners %}
             <a {% if partner.url != '' %} href="{{ partner.url }}" {% endif %} target="_blank"
             class="flex-shrink-0 w-1/3 sm:w-1/3 md:w-1/5">
@@ -47,7 +47,8 @@
 
   function step() {
     offset += speed;
-    if(offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
+    const resetPoint = track.scrollWidth / 2;
+    if (offset >= resetPoint) offset -= resetPoint;
     track.style.transform = `translateX(-${offset}px)`;
     animationId = requestAnimationFrame(step);
   }
