@@ -162,30 +162,7 @@
 	</div>
 
 
-  <!-- Education Partners -->
-  <section class="bg-white py-36 overflow-hidden">
-    <h2 class="text-6xl text-center font-bold text-gray-900 mb-30 px-10">Education Partners</h2>
-
-    <div id="carousel-container" class="relative w-full overflow-hidden">
-      <div id="carousel-track" class="flex gap-6">
-        {% for partner in education_partners %}
-          <a {% if partner.url != '' %} href="{{ partner.url }}" {% endif %} target="_blank"
-            class="flex-shrink-0 w-1/3 sm:w-1/3 md:w-1/5">
-            <img src="{{ partner.image.url }}" alt="{{ partner.name }}"
-                class="object-contain w-full h-24 mx-auto">
-          </a>
-        {% endfor %}
-        
-        {% for partner in education_partners %}
-          <a {% if partner.url != '' %} href="{{ partner.url }}" {% endif %} target="_blank"
-            class="flex-shrink-0 w-1/3 sm:w-1/3 md:w-1/5">
-            <img src="{{ partner.image.url }}" alt="{{ partner.name }}"
-                class="object-contain w-full h-24 mx-auto">
-          </a>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+  {% include 'slts/partials/education-partners.html' %}
 
 
   <section class="bg-gray-200 mx-auto px-6 py-30">
@@ -216,30 +193,6 @@
 
 </section>
 
-
-<!-- Education Partners Script -->
-<script>
-  const track = document.getElementById('carousel-track');
-  const container = document.getElementById('carousel-container');
-
-  let speed = 1.5; // pixels per frame
-  let offset = 0;
-  let animationId;
-
-  function step() {
-    offset += speed;
-    if(offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
-    track.style.transform = `translateX(-${offset}px)`;
-    animationId = requestAnimationFrame(step);
-  }
-
-  // Start animation
-  animationId = requestAnimationFrame(step);
-
-  // Pause on hover
-  container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
-  container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
-</script>
 
 <!-- FAQs Script -->
 <script>
