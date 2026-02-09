@@ -6,14 +6,14 @@
   <div class="relative w-full overflow-hidden">
     <div class="flex animate-marquee will-change-transform">
       {% for partner in education_partners %}
-        <div class="flex-shrink-0 w-48 mx-8 flex items-center justify-center">
+      <a class="flex-shrink-0 w-48 mx-8 flex items-center justify-center" href="{{ partner.url }}" target="_blank">
           <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="object-contain h-24">
-        </div>
+      </a>
       {% endfor %}
       {% for partner in education_partners %}
-        <div class="flex-shrink-0 w-48 mx-8 flex items-center justify-center">
+      <a class="flex-shrink-0 w-48 mx-8 flex items-center justify-center" href="{{ partner.url }}" target="_blank">
           <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="object-contain h-24">
-        </div>
+      </a>
       {% endfor %}
     </div>
   </div>
