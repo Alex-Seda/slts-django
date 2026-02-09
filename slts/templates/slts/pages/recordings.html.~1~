@@ -1,0 +1,99 @@
+{% extends "slts/base.html" %}
+{% block title %}Recordings{% endblock %}
+
+{% block content %}
+
+<h1 class="text-5xl xl:text-6xl font-bold mb-16 text-center mt-40">{{ year }} Seminar Recordings</h1>
+<hr class="my-4 border-black/20">
+
+<section class="mb-24">
+  <div class="space-y-14 xl:w-300">
+    {% for seminar in past_seminars %}
+      <div class="bg-white rounded-3xl shadow-lg p-10 flex flex-col lg:flex-row gap-12">
+        
+        <!-- Left: Video -->
+        <div class="lg:w-1/2">
+          {% if seminar.to_embed_url %}
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <iframe
+                src="{{ seminar.to_embed_url }}"
+                class="w-full h-full margin-auto"
+                title="Seminar Recording"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          {% else %}
+            <div class="aspect-video flex items-center justify-center rounded-2xl bg-gray-100 text-gray-500 text-lg">
+              Recording not posted yet
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Right: Info -->
+        <div class="lg:w-1/2 flex flex-col gap-6">
+
+
+          <!-- Title -->
+          <h2 class="text-3xl font-semibold leading-snug">
+            {{ seminar.title }}
+          </h2>
+
+          <!-- Subtitle -->
+          {% if seminar.subtitle %}
+            <p class="text-xl text-gray-700 leading-relaxed">
+              {{ seminar.subtitle }}
+            </p>
+          {% endif %}
+
+          <!-- Meta -->
+          <div class="flex flex-wrap gap-4 text-base text-gray-600">
+            <span class="px-4 py-2 rounded-full bg-gray-100">
+              {{ seminar.date }}
+            </span>
+            <span class="
+              px-4 py-2 rounded-full
+              {% if seminar.location == 'north' %}
+                bg-c_bg_purple
+              {% elif seminar.location == 'south' %}
+                bg-orange-100
+              {% else %}
+                bg-gray-100
+              {% endif %}
+              ">
+              {{ seminar.get_location_display }}
+            </span>
+          </div>
+          
+          <!-- Collapsible Description -->
+          {% if seminar.description %}
+            <details class="mt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-primary">
+                Read more about this seminar
+              </summary>
+
+              <div class="mt-4 prose prose-lg max-w-none text-gray-800">
+                {{ seminar.description|safe }}
+              </div>
+            </details>
+          {% endif %}
+
+          <!-- Download Link for Handouts -->
+          {% if seminar.handout %}
+            <a href="{{ seminar.handout.url }}" download class="cursor-pointer text-primary font-semibold text-lg">
+              Download Handout
+            </a>
+          {% endif %}
+
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+{% endblock %}
+
