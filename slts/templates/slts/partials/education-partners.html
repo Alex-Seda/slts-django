@@ -1,14 +1,41 @@
-<section class="bg-white py-20">
+<section class="bg-white py-20 overflow-hidden w-screen">
   <h2 class="text-6xl text-center font-bold text-gray-900 mb-12">
     Education Partners
   </h2>
 
-  <div class="flex flex-wrap justify-center gap-8">
-    {% for partner in education_partners %}
-      <div class="w-32 sm:w-40 md:w-48 lg:w-56 flex items-center justify-center">
-        <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="object-contain h-24 sm:h-28 md:h-32">
-      </div>
-    {% endfor %}
+  <div class="relative w-full overflow-hidden">
+    <div class="flex animate-marquee will-change-transform">
+      {% for partner in education_partners %}
+        <div class="flex-shrink-0 w-48 mx-8 flex items-center justify-center">
+          <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="object-contain h-24">
+        </div>
+      {% endfor %}
+      {% for partner in education_partners %}
+        <div class="flex-shrink-0 w-48 mx-8 flex items-center justify-center">
+          <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="object-contain h-24">
+        </div>
+      {% endfor %}
+    </div>
   </div>
+
+  <style>
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    
+    .animate-marquee {
+      animation: marquee 10s linear infinite;
+      width: max-content;
+    }
+    
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+  </style>
 </section>
 
