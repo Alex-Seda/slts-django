@@ -73,11 +73,11 @@
 
           <!-- Register Button -->
           {% if event.status == "scheduled" %}
-          <a href="{% url 'slts:register' event.id %}"
+          <a href="{% url 'slts:register' event_id=event.id event_type=event_type|slugify %}"
              class="mt-6 inline-block bg-primary text-white text-lg font-semibold mx-auto px-6 py-3 rounded-xl">
             Register
           </a>
-          {% elif event.status == "completed" and event.url != "" %}
+          {% elif event.status == "completed" and event.url != "" and event_type == "Seminar" %}
             <a href="{% url 'slts:recordings' 2026 %}"
              class="mt-6 inline-block bg-primary text-white text-lg font-semibold mx-auto px-6 py-3 rounded-xl">
             View Recording

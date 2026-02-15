@@ -11,11 +11,11 @@ urlpatterns = [
     path("", views.home, name="home"),
 
     # Seminars Related Pages
-    path("<str:req_event_type>/schedule/", views.schedule, name="schedule"),
+    path("<str:event_type>/schedule/", views.schedule, name="schedule"),
     path("<int:year>/seminar_recordings/", views.recordings, name="recordings"),
 
     # Registration Related Pages
-    path("<int:seminar_id>/register/", views.register, name="register"),
+    path("<str:event_type>/<int:event_id>/register/", views.register, name="register"),
     path('seminars/<int:seminar_id>/register/submit/', views.register_submit, name='register_submit'),
     path('<int:seminar_id>/registration-success/', views.registration_success, name='registration_success'),
 

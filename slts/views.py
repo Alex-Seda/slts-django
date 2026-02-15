@@ -28,34 +28,49 @@ def home(request):
     }
     return HttpResponse(template.render(context, request))
 
-def schedule(request, req_event_type):
-    if(req_event_type == 'seminars'):
+
+def schedule(request, event_type):
+    if(event_type == 'seminars'):
         context = {
             "event_type": "Seminar", 
             "events": Seminar.objects.get_seminars_by_year(2026)
         }
-    elif(req_event_type == 'tours'):
+    elif(event_type == 'tours'):
         context = {
             "event_type": "Tour", 
             "events": OtherEvent.objects.get_tours()
         }
-    elif(req_event_type == 'expert-insights'):
+    elif(event_type == 'expert-insights'):
         context = {
             "event_type": "Expert Insights", 
             "events": OtherEvent.objects.get_expert_insights()
         }
     else:
         return redirect('slts:home')
+
     template = loader.get_template("slts/pages/schedule.html")
     return HttpResponse(template.render(context, request))
 
-def register(request, seminar_id):
-    seminar = get_object_or_404(Seminar, pk=seminar_id)
-    if not (seminar.status == "scheduled"):
+
+def register(request, event_id, event_type):
+    form = AttendeeForm()
+
+    if(event_type == 'seminar'):
+        event = get_object_or_404(Seminar, pk=event_id)
+        context = {"form": form, "event": event, "event_type":"Seminar"}
+    elif(event_type == 'tour'):
+        event = get_object_or_404(OtherEvent, pk=event_id)
+        context = {"form": form, "event": event, "event_type":"Tour"}
+    elif(event_type == 'expert-insights'):
+        event = get_object_or_404(OtherEvent, pk=event_id)
+        context = {"form": form, "event": event, "event_type":"Expert Insights"}
+    else:
+        return redirect('slts:home')
+ 
+    
+    if not (event.status == "scheduled"):
         return redirect('slts:home')
     template = loader.get_template("slts/pages/register.html")
-    form = AttendeeForm()
-    context = {"form": form, "seminar": seminar}
     return HttpResponse(template.render(context, request))
 
 

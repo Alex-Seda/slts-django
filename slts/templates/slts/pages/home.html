@@ -23,7 +23,7 @@
       </div>
 
       <!-- Register Button -->
-      <a href="{% url 'slts:register' n_seminar.id %}"
+      <a href="{% url 'slts:register' event_id=n_seminar.id event_type='seminar' %}"
         class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
         Register Now!
       </a>
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Register Button -->
-      <a href="{% url 'slts:register' s_seminar.id %}"
+      <a href="{% url 'slts:register' event_id=s_seminar.id event_type='seminar' %}"
         class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
         Register Now!
       </a>
