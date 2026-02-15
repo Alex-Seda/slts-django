@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib import messages
 from datetime import datetime
-from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet, FAQ, GoogleReview
+from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
 from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse
 from .forms import AttendeeForm
 
@@ -28,14 +28,25 @@ def home(request):
     }
     return HttpResponse(template.render(context, request))
 
-def seminars(request):
-    campus = request.GET.get("campus", "all")
-    seminars_2026 = Seminar.objects.get_seminars_by_year(2026)
-    template = loader.get_template("slts/pages/seminars.html")
-    context = {
-        "campus": campus,
-        "seminars_2026": seminars_2026,
-    }
+def schedule(request, req_event_type):
+    if(req_event_type == 'seminar'):
+        context = {
+            "event_type": "Seminar", 
+            "events": Seminar.objects.get_seminars_by_year(2026)
+        }
+    elif(req_event_type == 'tours'):
+        context = {
+            "event_type": "Tour", 
+            "events": OtherEvent.objects.get_tours()
+        }
+    elif(req_event_type == 'expert-insights'):
+        context = {
+            "event_type": "Expert Insights", 
+            "events": OtherEvent.objects.get_expert_insights()
+        }
+    else:
+        return redirect('slts:home')
+    template = loader.get_template("slts/pages/schedule.html")
     return HttpResponse(template.render(context, request))
 
 def register(request, seminar_id):
