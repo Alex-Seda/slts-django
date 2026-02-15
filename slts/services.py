@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from datetime import time, timedelta, date, datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from .models import Seminar, Registration, Attendee
+from .models import Seminar, OtherEvent, Registration, Attendee
 
 
 logger = logging.getLogger(__name__)
@@ -56,18 +56,24 @@ def normalize_phone(phone: str | None) -> str | None:
     return digits
 
 
-def send_confirmation_email(email, seminar_id):
-    seminar = get_object_or_404(Seminar, id=seminar_id)
-    subject = "Senior Living Truth Series Confirmation - " + seminar.date.strftime("%B") + " " + str(seminar.date.year)
+def send_confirmation_email(email, event_id, event_type):
+    if(event_type == 'seminar'):
+        event = get_object_or_404(Seminar, id=event_id)
+    else:
+        event = get_object_or_404(OtherEvent, id=event_id)
+
+    subtitle = getattr(event, "subtitle", None)
+    
+    subject = "Senior Living Truth Series Confirmation - " + event.date.strftime("%B") + " " + str(event.date.year)
     html_message = f"""
     <p>Thank you for registering for:<br></p>
 
-    <p><b>{seminar.title}{' : ' if seminar.subtitle != '' else ''}{seminar.subtitle}</b><br></p>
+    <p><b>{event.title}{' : ' if subtitle else ''}{subtitle or ''}</b><br></p>
 
-    <p><strong>{seminar.date.strftime("%A").upper()}</strong>, {seminar.date.strftime("%B")} {seminar.date.day} @ {seminar.time.strftime("%I:%M %p")} 
-    (Doors open at {(datetime.combine(date.today(), seminar.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br></p>
+    <p><strong>{event.date.strftime("%A").upper()}</strong>, {event.date.strftime("%B")} {event.date.day} @ {event.time.strftime("%I:%M %p")} 
+    (Doors open at {(datetime.combine(date.today(), event.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br></p>
 
-    {NORTH_ADDRESS if seminar.location =='north' else SOUTH_ADDRESS}
+    {NORTH_ADDRESS if event.location =='north' else SOUTH_ADDRESS}
 
     <p>P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!<br></p>
 
