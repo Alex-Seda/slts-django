@@ -31,7 +31,7 @@
     <span class="font-semibold text-c_purple">{{ event.date }}</span>
   </p>
 
-  <form action="{% url 'slts:register_submit' event.id %}" method="post" class="space-y-4">
+  <form action="{% url 'slts:register_submit' event_id=event.id event_type=event_type|slugify %}" method="post" class="space-y-4">
     {% csrf_token %}
 
     {% for field in form %}

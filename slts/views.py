@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib import messages
 from datetime import datetime
-from .models import EducationPartner, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
+from .models import EducationPartner, EventRegistration, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
 from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse
 from .forms import AttendeeForm
 
@@ -66,6 +66,11 @@ def register(request, event_id, event_type):
         context = {"form": form, "event": event, "event_type":"Expert Insights"}
     else:
         return redirect('slts:home')
+
+    # Right now, there is a bug where you can enter tour as the event_type but pick an id
+    # that is an expert insights, and it will render the expert insights
+    # This happens because they are from the same model. Maybe use the OtherEventQuerySet
+    # to use get_object_or_404 but with a filter? 
  
     
     if not (event.status == "scheduled"):
@@ -74,17 +79,31 @@ def register(request, event_id, event_type):
     return HttpResponse(template.render(context, request))
 
 
-def register_submit(request, seminar_id):
-    form = AttendeeForm(request.POST)
-    seminar = get_object_or_404(Seminar, id=seminar_id)
+def register_submit(request, event_id, event_type):
     if request.method != "POST":
-        return HttpResponseNotAllowed(["POST"])
+            return HttpResponseNotAllowed(["POST"])
+
+    form = AttendeeForm(request.POST)
+    allowed = {"seminar", "tour", "expert-insights"}
+
+    # Ensure that the url parameter is an expected value
+    if event_type not in allowed:
+        previous = request.META.get("HTTP_REFERER")
+        if previous:
+            return redirect(previous)
+        raise Http404()
+
+    # Get event object
+    if(event_type == 'seminar'):
+        event = get_object_or_404(Seminar, pk=event_id)
+    else:
+        event = get_object_or_404(OtherEvent, pk=event_id)
 
 
     # If form does not pass the validation check, do not proceed
     # (This uses the validation functions in the AttendeeForm)
     if not form.is_valid():
-        return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar},)
+        return render(request, "slts/pages/register.html", {"form": form, "event": event, "event_type": event_type},)
 
 
     # Get all fields from form submission
@@ -104,17 +123,23 @@ def register_submit(request, seminar_id):
     # Ensure that basic contact info is provided. Email or phone at least.
     if not ((email or phone) and address and city and first_name and last_name):
         messages.error(request, "You must provide your name and address.\n You must also provide an email AND/OR a phone number.")
-        return render(request, "slts/pages/register.html", {"form": form, "seminar": seminar})
+        return render(request, "slts/pages/register.html", {"form": form, "event": event, "event_type": event_type},)
 
 
     try:
         attendee = get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from)
-        Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
+        if(event_type == 'seminar'):
+            Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
+        else:
+            EventRegistration.objects.get_or_create(attendee=attendee, event=event)
 
         # Optional spouse
         if spouse_first_name:
             spouse = get_or_create_spouse(spouse_first_name, last_name, email, phone, address, city, zip_code, heard_from, attendee)
-            Registration.objects.get_or_create(attendee=spouse, seminar=seminar)
+            if(event_type == 'seminar'):
+                Registration.objects.get_or_create(attendee=spouse, seminar=seminar)
+            else:
+                EventRegistration.objects.get_or_create(attendee=spouse, event=event)
 
     except Exception as e:
         messages.error(
@@ -122,28 +147,33 @@ def register_submit(request, seminar_id):
             "We couldn’t process your registration. Please check your spelling and try again."
         )
         print("Registration error: ", e)
-
-        return render(
-            request,
-            "slts/pages/register.html",
-            {
-                "form": form,       # autopopulate filled in data
-                "seminar": seminar,
-            },
-        )
+        return render(request, "slts/pages/register.html", {"form": form, "event": event, "event_type": event_type},)
 
 
     if email:
-        send_confirmation_email(email, seminar.id)
+        send_confirmation_email(email, event.id, event_type)
 
-    return redirect("slts:registration_success", seminar_id=seminar_id)
+    return redirect("slts:registration_success", event_id=event_id, event_type=event_type)
 
+# Fix this to work for all events
+def registration_success(request, event_id, event_type):
+    
+    # Ensure that the url parameter is an expected value
+    allowed = {"seminar", "tour", "expert-insights"}
+    if event_type not in allowed:
+        previous = request.META.get("HTTP_REFERER")
+        if previous:
+            return redirect(previous)
+        raise Http404()
 
-def registration_success(request,seminar_id):
+    # Get event object
+    if(event_type == 'seminar'):
+        event = get_object_or_404(Seminar, pk=event_id)
+    else:
+        event = get_object_or_404(OtherEvent, pk=event_id)
+
+    context = {"event": event}
     template = loader.get_template("slts/pages/registration_success.html")
-    seminar = get_object_or_404(Seminar, id=seminar_id)
-
-    context = {"seminar": seminar}
 
     return HttpResponse(template.render(context, request))
 
