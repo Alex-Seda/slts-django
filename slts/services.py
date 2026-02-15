@@ -139,8 +139,8 @@ def get_or_create_attendee(first_name, last_name, email, phone, address, city, z
     attendee = candidates.filter(first_name__iexact=first_name).first()
     if not attendee:
         attendee = Attendee.objects.create(
-            first_name=first_name.title(),
-            last_name=last_name.title(),
+            first_name=first_name.strip().title(),
+            last_name=last_name.strip().title(),
             email=email,
             phone=phone,
             address=address,
