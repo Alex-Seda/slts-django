@@ -1,6 +1,6 @@
 {% extends "slts/base.html" %}
 {% load widget_tweaks %}
-{% block title %}Register{% endblock %}
+{% block title %}{{ event_type }} Registration{% endblock %}
 
 {% block content %}
 
@@ -19,19 +19,19 @@
 
 <div class="max-w-3xl sm:min-w-xl mx-auto bg-white shadow-lg rounded-2xl p-10 space-y-6">
   
-  <h1 class="text-3xl font-bold text-gray-900 text-center">Register</h1>
+  <h1 class="text-3xl font-bold text-gray-900 text-center">{{ event_type }} Registration</h1>
   
   <p class="text-gray-700">
     You’re registering for: 
-    <span class="font-semibold text-c_purple">{{ seminar.title }}</span>
+    <span class="font-semibold text-c_purple">{{ event.title }}</span>
   </p>
   
   <p class="text-gray-700">
     That will be held on: 
-    <span class="font-semibold text-c_purple">{{ seminar.date }}</span>
+    <span class="font-semibold text-c_purple">{{ event.date }}</span>
   </p>
 
-  <form action="{% url 'slts:register_submit' seminar.id %}" method="post" class="space-y-4">
+  <form action="{% url 'slts:register_submit' event.id %}" method="post" class="space-y-4">
     {% csrf_token %}
 
     {% for field in form %}
