@@ -11,7 +11,7 @@ urlpatterns = [
     path("", views.home, name="home"),
 
     # Seminars Related Pages
-    path("seminars/", views.seminars, name="seminars"),
+    path("<str:req_event_type>/schedule/", views.schedule, name="schedule"),
     path("<int:year>/seminar_recordings/", views.recordings, name="recordings"),
 
     # Registration Related Pages

@@ -42,11 +42,11 @@ class SeminarQuerySet(models.QuerySet):
         )
 
 
-class EventQuerySet(models.QuerySet):
+class OtherEventQuerySet(models.QuerySet):
     def get_tours(self):
-        return self.filter(type='tour')
+        return self.filter(event_type='tour')
     def get_expert_insights(self):
-        return self.filter(type='exin')
+        return self.filter(event_type='exin')
 
 
 class Seminar(models.Model):
@@ -119,7 +119,7 @@ class OtherEvent(models.Model):
     status = models.CharField(max_length=9, choices=EVENT_STATUS_CHOICES)
     image = models.ImageField(upload_to='events/', blank=True)
 
-    objects = EventQuerySet.as_manager()
+    objects = OtherEventQuerySet.as_manager()
 
     def __str__(self):
         return self.title
