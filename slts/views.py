@@ -29,7 +29,7 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 def schedule(request, req_event_type):
-    if(req_event_type == 'seminar'):
+    if(req_event_type == 'seminars'):
         context = {
             "event_type": "Seminar", 
             "events": Seminar.objects.get_seminars_by_year(2026)

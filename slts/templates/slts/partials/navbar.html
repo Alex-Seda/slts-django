@@ -16,7 +16,19 @@
     <!-- Desktop Navigation -->
     <div class="hidden lg:flex gap-4 text-xl text-center items-center">
       <a href="{% url 'slts:home' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">Home</a>
-      <a href="{% url 'slts:schedule' 'seminar' %}" class="hover:bg-c_purple px-1 py-1 rounded-md">2026 Schedule</a>
+      <div class="relative group inline-block">
+        <!-- Button -->
+        <span class="px-4 py-2 rounded-lg cursor-pointer hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out font-medium">
+          2026 Schedules
+        </span>
+
+        <!-- Dropdown -->
+        <div class="absolute left-0 top-full mt-1 hidden group-hover:block w-full bg-c_dark_purple border border-c_purple rounded-md shadow-xl z-50">
+          <a href="{% url 'slts:schedule' 'seminars' %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">Seminars</a>
+          <a href="{% url 'slts:schedule' 'tours' %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">Tours</a>
+          <a href="{% url 'slts:schedule' 'expert-insights' %}" class="block px-4 py-3 hover:bg-c_purple hover:text-white transition-colors duration-200 ease-in-out">Expert Insights</a>
+        </div>
+      </div>
       
       <div class="relative group inline-block">
         <!-- Button -->
@@ -76,7 +88,22 @@
     </button>
 
     <a href="{% url 'slts:home' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">Home</a>
-    <a href="{% url 'slts:schedule' 'seminar' %}" class="hover:bg-c_purple px-4 py-3 rounded-md">2026 Schedule</a>
+    <!-- Recordings Dropdown -->
+    <div class="flex flex-col">
+      <button id="recordings-btn"
+              class="flex justify-between items-center w-full px-4 py-3 hover:bg-c_purple rounded-md focus:outline-none">
+        2026 Schedules
+        <svg id="recordings-chevron" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div id="recordings-submenu" class="flex flex-col ml-4 mt-1 space-y-1 hidden">
+        <a href="{% url 'slts:schedule' 'seminars' %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">Seminars</a>
+        <a href="{% url 'slts:schedule' 'tours' %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">Tours</a>
+        <a href="{% url 'slts:schedule' 'expert-insights' %}" class="px-4 py-2 hover:bg-c_purple rounded-md transition-colors">Expert Insights</a>
+      </div>
+    </div>
     
     <!-- Recordings Dropdown -->
     <div class="flex flex-col">
