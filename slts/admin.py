@@ -15,11 +15,15 @@ class RegistrationInline(admin.TabularInline):
     model = Registration
     autocomplete_fields = ['attendee', 'seminar']
     extra = 0
+    verbose_name = "Seminar Registration"
+    verbose_name_plural = "Seminar Registrations"
 
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
     autocomplete_fields = ['attendee', 'event']
     extra = 0
+    verbose_name = "Other Event Registration"
+    verbose_name_plural = "Other Event Registrations"
 
 
 class TagListFilter(admin.SimpleListFilter):
@@ -226,7 +230,7 @@ class AttendeeAdmin(admin.ModelAdmin):
         ]}),
 
     ]
-    inlines = [RegistrationInline]
+    inlines = [RegistrationInline, EventRegistrationInline]
 
     list_per_page = 10
 
