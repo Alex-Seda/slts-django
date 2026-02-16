@@ -129,7 +129,7 @@ def register_submit(request, event_id, event_type):
     try:
         attendee = get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from)
         if(event_type == 'seminar'):
-            Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
+            Registration.objects.get_or_create(attendee=attendee, seminar=event)
         else:
             EventRegistration.objects.get_or_create(attendee=attendee, event=event)
 
@@ -137,7 +137,7 @@ def register_submit(request, event_id, event_type):
         if spouse_first_name:
             spouse = get_or_create_spouse(spouse_first_name, last_name, email, phone, address, city, zip_code, heard_from, attendee)
             if(event_type == 'seminar'):
-                Registration.objects.get_or_create(attendee=spouse, seminar=seminar)
+                Registration.objects.get_or_create(attendee=spouse, seminar=event)
             else:
                 EventRegistration.objects.get_or_create(attendee=spouse, event=event)
 
