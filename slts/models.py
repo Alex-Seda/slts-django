@@ -220,7 +220,7 @@ class EventRegistration(models.Model):
     status = models.CharField(max_length=10, default="registered", choices=REGISTRATION_STATUS_CHOICES)
 
     def __str__(self):
-        return self.attendee.first_name + " " + self.attendee.last_name + " | \"" + self.event.title + "\""
+        return self.event.get_event_type_display().upper() + " : " + self.attendee.first_name + " " + self.attendee.last_name + ", \"" + self.event.title + "\""
 
 
 class EducationPartner(models.Model):
