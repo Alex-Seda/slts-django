@@ -126,6 +126,10 @@ class OtherEvent(models.Model):
 
 
 class Attendee(models.Model):
+
+    class Meta:
+        ordering = ["last_name","first_name"]
+
     HEARD_FROM_CHOICES = {
         "friend"            : "Friend",
         "edmond l and l"    : "Edmond L&L",
