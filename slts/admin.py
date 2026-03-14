@@ -70,6 +70,13 @@ class SeminarAdmin(SummernoteModelAdmin):
         )
     average_rating_display.short_description = "Average Rating"
 
+    # Link to registrations page
+    def view_registrations_link(self, obj):
+        # link to Registration changelist filtered by this seminar
+        url = reverse("admin:slts_registration_changelist") + f"?seminar__id__exact={obj.id}"
+        return format_html('<a href="{}">View All Registrations</a>', url)
+    view_registrations_link.short_description = "Registrations"
+
     # Add Export URL for Post Requests
     def get_urls(self):
         urls = super().get_urls()
@@ -113,6 +120,7 @@ class SeminarAdmin(SummernoteModelAdmin):
         'date',
         'location',
         'status',
+        'view_registrations_link',
     ]
 
     list_filter = [
@@ -149,7 +157,7 @@ class SeminarAdmin(SummernoteModelAdmin):
             'location',
         ]}),
     ]
-    inlines = [RegistrationInline]
+    #inlines = [RegistrationInline]
 
 
 
@@ -336,9 +344,36 @@ class OtherEventAdmin(SummernoteModelAdmin):
     ]
     inlines = [EventRegistrationInline]
 
+class RegistrationAdmin(admin.ModelAdmin):
+    list_display = ('attendee', 'seminar', 'status')
+    list_filter = ('seminar','status')
+    search_fields = ('attendee__first_name', 'attendee__last_name', 'seminar__title')
+    autocomplete_fields = ('attendee', 'seminar')
+    list_per_page = 30
+
+    actions = ['mark_attended']
+
+    @admin.action(description="Mark selected registrations as Attended")
+    def mark_attended(self, request, queryset):
+        updated = queryset.update(status='attended')
+        self.message_user(
+            request, f"{updated} registration(s) marked as confirmed."
+        )
+
+    readonly_fields = ['attendee', 'seminar']
+    fieldsets = [
+        ('Registration', {'fields': [
+            'attendee',
+            'seminar',
+            'status',
+            'rating'
+        ]})
+    ]
+
 
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Seminar, SeminarAdmin)
+admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(OtherEvent, OtherEventAdmin)
 admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
