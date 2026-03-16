@@ -18,5 +18,12 @@
                 </a>
             </li>
         {% endif %}
+        {% if seminar_export_raw %}
+            <li class="list-none">
+                <a href="{{ seminar_export_raw }}" class="btn btn-primary">
+                    Export All Attendee Info
+                </a>
+            </li>
+        {% endif %}
     </div>
 {% endblock %}

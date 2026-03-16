@@ -139,31 +139,27 @@ def export_attendees_raw_csv(seminar):
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        f'attachment; filename="full_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
+        f'attachment; filename="attendee_dump_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
     )
 
     writer = csv.writer(response)
     writer.writerow(["First Name", "Last Name", "Married To", "Address", "City", "State",
-                     "Zip Code", "Email", "Heard From", "Local", "Deceased", "Notes",
-                     "Tags", "Birthday"])
+                     "Zip Code", "Phone", "Email", "Heard From", "Local", "Notes"])
 
     for reg in registrations:
         writer.writerow([
             reg.attendee.first_name,
             reg.attendee.last_name,
-            reg.attendee.married_to,
+            f"{reg.attendee.married_to.first_name if reg.attendee.married_to else ''} {reg.attendee.married_to.last_name if reg.attendee.married_to else ''}",
             reg.attendee.address,
             reg.attendee.city,
             reg.attendee.state,
             reg.attendee.zip_code,
             reg.attendee.phone,
             reg.attendee.email,
-            reg.attendee.heard_from,
+            f"{reg.attendee.heard_from if reg.attendee.heard_from else ''}",
             reg.attendee.local,
-            reg.attendee.deceased,
-            reg.attendee.notes,
-            reg.attendee.tags,
-            reg.attendee.birthday
+            f"{reg.attendee.notes if reg.attendee.notes else ''}",
         ])
 
     return response
