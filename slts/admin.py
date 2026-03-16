@@ -91,6 +91,10 @@ class SeminarAdmin(SummernoteModelAdmin):
                 self.admin_site.admin_view(export_nametags),
                 name="seminar_export_nametags",
             ),
+            path(
+                "<int:seminar_id>/export_raw/",
+                self.admin.site.admin_view(export_raw),
+                name="seminar_export_raw"
         ]
         return custom_urls + urls
 
@@ -103,6 +107,10 @@ class SeminarAdmin(SummernoteModelAdmin):
         )
         extra_context["seminar_export_nametags"] = reverse(
             "admin:seminar_export_nametags",
+            args=[object_id],
+        )
+        extra_context["seminar_export_raw"] = reverse(
+            "admin:seminar_export_raw",
             args=[object_id],
         )
         return super().change_view(request, object_id, form_url, extra_context)
