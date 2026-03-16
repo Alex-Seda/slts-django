@@ -110,10 +110,6 @@ class SeminarAdmin(SummernoteModelAdmin):
             "admin:seminar_export_nametags",
             args=[object_id],
         )
-        extra_context["seminar_export_nametags"] = reverse(
-            "admin:seminar_export_nametags",
-            args=[object_id],
-        )
         extra_context["seminar_export_raw"] = reverse(
             "admin:seminar_export_raw",
             args=[object_id],
