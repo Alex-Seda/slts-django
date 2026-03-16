@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
-from .admin_views import export_signin, export_nametags
+from .admin_views import export_signin, export_nametags, export_raw
 from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview
 
 
@@ -93,8 +93,9 @@ class SeminarAdmin(SummernoteModelAdmin):
             ),
             path(
                 "<int:seminar_id>/export_raw/",
-                self.admin.site.admin_view(export_raw),
+                self.admin_site.admin_view(export_raw),
                 name="seminar_export_raw"
+            ),
         ]
         return custom_urls + urls
 
@@ -103,6 +104,10 @@ class SeminarAdmin(SummernoteModelAdmin):
         extra_context = extra_context or {}
         extra_context["seminar_export_signin"] = reverse(
             "admin:seminar_export_signin",
+            args=[object_id],
+        )
+        extra_context["seminar_export_nametags"] = reverse(
+            "admin:seminar_export_nametags",
             args=[object_id],
         )
         extra_context["seminar_export_nametags"] = reverse(

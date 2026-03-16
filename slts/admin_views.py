@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from .models import Seminar
-from .services import export_sign_in_sheet_csv, export_nametags_csv
+from .services import export_sign_in_sheet_csv, export_nametags_csv, export_attendees_raw_csv
 
 @staff_member_required
 def export_signin(request, seminar_id):
