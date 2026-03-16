@@ -134,6 +134,39 @@ def export_nametags_csv(seminar, include_header=False):
 
     return response
 
+def export_attendees_raw_csv(seminar):
+    registrations = _registrations_for_seminar(seminar)
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        f'attachment; filename="full_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(["First Name", "Last Name", "Married To", "Address", "City", "State",
+                     "Zip Code", "Email", "Heard From", "Local", "Deceased", "Notes",
+                     "Tags", "Birthday"])
+
+    for reg in registrations:
+        writer.writerow([
+            reg.attendee.first_name,
+            reg.attendee.last_name,
+            reg.attendee.married_to,
+            reg.attendee.address,
+            reg.attendee.city,
+            reg.attendee.state,
+            reg.attendee.zip_code,
+            reg.attendee.phone,
+            reg.attendee.email,
+            reg.attendee.heard_from,
+            reg.attendee.local,
+            reg.attendee.deceased,
+            reg.attendee.notes,
+            reg.attendee.tags,
+            reg.attendee.birthday
+        ])
+
+    return response
 
 
 def get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from):

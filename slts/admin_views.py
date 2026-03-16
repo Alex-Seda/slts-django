@@ -14,3 +14,9 @@ def export_signin(request, seminar_id):
 def export_nametags(request, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
     return export_nametags_csv(seminar)
+
+
+@staff_member_required
+def export_raw(request, seminar_id):
+    seminar = get_object_or_404(Seminar, id=seminar_id)
+    return export_attendees_raw_csv(seminar)
