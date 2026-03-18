@@ -358,7 +358,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_filter = ('seminar','status')
     search_fields = ('attendee__first_name', 'attendee__last_name', 'seminar__title')
     autocomplete_fields = ('attendee', 'seminar')
-    list_per_page = 30
+    list_per_page = 10
 
     actions = ['mark_attended']
 
