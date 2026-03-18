@@ -369,7 +369,12 @@ class RegistrationAdmin(admin.ModelAdmin):
             request, f"{updated} registration(s) marked as confirmed."
         )
 
-    readonly_fields = ['attendee', 'seminar']
+    # Make attendee and seminar editable only when adding a registration
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['attendee','seminar']
+        return []
+
     fieldsets = [
         ('Registration', {'fields': [
             'attendee',
