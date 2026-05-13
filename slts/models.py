@@ -44,9 +44,9 @@ class SeminarQuerySet(models.QuerySet):
 
 class OtherEventQuerySet(models.QuerySet):
     def get_tours(self):
-        return self.filter(event_type='tour')
+        return self.filter(event_type='tour').exclude(status="draft").order_by("date")
     def get_expert_insights(self):
-        return self.filter(event_type='exin')
+        return self.filter(event_type='exin').exclude(status="draft").order_by("date")
 
 
 class Seminar(models.Model):
