@@ -94,11 +94,6 @@ class Seminar(models.Model):
 
 
 class OtherEvent(models.Model):
-    LOCATION_CHOICES = {
-        "north": "North Campus (Francis Tuttle)",
-        "south": "South Campus (MNTC, S. Penn)",
-    }
-
     EVENT_STATUS_CHOICES = {
         "draft" : "Draft",
         "scheduled" : "Scheduled",
@@ -115,7 +110,10 @@ class OtherEvent(models.Model):
     description = models.TextField(blank=True)
     date = models.DateField()
     time = models.TimeField(default=time(10,0))
-    location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
+    address = models.CharField(max_length=60)
+    city = models.CharField(max_length=20)
+    state = USStateField(default="OK")
+    zip_code = USZipCodeField(blank=True)
     status = models.CharField(max_length=9, choices=EVENT_STATUS_CHOICES)
     image = models.ImageField(upload_to='events/', blank=True)
 
