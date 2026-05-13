@@ -360,13 +360,20 @@ class RegistrationAdmin(admin.ModelAdmin):
     autocomplete_fields = ('attendee', 'seminar')
     list_per_page = 10
 
-    actions = ['mark_attended']
+    actions = ['mark_attended','mark_cancelled']
 
     @admin.action(description="Mark selected registrations as Attended")
     def mark_attended(self, request, queryset):
         updated = queryset.update(status='attended')
         self.message_user(
-            request, f"{updated} registration(s) marked as confirmed."
+            request, f"{updated} registration(s) marked as attended."
+        )
+
+    @admin.action(description="Mark selected registrations as Cancelled")
+    def mark_cancelled(self, request, queryset):
+        updated = queryset.update(status='cancelled')
+        self.message_user(
+            request, f"{updated} registration(s) marked as cancelled."
         )
 
     # Make attendee and seminar editable only when adding a registration
