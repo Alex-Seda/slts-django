@@ -19,8 +19,8 @@ def home(request):
     current_year = datetime.now().year
     template = loader.get_template("slts/pages/home.html")
     context = {
-        "n_seminar": n_seminar, 
-        "s_seminar": s_seminar, 
+        "n_seminar": n_seminar,
+        "s_seminar": s_seminar,
         "education_partners": education_partners,
         "testimonials": testimonials,
         "current_year": current_year,
@@ -32,17 +32,17 @@ def home(request):
 def schedule(request, event_type):
     if(event_type == 'seminars'):
         context = {
-            "event_type": "Seminar", 
+            "event_type": "Seminar",
             "events": Seminar.objects.get_seminars_by_year(2026)
         }
     elif(event_type == 'tours'):
         context = {
-            "event_type": "Tour", 
+            "event_type": "Tour",
             "events": OtherEvent.objects.get_tours()
         }
     elif(event_type == 'expert-insights'):
         context = {
-            "event_type": "Expert Insights", 
+            "event_type": "Expert Insights",
             "events": OtherEvent.objects.get_expert_insights()
         }
     else:
@@ -71,8 +71,8 @@ def register(request, event_id, event_type):
     # that is an expert insights, and it will render the expert insights
     # This happens because they are from the same model. Maybe use the OtherEventQuerySet
     # to use get_object_or_404 but with a filter? 
- 
-    
+
+
     if not (event.status == "scheduled"):
         return redirect('slts:home')
     template = loader.get_template("slts/pages/register.html")
@@ -157,7 +157,7 @@ def register_submit(request, event_id, event_type):
 
 # Fix this to work for all events
 def registration_success(request, event_id, event_type):
-    
+
     # Ensure that the url parameter is an expected value
     allowed = {"seminar", "tour", "expert-insights"}
     if event_type not in allowed:
