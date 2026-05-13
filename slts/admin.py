@@ -318,19 +318,19 @@ class OtherEventAdmin(SummernoteModelAdmin):
 
     search_fields = [
         'title',
+        'address'
     ]
 
     list_display = [
         'title',
         'date',
         'event_type',
-        'location',
+        'address',
         'status'
     ]
 
     list_filter = [
         'event_type',
-        'location',
         'status'
     ]
 
@@ -348,7 +348,10 @@ class OtherEventAdmin(SummernoteModelAdmin):
         ('Scheduling', {'fields': [
             'date',
             'time',
-            'location',
+            'address',
+            'city',
+            'state',
+            'zip_code'
         ]}),
     ]
     inlines = [EventRegistrationInline]
