@@ -59,17 +59,6 @@ class SeminarAdmin(SummernoteModelAdmin):
         )
     attendance_summary.short_description = "Attendance"
 
-    # Average rating for quick view of seminar ratings
-    def average_rating_display(self, obj):
-        avg = obj.registrations.aggregate(avg=Avg('rating'))['avg'] or 0
-        stars = '★' * round(avg) + '☆' * (5 - round(avg))
-
-        return format_html(
-            '<div>      <span style="font-size:32px;">{}</span>     <strong style="font-size:16px;">({})</strong>       </div>',
-            stars, avg
-        )
-    average_rating_display.short_description = "Average Rating"
-
     # Link to registrations page
     def view_registrations_link(self, obj):
         # link to Registration changelist filtered by this seminar
@@ -120,7 +109,6 @@ class SeminarAdmin(SummernoteModelAdmin):
 
     readonly_fields = (
         'attendance_summary',
-        'average_rating_display',
     )
 
     # Admin table settings
@@ -147,7 +135,6 @@ class SeminarAdmin(SummernoteModelAdmin):
     fieldsets = [
         ('Overview', {'fields': [
             'attendance_summary',
-            'average_rating_display',
         ]}),
 
         ('Edit Content', {'fields': [
@@ -390,7 +377,6 @@ class RegistrationAdmin(admin.ModelAdmin):
             'attendee',
             'seminar',
             'status',
-            'rating'
         ]})
     ]
 
