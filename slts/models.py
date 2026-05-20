@@ -16,7 +16,7 @@ class SeminarQuerySet(models.QuerySet):
         return self.filter(status="completed")
 
     def get_next_north_seminar(self):
-        return (self.filter(location="north", status="scheduled")
+        return (self.filter(location__in=["north", "new_north"], status="scheduled")
         .order_by("date")
         .first())
 
@@ -53,6 +53,7 @@ class Seminar(models.Model):
     LOCATION_CHOICES = {
         "north": "North Campus (Francis Tuttle)",
         "south": "South Campus (MNTC, S. Penn)",
+        "new_north": "North Campus (Portland)",
     }
 
     SEMINAR_STATUS_CHOICES = {
@@ -66,7 +67,7 @@ class Seminar(models.Model):
     description = models.TextField(blank=True)
     date = models.DateField()
     time = models.TimeField(default=time(10,0))
-    location = models.CharField(max_length=5, choices=LOCATION_CHOICES)
+    location = models.CharField(max_length=9, choices=LOCATION_CHOICES)
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
     image = models.ImageField(upload_to='seminars/', blank=True)
     handout = models.FileField(upload_to='seminar-handouts/', blank=True)

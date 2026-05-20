@@ -29,6 +29,13 @@ Oklahoma City, OK 73170<br>
 (Follow The Purple Signs)<br></p>'''
 
 
+PORTLAND_ADDRESS='''
+<p><b>Portland Campus</b> (Francis Tuttle Technology Center)<br>
+3500 NW 150th Street,<br>
+Oklahoma City, OK 73134<br>
+(Follow The Purple Signs)<br></p>'''
+
+
 def _registrations_for_seminar(seminar):
     return (
         Registration.objects
@@ -63,8 +70,16 @@ def send_confirmation_email(email, event_id, event_type):
         event = get_object_or_404(OtherEvent, id=event_id)
 
     subtitle = getattr(event, "subtitle", None)
-    
+
     subject = "Senior Living Truth Series Confirmation - " + event.date.strftime("%B") + " " + str(event.date.year)
+
+    if event.location == 'north':
+        address = NORTH_ADDRESS
+    elif event.location == 'new_north':
+        address = PORTLAND_ADDRESS
+    else:
+        address = SOUTH_ADDRESS
+
     html_message = f"""
     <p>Thank you for registering for:<br></p>
 
@@ -73,7 +88,7 @@ def send_confirmation_email(email, event_id, event_type):
     <p><strong>{event.date.strftime("%A").upper()}</strong>, {event.date.strftime("%B")} {event.date.day} @ {event.time.strftime("%I:%M %p")} 
     (Doors open at {(datetime.combine(date.today(), event.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br></p>
 
-    {NORTH_ADDRESS if event.location =='north' else SOUTH_ADDRESS}
+    {address}
 
     <p>P.S. We know things can happen, so if you have registered and then can't make it after all, <strong>please call or text us at 405.452.0758</strong> and we will update your registration. Similarly, if you plan to bring a friend, send us a note or call to let us know who to expect!<br></p>
 
@@ -89,7 +104,7 @@ def send_confirmation_email(email, event_id, event_type):
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
         )
-    except BaseException as e:  
+    except BaseException as e:
         logger = logging.getLogger(__name__)
         logger.error(f"Email failed: {e}")
 
@@ -202,7 +217,7 @@ def get_or_create_spouse(first_name, last_name, email, phone, address, city, zip
             zip_code=zip_code,
             heard_from=heard_from
         )
-        
+
     # Remove old spouse links if either attendee is married
     if attendee.married_to:
         old = attendee.married_to
