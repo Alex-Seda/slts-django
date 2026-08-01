@@ -1,12 +1,18 @@
+import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.utils.dateparse import parse_date
 from django.db import IntegrityError
 from django.contrib import messages
+from django.conf import settings
 from datetime import datetime
 from .models import EducationPartner, EventRegistration, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
-from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse
+from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse, check_api_key
 from .forms import AttendeeForm
 
 
@@ -176,6 +182,15 @@ def registration_success(request, event_id, event_type):
     template = loader.get_template("slts/pages/registration_success.html")
 
     return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+@require_POST
+def api_register_submit(request):
+    if not check_api_key(request):
+        return JsonResponse({"status": "fail", "error": "unauthorized"}, status=401)
+
+    return JsonResponse({"status": "success"}, status=200)
+
 
 
 def recordings(request, year):

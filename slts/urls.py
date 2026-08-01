@@ -24,6 +24,9 @@ urlpatterns = [
     path("about_us/", views.about, name="about"),
     path("terms-of-use/", views.terms_of_use, name="terms_of_use"),
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
+
+    # API URL
+    path('api/register/submit/', views.api_register_submit, name='api_register_submit'),
 ]
 
 
