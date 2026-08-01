@@ -2,9 +2,11 @@ import re
 import os
 import csv
 import logging
+import secrets
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.http import HttpResponse
 from datetime import time, timedelta, date, datetime
 from sendgrid import SendGridAPIClient
@@ -233,3 +235,8 @@ def get_or_create_spouse(first_name, last_name, email, phone, address, city, zip
     spouse.save()
 
     return spouse
+
+
+def check_api_key(request):
+    key = request.headers.get("X-API-Key", "")
+    return secrets.compare_digest(key, os.environ.get("N8N_API_KEY"))
