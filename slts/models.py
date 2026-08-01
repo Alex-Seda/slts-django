@@ -40,6 +40,13 @@ class SeminarQuerySet(models.QuerySet):
         .filter(status="completed")
         .order_by(filter_string)
         )
+    def get_seminar_by_date(self,date):
+        return self.get(date=date)
+
+
+class AttendeeQuerySet(models.QuerySet):
+    def get_attendee_by_name(self, first_name, last_name):
+        return self.get(first_name__iexact=first_name, last_name__iexact=last_name)
 
 
 class OtherEventQuerySet(models.QuerySet):
@@ -169,6 +176,8 @@ class Attendee(models.Model):
     notes = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
     birthday = models.DateField(blank=True,null=True)
+
+    objects = AttendeeQuerySet.as_manager()
 
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.email

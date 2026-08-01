@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 from .models import EducationPartner, EventRegistration, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
-from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse, check_api_key
+from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse, check_api_key, check_registration_info
 from .forms import AttendeeForm
 
 
@@ -188,6 +188,39 @@ def registration_success(request, event_id, event_type):
 def api_register_submit(request):
     if not check_api_key(request):
         return JsonResponse({"status": "fail", "error": "unauthorized"}, status=401)
+
+    # Ensure that Seminar (date) and Person (first & last name) are given
+    valid, error = check_registration_info(request)
+    if not valid:
+        return JsonResponse({"status": "fail", "error": error}, status=401)
+
+    # Attempt to retrieve Seminar and Person
+    seminar_date = request.headers.get("seminar-date", "").strip()
+    attendee_first_name = request.headers.get("attendee-first-name", "").strip()
+    attendee_last_name = request.headers.get("attendee-last-name", "").strip()
+
+    try:
+        seminar = Seminar.objects.get_seminar_by_date(seminar_date)
+    except Seminar.DoesNotExist:
+        return JsonResponse({"status": "fail", "error": "no seminar found on that date"}, status=404)
+    except Seminar.MultipleObjectsReturned:
+        return JsonResponse({"status": "fail", "error": "multiple seminars found on that date"}, status=409)
+
+    try:
+        attendee = Attendee.objects.get_attendee_by_name(attendee_first_name,attendee_last_name)
+    except Attendee.DoesNotExist:
+        return JsonResponse({"status": "fail", "error": "no attendee found with the given first/last name"}, status=404)
+    except Attendee.MultipleObjectsReturned:
+        return JsonResponse({"status": "fail", "error": "multiple attendees found with the given first/last name"}, status=409)
+
+    if not (attendee and seminar):
+        return JsonResponse({"status": "fail", "error": "unknown"}, status=401)
+
+    # Attempt to register Person to Seminar
+    try:
+        Registration.objects.get_or_create(attendee=attendee, seminar=event)
+    except:
+        return JsonResponse({"status": "fail", "error": "something went wrong with the registration"}, status=401)
 
     return JsonResponse({"status": "success"}, status=200)
 

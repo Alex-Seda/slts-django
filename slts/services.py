@@ -240,3 +240,23 @@ def get_or_create_spouse(first_name, last_name, email, phone, address, city, zip
 def check_api_key(request):
     key = request.headers.get("X-API-Key", "")
     return secrets.compare_digest(key, os.environ.get("N8N_API_KEY"))
+
+def check_registration_info(request):
+    sem_date = request.headers.get("seminar-date", "").strip()
+    att_first_name = request.headers.get("attendee-first-name", "").strip()
+    att_last_name = request.headers.get("attendee-last-name", "").strip()
+
+    def is_valid_name(name):
+        return bool(name) and all(c.isalpha() or c in " -'" for c in name)
+
+    if not is_valid_name(att_first_name):
+        return False, "invalid or missing attendee-first-name"
+    if not is_valid_name(att_last_name):
+        return False, "invalid or missing attendee-last-name"
+
+    try:
+        datetime.strptime(sem_date, "%Y-%m-%d")
+    except ValueError:
+        return False, "seminar-date must be in YYYY-MM-DD format"
+
+    return True, None
