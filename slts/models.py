@@ -45,8 +45,8 @@ class SeminarQuerySet(models.QuerySet):
 
 
 class AttendeeQuerySet(models.QuerySet):
-    def get_attendee_by_name(self, first_name, last_name):
-        return self.get(first_name__iexact=first_name, last_name__iexact=last_name)
+    def get_attendee_by_name(self, fname, lname):
+        return self.get(first_name__iexact=fname, last_name__iexact=lname)
 
 
 class OtherEventQuerySet(models.QuerySet):
