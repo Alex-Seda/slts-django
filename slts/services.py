@@ -1,6 +1,7 @@
 import re
 import os
 import csv
+import json
 import logging
 import secrets
 from django.conf import settings
@@ -242,9 +243,14 @@ def check_api_key(request):
     return secrets.compare_digest(key, os.environ.get("N8N_API_KEY"))
 
 def check_registration_info(request):
-    sem_date = request.headers.get("seminar-date", "").strip()
-    att_first_name = request.headers.get("attendee-first-name", "").strip()
-    att_last_name = request.headers.get("attendee-last-name", "").strip()
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return False, "invalid or missing request body"
+
+    sem_date = data.get("seminar-date", "").strip()
+    att_first_name = data.get("attendee-first-name", "").strip()
+    att_last_name = data.get("attendee-last-name", "").strip()
 
     def is_valid_name(name):
         return bool(name) and all(c.isalpha() or c in " -'" for c in name)
