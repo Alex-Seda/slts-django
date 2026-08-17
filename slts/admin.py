@@ -158,6 +158,8 @@ class SeminarAdmin(SummernoteModelAdmin):
 
 
 class AttendeeAdmin(admin.ModelAdmin):
+    change_list_template = "admin/slts/attendee/change_list.html"
+
     def attendance_summary(self, obj):
         if obj is None:
             return "—"
@@ -181,8 +183,7 @@ class AttendeeAdmin(admin.ModelAdmin):
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
 
-    search_fields = ['name']  # required for autocomplete
-    autocomplete_fields = ['married_to']  # <-- searchable dropdown    
+    autocomplete_fields = ['married_to']  # <-- searchable dropdown
     readonly_fields = ['attendance_summary']
 
     list_display = [
