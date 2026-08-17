@@ -115,19 +115,20 @@ def register_submit(request, event_id, event_type):
     heard_from = request.POST["heard_from"] or ""
     first_name = request.POST["first_name"].lower()
     last_name = request.POST["last_name"].lower()
+    birthday = form.cleaned_data["birthday"]
     spouse_first_name = request.POST.get("spouse_first_name", "").strip().lower() or None
     attendee = None
     spouse = None
 
 
     # Ensure that basic contact info is provided. Email or phone at least.
-    if not ((email or phone) and address and city and first_name and last_name):
-        messages.error(request, "You must provide your name and address.\n You must also provide an email AND/OR a phone number.")
+    if not ((email or phone) and address and city and first_name and last_name and birthday):
+        messages.error(request, "You must provide your name, address, and birthday.\n You must also provide an email AND/OR a phone number.")
         return render(request, "slts/pages/register.html", {"form": form, "event": event, "event_type": event_type},)
 
 
     try:
-        attendee = get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from)
+        attendee = get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from, birthday)
         if(event_type == 'seminar'):
             Registration.objects.get_or_create(attendee=attendee, seminar=event)
         else:
