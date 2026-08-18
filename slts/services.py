@@ -183,13 +183,13 @@ def export_attendees_raw_csv(seminar):
     return response
 
 
-def get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from):
+def get_or_create_attendee(first_name, last_name, email, phone, address, city, zip_code, heard_from, birthday):
     candidates = Attendee.objects.none()
     if email != "":
         candidates = Attendee.objects.filter(email=email)
     if phone:
         candidates = candidates or Attendee.objects.filter(phone=phone)
-    attendee = candidates.filter(first_name__iexact=first_name).first()
+    attendee = candidates.filter(first_name__iexact=first_name,last_name__iexact=last_name).first()
     if not attendee:
         attendee = Attendee.objects.create(
             first_name=first_name.strip().title(),
@@ -199,7 +199,8 @@ def get_or_create_attendee(first_name, last_name, email, phone, address, city, z
             address=address,
             city=city,
             zip_code=zip_code,
-            heard_from=heard_from
+            heard_from=heard_from,
+            birthday=birthday,
         )
     return attendee
 

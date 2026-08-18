@@ -44,4 +44,5 @@ class AttendeeForm(forms.ModelForm):
 
     class Meta:
         model = Attendee
-        fields = ['first_name', 'last_name', 'address', 'city', 'state', 'zip_code', 'email', 'phone', 'heard_from']
+        fields = ['first_name', 'last_name', 'address', 'city', 'state', 'zip_code', 'email', 'phone', 'heard_from', 'birthday']
+        widgets = {'birthday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d',),}
