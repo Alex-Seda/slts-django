@@ -30,7 +30,7 @@ def export_all_attendees(request):
     writer = csv.writer(response)
     writer.writerow(["First Name", "Last Name", "Email", "Phone", "Address", "City", "Zip", "Birthday"])
     for a in Attendee.objects.all().order_by("last_name", "first_name"):
-        writer.writerow([a.first_name, a.last_name, a.email, a.phone, a.address, a.city, a.zip_code, a.birthday])
+        writer.writerow([a.first_name, a.last_name, a.email, a.phone, a.address, a.city, a.zip_code, a.birthday.strftime("%B %-d, %Y") if a.birthday else "",])
 
     return response
 
