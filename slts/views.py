@@ -224,7 +224,7 @@ def api_register_submit(request):
 
     # Attempt to register Person to Seminar
     try:
-        Registration.objects.get_or_create(attendee=attendee, seminar=event)
+        Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
     except:
         return JsonResponse({"status": "fail", "error": "something went wrong with the registration"}, status=401)
 
