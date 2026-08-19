@@ -219,14 +219,12 @@ def api_register_submit(request):
     except Attendee.MultipleObjectsReturned:
         return JsonResponse({"status": "fail", "error": "multiple attendees found with the given first/last name"}, status=409)
 
-    if not (attendee and seminar):
-        return JsonResponse({"status": "fail", "error": "unknown"}, status=401)
-
     # Attempt to register Person to Seminar
     try:
         Registration.objects.get_or_create(attendee=attendee, seminar=seminar)
-    except:
-        return JsonResponse({"status": "fail", "error": "something went wrong with the registration"}, status=401)
+    except Exception as e:
+        logger.exception("Registration failed")
+        return JsonResponse({"status": "fail", "error": "something went wrong with the registration"}, status=500)
 
     return JsonResponse({"status": "success"}, status=200)
 
