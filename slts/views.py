@@ -95,6 +95,9 @@ def register_submit(request, event_id, event_type):
     # Ensure that the url parameter is an expected value
     if event_type not in allowed:
         previous = request.META.get("HTTP_REFERER")
+        if previous:
+            return redirect(previous)
+        raise Http404()
      
     try:
         data = json.loads(request.body)
@@ -105,9 +108,6 @@ def register_submit(request, event_id, event_type):
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return False, "invalid or missing request body"
-        if previous:
-            return redirect(previous)
-        raise Http404()
 
     # Get event object
     if(event_type == 'seminar'):
