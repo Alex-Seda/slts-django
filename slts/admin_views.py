@@ -34,3 +34,15 @@ def export_all_attendees(request):
 
     return response
 
+def export_attendee_analytics(request, year):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="attendee_analytics.csv"'
+
+    total_registered=200
+    total_attended=150
+
+    writer = csv.writer(response)
+    writer.writerow(["Total Registered", "Total Attended"])
+    writer.writerow([total_registered,total_attended])
+
+    return response

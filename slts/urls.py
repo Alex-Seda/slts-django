@@ -19,8 +19,9 @@ urlpatterns = [
     path('<str:event_type>/<int:event_id>/register/submit/', views.register_submit, name='register_submit'),
     path('<str:event_type>/<int:event_id>/registration-success/', views.registration_success, name='registration_success'),
 
-    # Custom Admin Export URL
+    # Custom Admin Export URLs
     path("attendee-export/", admin_views.export_all_attendees, name='export_attendees_csv'),
+    path("<int:year>/attendee-analytics-export/", admin_views.export_attendee_analytics, name='export_attendee_analytics_csv'),
 
     # Other Pages
     path("education_partners/", views.education_partners, name="education_partners"),
