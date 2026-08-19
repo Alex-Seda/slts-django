@@ -99,16 +99,6 @@ def register_submit(request, event_id, event_type):
             return redirect(previous)
         raise Http404()
      
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return False, "invalid or missing request body"
-    
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return False, "invalid or missing request body"
-
     # Get event object
     if(event_type == 'seminar'):
         event = get_object_or_404(Seminar, pk=event_id)
