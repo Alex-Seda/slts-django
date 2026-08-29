@@ -4,54 +4,64 @@
 
 {% block content %}
 
-<div class="mt-30 mb-10">
-{% if messages %}
-  <div class="space-y-4 mb-6">
-    {% for message in messages %}
-      <div class="rounded-xl border border-red-300 bg-red-50 px-6 py-4 text-red-800">
-        {{ message }}
-      </div>
-    {% endfor %}
-  </div>
-{% endif %}
+<div class="w-full bg-slate-50 flex flex-col pt-20">
+  <header class="bg-white border-b border-purple-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-primary">Senior Living Truth Series</p>
+      <h1 class="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900">Registration</h1>
+      <div class="h-1.5 w-20 bg-primary rounded-full mt-4"></div>
+    </div>
+  </header>
 
-
-
-<div class="max-w-3xl sm:min-w-xl mx-auto bg-white shadow-lg rounded-2xl p-10 space-y-6">
-  
-  <h1 class="text-3xl font-bold text-gray-900 text-center">{{ event_type }} Registration</h1>
-  
-  <p class="text-gray-700">
-    You’re registering for: 
-    <span class="font-semibold text-c_purple">{{ event.title }}</span>
-  </p>
-  
-  <p class="text-gray-700">
-    That will be held on: 
-    <span class="font-semibold text-c_purple">{{ event.date }}</span>
-  </p>
-
-  <form action="{% url 'slts:register_submit' event_id=event.id event_type=event_type|slugify %}" method="post" class="space-y-4">
-    {% csrf_token %}
-
-    {% for field in form %}
-      <div class="flex flex-col">
-        {{ field.label_tag }} 
-        {{ field|add_class:"border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-c_purple focus:outline-none" }}
-        {% for error in field.errors %}
-          <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 w-full">
+    {% if messages %}
+      <div class="max-w-3xl mx-auto space-y-4 mb-6">
+        {% for message in messages %}
+          <div class="rounded-2xl border border-red-300 bg-red-50 px-6 py-4 text-red-800 shadow-sm">
+            {{ message }}
+          </div>
         {% endfor %}
       </div>
-    {% endfor %}
+    {% endif %}
 
-    <button 
-      type="submit" 
-      class="w-full bg-c_purple hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-colors">
-      Register
-    </button>
-  </form>
+    <div class="max-w-3xl mx-auto bg-white shadow-xl shadow-purple-950/5 border border-purple-100 rounded-3xl p-6 sm:p-8 lg:p-10 space-y-6">
+      <div class="space-y-2">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-primary">{{ event_type }} Registration</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900">{{ event.title }}</h1>
+      </div>
 
-</div>
+      <div class="rounded-2xl bg-purple-50 border border-purple-100 p-5 text-gray-700 space-y-2">
+        <p>
+          You’re registering for:
+          <span class="font-semibold text-primary">{{ event.title }}</span>
+        </p>
+        <p>
+          That will be held on:
+          <span class="font-semibold text-primary">{{ event.date }}</span>
+        </p>
+      </div>
+
+      <form action="{% url 'slts:register_submit' event_id=event.id event_type=event_type|slugify %}" method="post" class="space-y-5">
+        {% csrf_token %}
+
+        {% for field in form %}
+          <div class="flex flex-col gap-2">
+            {{ field.label_tag }}
+            {{ field|add_class:"border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-primary focus:border-transparent focus:outline-none bg-white text-gray-900" }}
+            {% for error in field.errors %}
+              <p class="text-red-500 text-sm">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <button
+          type="submit"
+          class="w-full bg-primary hover:bg-c_dark_purple text-white text-lg font-bold py-3.5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 focus:ring-4 focus:ring-purple-300 focus:outline-none cursor-pointer">
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

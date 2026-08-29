@@ -1,46 +1,60 @@
 {% load static %}
 
-<footer class="bg-c_dark_purple text-white py-14">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+<footer class="bg-c_dark_purple text-white border-t border-purple-900/40 mt-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 items-start">
 
-    <!-- About / Branding -->
-    <div class="space-y-2">
-      <h3 class="text-lg font-semibold">Senior Living Truth Series</h3>
-      <p class="text-gray-300 text-sm"><em>
-        Honest Conversations that Make a Difference.
-      </em></p>
-      <div class="flex flex-row gap-2 text-gray-300 text-sm">
-        <a href="{% url 'slts:terms_of_use' %}" class="hover:text-white">Terms of Use</a>
-        |
-        <a href="{% url 'slts:privacy_policy' %}" class="hover:text-white">Privacy Policy</a>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <img src="{% static 'images/favicon.ico' %}" alt="SLTS Logo" class="h-10 w-auto rounded-lg shadow-sm">
+          <h3 class="text-xl font-bold tracking-tight text-white">Senior Living Truth Series</h3>
+        </div>
+        <p class="text-purple-100 text-base leading-relaxed italic">
+          Honest Conversations that Make a Difference.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-purple-100">
+          <a href="{% url 'slts:terms_of_use' %}" class="transition-colors hover:text-white">Terms of Use</a>
+          <span class="text-purple-300">|</span>
+          <a href="{% url 'slts:privacy_policy' %}" class="transition-colors hover:text-white">Privacy Policy</a>
+        </div>
       </div>
-    </div>
 
-    <!-- Quick Links -->
-    <div class="space-y-2">
-      <h3 class="text-lg font-semibold">Quick Links</h3>
-      <ul class="text-gray-300 text-sm space-y-1">
-        <li><a href="{% url 'slts:home' %}" class="hover:text-white">Home</a></li>
-        <li><a href="{% url 'slts:schedule' 'seminars' %}" class="hover:text-white">Seminars</a></li>
-        <li><a href="{% url 'slts:about' %}" class="hover:text-white">About</a></li>
-        <!--
-        <li><a href="{% url 'slts:home' %}" class="hover:text-white">Contact</a></li>
-        -->
-      </ul>
-    </div>
-
-    <!-- Contact / Socials -->
-    <div class="space-y-2">
-      <h3 class="text-lg font-semibold">Contact</h3>
-      <p class="text-gray-300 text-sm">Email: <a href="mailto:contact@theseniorlivingtruthseries.com" class="hover:text-white">contact@theseniorlivingtruthseries.com</a></p>
-      <div class="flex space-x-3 mt-2">
-        <a href="https://www.facebook.com/SLTSOKC/" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold text-white">Quick Links</h3>
+        <ul class="space-y-2 text-base text-purple-100">
+          <li><a href="{% url 'slts:home' %}" class="transition-colors hover:text-white">Home</a></li>
+          <li><a href="{% url 'slts:schedule' 'seminars' %}" class="transition-colors hover:text-white">Seminars</a></li>
+          <li><a href="{% url 'slts:about' %}" class="transition-colors hover:text-white">About</a></li>
+          <li><a href="{% url 'slts:education_partners' %}" class="transition-colors hover:text-white">Education Partners</a></li>
+        </ul>
       </div>
-    </div>
 
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold text-white">Contact</h3>
+        <div class="space-y-3 text-base text-purple-100">
+          <p class="flex items-center gap-3 leading-relaxed">
+            <i class="fa-solid fa-phone text-white"></i>
+            <a href="tel:+14054520758" class="transition-colors hover:text-white">(405)-452-0758</a>
+          </p>
+          <p class="flex items-center gap-3 leading-relaxed break-all">
+            <i class="fa-solid fa-envelope text-white"></i>
+            <a href="mailto:contact@theseniorlivingtruthseries.com" class="transition-colors hover:text-white">contact@theseniorlivingtruthseries.com</a>
+          </p>
+        </div>
+        <div class="flex items-center gap-3 pt-2">
+          <a href="https://www.facebook.com/SLTSOKC/" target="_blank" rel="noopener noreferrer"
+             class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 border border-purple-400/30 text-lg text-white transition-colors hover:bg-white hover:text-c_dark_purple" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="mt-8 border-t border-gray-700 pt-4 text-center text-gray-400 text-xs">
-    &copy; 2026 Senior Living Truth Series. All rights reserved.
+  <div class="border-t border-purple-800/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-purple-200">
+      &copy; 2026 Senior Living Truth Series. All rights reserved.
+    </div>
   </div>
 </footer>
