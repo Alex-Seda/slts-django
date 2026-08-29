@@ -21,7 +21,7 @@ urlpatterns = [
 
     # Custom Admin Export URLs
     path("attendee-export/", admin_views.export_all_attendees, name='export_attendees_csv'),
-    path("<int:year>/attendee-analytics-export/", admin_views.export_attendee_analytics, name='export_attendee_analytics_csv'),
+    path("attendee-analytics-export/", admin_views.export_attendee_analytics, name='export_attendee_analytics_csv'),
 
     # Other Pages
     path("education_partners/", views.education_partners, name="education_partners"),
