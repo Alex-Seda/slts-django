@@ -6,71 +6,120 @@
 {% block content %}
 
 <!-- Page Wrapper -->
-<section class="mx-auto pt-50 bg-white">
+<div class="w-full bg-slate-50 flex flex-col pt-20">
 
-  <!-- Title -->
-  <div class="bg-white px-14">
-    <h1 class="text-5xl lg:text-7xl font-bold text-gray-900 text-center">About the Senior Living Truth Series</h1>
+  <!-- =========================================================================
+       PAGE HEADER HERO
+       ========================================================================= -->
+  <section class="bg-gradient-to-b from-c_dark_purple via-c_dark_purple to-purple-950 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 text-center shadow-md">
+    <div class="max-w-4xl mx-auto space-y-4">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-md">
+        About the Senior Living Truth Series
+      </h1>
+      <p class="text-xl sm:text-2xl text-purple-200 font-medium">
+        <em>Honest Conversations that Make a Difference</em>
+      </p>
+      <div class="h-1.5 w-24 bg-yellow-400 rounded-full mx-auto mt-6"></div>
+    </div>
+  </section>
 
-    <p class="text-3xl py-10 text-center"><em>Honest Conversations that Make a Difference</em></p>
-  </div>
 
-  <!-- Our Mission -->
-  <div class="flex flex-row gap-8 mt-20 bg-c_transparent_purple">
-    <img src="{% static 'images/becky-listening.webp' %}" 
-        alt="Roberto and Becky Seda" 
-        class="hidden lg:block w-120 2xl:w-1/2 h-auto mx-auto mx-0 object-cover">
+  <!-- =========================================================================
+       OUR MISSION SECTION
+       ========================================================================= -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 w-full">
+    <div class="bg-white rounded-3xl shadow-xl shadow-purple-950/5 border border-purple-100 overflow-hidden flex flex-col lg:flex-row items-stretch">
+      
+      <!-- Mission Image -->
+      <div class="lg:w-5/12 bg-purple-950 flex-shrink-0 relative min-h-[320px] lg:min-h-full">
+        <img 
+          src="{% static 'images/becky-listening.webp' %}" 
+          alt="Roberto and Becky Seda" 
+          class="w-full h-full object-cover"
+        >
+      </div>
 
-    <div class="flex flex-col max-w-5xl m-auto px-16 lg:pl-0 lg:pr-10 gap-18 py-20">
-      <h2 class="text-5xl font-bold text-gray-800 text-center">Our Mission</h2>
-
-      <div class="text-left flex flex-col gap-8 text-xl text-gray-700">
-        <p>
-          The <span class="font-semibold text-primary">Senior Living Truth Series</span> exists because the senior living space is
-          confusing, sales-driven, and high-stakes.
-        </p>
-
-        <p>
-          Our mission is to provide clear, unbiased education so Oklahoma City seniors and their families can make informed decisions with dignity, confidence, and peace of mind.
-        </p>
-
-        <div>
-          <p class="font-semibold">We believe:</p>
-          <ul class="list-disc pl-8 text-left">
-            <li>You deserve the full picture, not just the parts that benefit someone else</li>
-            <li>Planning ahead is always better than reacting in crisis</li>
-            <li>The best decisions come from understanding your options, not from pressure tactics</li>
-            <li>Every family should know what programs and resources are actually available to them</li>
-          </ul>
+      <!-- Mission Content -->
+      <div class="lg:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6">
+        <div class="space-y-3">
+          <span class="text-primary font-bold text-sm sm:text-base tracking-widest uppercase">Our Purpose</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Our Mission</h2>
+          <div class="h-1.5 w-16 bg-primary rounded-full"></div>
         </div>
 
-        <p>
-          We're here for those who believe in having Plan A, Plan B, and Plan C — who want to look to the future with an "I can do this" attitude instead of fear. Because when you're prepared, everything changes.
-        </p>
+        <div class="space-y-5 text-lg sm:text-xl text-gray-700 leading-relaxed">
+          <p>
+            The <span class="font-semibold text-primary">Senior Living Truth Series</span> exists because the senior living space is
+            confusing, sales-driven, and high-stakes.
+          </p>
+
+          <p>
+            Our mission is to provide clear, unbiased education so Oklahoma City seniors and their families can make informed decisions with dignity, confidence, and peace of mind.
+          </p>
+
+          <div class="bg-purple-50/60 rounded-2xl p-6 border border-purple-100 space-y-3">
+            <p class="font-bold text-gray-900 text-lg sm:text-xl">We believe:</p>
+            <ul class="space-y-2.5 text-gray-700">
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-primary mt-1 flex-shrink-0 text-base"></i>
+                <span>You deserve the full picture, not just the parts that benefit someone else</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-primary mt-1 flex-shrink-0 text-base"></i>
+                <span>Planning ahead is always better than reacting in crisis</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-primary mt-1 flex-shrink-0 text-base"></i>
+                <span>The best decisions come from understanding your options, not from pressure tactics</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-primary mt-1 flex-shrink-0 text-base"></i>
+                <span>Every family should know what programs and resources are actually available to them</span>
+              </li>
+            </ul>
+          </div>
+
+          <p>
+            We're here for those who believe in having Plan A, Plan B, and Plan C — who want to look to the future with an "I can do this" attitude instead of fear. Because when you're prepared, everything changes.
+          </p>
+        </div>
       </div>
+
     </div>
-  </div>
+  </section>
 
 
-  <!-- Meet the Hosts Section -->
-  <div class="space-y-6 bg-gray-800 px-6 py-14 sm:p-10 md:p-20 xl:p-40">
-    <h2 class="text-6xl font-semibold text-gray-100 mb-24 text-center">Meet Your Hosts</h2>
+  <!-- =========================================================================
+       MEET YOUR HOSTS SECTION (Becky & Roberto Seda)
+       ========================================================================= -->
+  <section class="bg-gradient-to-b from-purple-50/40 via-purple-50/20 to-slate-50 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-y border-purple-100">
+    <div class="max-w-6xl mx-auto space-y-12">
+      
+      <!-- Section Header -->
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Meet Your Hosts</h2>
+        <div class="h-1.5 w-20 bg-primary rounded-full mx-auto"></div>
+      </div>
 
-    <div class="bg-gray-100">
- 
-      <div class="flex flex-col sm:flex-row justify-center py-14 gap-6 sm:gap-40 items-center">
-        <div class="flex flex-col items-center text-center">
-          <img src="{% static 'images/becky-seda.jpg' %}" alt="Becky Seda" class="w-40 h-40 rounded-full mb-6 object-cover">
-          <h3 class="text-2xl font-semibold">Becky Seda</h3>
+      <!-- Host Portraits -->
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-20">
+        <div class="flex flex-col items-center text-center group">
+          <div class="p-2 bg-white rounded-full shadow-lg border border-purple-100 mb-4 group-hover:scale-105 transition-transform">
+            <img src="{% static 'images/becky-seda.jpg' %}" alt="Becky Seda" class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover">
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">Becky Seda</h3>
         </div>
         
-        <div class="flex flex-col items-center text-center">
-          <img src="{% static 'images/roberto-seda.jpg' %}" alt="Roberto Seda" class="w-40 h-40 rounded-full mb-6 object-cover">
-          <h3 class="text-2xl font-semibold">Roberto Seda</h3>
+        <div class="flex flex-col items-center text-center group">
+          <div class="p-2 bg-white rounded-full shadow-lg border border-purple-100 mb-4 group-hover:scale-105 transition-transform">
+            <img src="{% static 'images/roberto-seda.jpg' %}" alt="Roberto Seda" class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover">
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">Roberto Seda</h3>
         </div>
       </div>
- 
-  	  <div class="px-8 pb-14 text-left text-gray-700 max-w-5xl mx-auto space-y-4 text-xl">
+
+      <!-- Editorial Body Card -->
+      <div class="bg-white rounded-3xl shadow-xl shadow-purple-950/5 border border-purple-100 p-8 sm:p-12 lg:p-16 space-y-5 text-lg sm:text-xl text-gray-700 leading-relaxed">
         <p>
           When Becky and Roberto Seda were given the opportunity to continue Senior Living Truth Series, they said yes because they saw it as a natural extension 
           of their mission to educate, equip, and advocate for Oklahoma families.
@@ -106,105 +155,157 @@
           integrity, and service that shapes every Senior Living Truth Series event.
         </p>
       </div>
+
     </div>
-  </div>
+  </section>
 
-  <!-- What Makes Us Different Section -->   
-  <div class="flex flex-row gap-10 bg-gray-300">
-    <div class="flex flex-col max-w-5xl m-auto px-16 lg:pr-0 lg:pl-30 text-gray-700 gap-24 py-20">
-      <h2 class="text-center text-5xl font-bold text-gray-900">What Makes Us Different</h2>
-      <div class="flex flex-col gap-12 text-2xl text-gray-700">
-        <p>
-          Senior Living Truth Series is different by design. We bring together experts in housing, legal, financial,
-          healthcare, and logistics—because no single industry has all the answers.
-        </p>
 
-        <p>
-          Senior living decisions don’t happen in isolation. By connecting these perspectives, we help you understand
-          how choices in one area impact everything else.
-        </p>
-
-        <p>
-          We also talk about what others avoid: emotional transitions, real tradeoffs, and long-term consequences that
-          don’t show up in brochures.
-        </p>
-
-        <p>
-          Every seminar features trusted Oklahoma City professionals—not salespeople. There’s no pitching, no pressure,
-          and no steering toward a single solution.
-        </p>
-
-        <p class="font-semibold text-gray-900">
-          We’re not here to tell you what to do. We’re here to give you the clarity to decide for yourself.
-        </p>
+  <!-- =========================================================================
+       WHAT MAKES US DIFFERENT SECTION
+       ========================================================================= -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 w-full">
+    <div class="bg-white rounded-3xl shadow-xl shadow-purple-950/5 border border-purple-100 overflow-hidden flex flex-col lg:flex-row-reverse items-stretch">
+      
+      <!-- Audience Image -->
+      <div class="lg:w-5/12 bg-purple-950 flex-shrink-0 relative min-h-[320px] lg:min-h-full">
+        <img 
+          src="{% static 'images/audience-listening.webp' %}" 
+          alt="Roberto and Becky Seda" 
+          class="w-full h-full object-cover"
+        >
       </div>
+
+      <!-- Content -->
+      <div class="lg:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6">
+        <div class="space-y-3">
+          <span class="text-primary font-bold text-sm sm:text-base tracking-widest uppercase">Our Difference</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">What Makes Us Different</h2>
+          <div class="h-1.5 w-16 bg-primary rounded-full"></div>
+        </div>
+
+        <div class="space-y-5 text-lg sm:text-xl text-gray-700 leading-relaxed">
+          <p>
+            Senior Living Truth Series is different by design. We bring together experts in housing, legal, financial,
+            healthcare, and logistics—because no single industry has all the answers.
+          </p>
+
+          <p>
+            Senior living decisions don’t happen in isolation. By connecting these perspectives, we help you understand
+            how choices in one area impact everything else.
+          </p>
+
+          <p>
+            We also talk about what others avoid: emotional transitions, real tradeoffs, and long-term consequences that
+            don’t show up in brochures.
+          </p>
+
+          <p>
+            Every seminar features trusted Oklahoma City professionals—not salespeople. There’s no pitching, no pressure,
+            and no steering toward a single solution.
+          </p>
+
+          <div class="p-6 bg-purple-50/70 rounded-2xl border border-purple-100/80">
+            <p class="font-bold text-gray-900 text-lg sm:text-xl">
+              We’re not here to tell you what to do. We’re here to give you the clarity to decide for yourself.
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <img src="{% static 'images/audience-listening.webp' %}" 
-        alt="Roberto and Becky Seda" 
-        class="hidden lg:block w-120 2xl:w-1/2 h-auto mx-auto mx-0 object-cover">
-  </div>
 
-	<!-- Original Founders Section -->
-	<div class="bg-gray-50 py-30 py-auto">
-	  <h2 class="text-5xl font-semibold text-gray-800 mb-14 text-center items-center">Original Founders</h2>
-	  <div class="flex flex-col sm:flex-row justify-center gap-6 sm:gap-40 items-center">
+  <!-- =========================================================================
+       ORIGINAL FOUNDERS SECTION
+       ========================================================================= -->
+  <section class="bg-gradient-to-b from-purple-50/40 via-purple-50/20 to-slate-50 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-purple-100">
+    <div class="max-w-6xl mx-auto space-y-12">
+      
+      <!-- Section Header -->
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Original Founders</h2>
+        <div class="h-1.5 w-20 bg-primary rounded-full mx-auto"></div>
+      </div>
 
-	    <div class="flex flex-col items-center text-center">
-	      <img src="{% static 'images/nikki-buckelew.jpg' %}" alt="Nikki Buckelew" class="w-50 h-auto rounded-full mb-2 object-cover">
-	      <p class="text-gray-700 font-semibold">Dr. Nikki Buckelew, Ph.D.</p>
-	    </div>
-	    
-	    <div class="flex flex-col items-center text-center">
-	      <img src="{% static 'images/chris-buckelew.jpg' %}" alt="Chris Buckelew" class="w-50 h-auto rounded-full mb-2 object-cover">
-	      <p class="text-gray-700 font-semibold">Chris Buckelew</p>
-	    </div>
-	
-	  </div>
-	  <!-- Founders Note -->
-	  <div class="p-8 text-center text-gray-700 max-w-5xl mx-auto space-y-4">
-	    <p class="text-xl">
+      <!-- Founders Portraits -->
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-20">
+        <div class="flex flex-col items-center text-center group">
+          <div class="p-2 bg-white rounded-full shadow-lg border border-purple-100 mb-4 group-hover:scale-105 transition-transform">
+            <img src="{% static 'images/nikki-buckelew.jpg' %}" alt="Nikki Buckelew" class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover">
+          </div>
+          <p class="text-xl font-bold text-gray-900">Dr. Nikki Buckelew, Ph.D.</p>
+        </div>
+        
+        <div class="flex flex-col items-center text-center group">
+          <div class="p-2 bg-white rounded-full shadow-lg border border-purple-100 mb-4 group-hover:scale-105 transition-transform">
+            <img src="{% static 'images/chris-buckelew.jpg' %}" alt="Chris Buckelew" class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover">
+          </div>
+          <p class="text-xl font-bold text-gray-900">Chris Buckelew</p>
+        </div>
+      </div>
+
+      <!-- Founders Note Card -->
+      <div class="bg-white rounded-3xl shadow-xl shadow-purple-950/5 border border-purple-100 p-8 sm:p-12 lg:p-16 space-y-5 text-lg sm:text-xl text-gray-700 leading-relaxed">
+        <p>
           In 2016, as local business owners, advocates, and family caregivers, Chris and Dr. Nikki Buckelew, Ph.D., organized an annual series of educational 
           programs they titled the Senior Living Truth Series. First held at the Northwest Library in Oklahoma City, the goal was to offer unbiased education 
           about the issues associated with aging, without a sales pitch attached. Collaborating with other local educationally minded professionals, the series 
           quickly grew from only a few attendees to over 100 each month. They outgrew the library and as attendance increased, they relocated to various 
           locations throughout the metro including the MAPS 3 Healthy Living Center, Quail Creek Country Club, Crossings Community Church, and eventually, 
           Francis Tuttle Technical Center.
-	    </p>
-	    <p class="text-xl">
+        </p>
+        <p>
           In 2018, after gaining attention from other organizations and professionals around the country, Chris and Nikki began helping other civic leaders 
           develop similar programs in their own communities across several states and in Canada. The Oklahoma City–based Senior Living Truth Series continues 
           to serve as a model for others who share the same commitment to educate, equip, and empower mature adults to make informed decisions on their own terms.
-	    </p>
-	    <p class="text-xl">
+        </p>
+        <p>
           In 2025, Chris and Nikki passed leadership of the series to Becky and Roberto Seda, confident in their shared commitment to keeping the program rooted 
           in honest, relevant, and unbiased education.
-	    </p>
+        </p>
+      </div>
+
     </div>
-	</div>
+  </section>
 
 
-  {% include 'slts/partials/education-partners.html' %}
+  <!-- =========================================================================
+       EDUCATION PARTNERS SECTION
+       ========================================================================= -->
+  <section class="border-y border-purple-100 bg-white overflow-hidden py-4">
+    {% include 'slts/partials/education-partners.html' %}
+  </section>
 
 
-  <section class="bg-gray-200 mx-auto px-6 py-30">
-    <h2 class="text-5xl font-bold text-center mb-20 px-10">Frequently Asked Questions</h2>
+  <!-- =========================================================================
+       FREQUENTLY ASKED QUESTIONS SECTION
+       ========================================================================= -->
+  {% if faqs %}
+  <section class="max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-28 w-full">
+    <div class="text-center mb-12 sm:mb-16 space-y-3">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center tracking-tight text-gray-900">Frequently Asked Questions</h2>
+      <div class="h-1.5 w-20 bg-primary rounded-full mx-auto"></div>
+    </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start max-w-6xl mx-auto">
+    <div class="max-w-4xl mx-auto space-y-4">
       {% for faq in faqs %}
-        <div class="bg-white shadow-sm shadow-black/25 rounded-2xl overflow-hidden flex flex-col items-start">
+        <div class="bg-white rounded-2xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
           <button 
             type="button"
-            class="w-full px-6 py-4 text-left flex justify-between items-center font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full px-6 sm:px-8 py-5 sm:py-6 text-left flex justify-between items-center gap-4 font-bold text-lg sm:text-xl text-gray-800 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
             onclick="toggleFAQ(this)"
+            aria-expanded="false"
           >
-            {{ faq.question }}
-            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
+            <span class="flex-1 pr-2">{{ faq.question }}</span>
+            <span class="faq-icon-wrapper w-10 h-10 rounded-full bg-purple-50 text-primary flex items-center justify-center flex-shrink-0 transition-transform duration-300">
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
           </button>
-          <div class="w-full px-6 overflow-hidden max-h-0 transition-all duration-300 text-gray-700">
-            <div class="py-2">
+          <div class="faq-content w-full px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out text-gray-700">
+            <div class="py-4 text-base sm:text-lg leading-relaxed border-t border-purple-50 text-gray-700">
               {{ faq.answer|linebreaks }}
             </div>
           </div>
@@ -212,25 +313,43 @@
       {% endfor %}
     </div>
   </section>
+  {% endif %}
 
-</section>
+</div>
 
 
-<!-- FAQs Script -->
+<!-- =========================================================================
+     PAGE SCRIPTS
+     ========================================================================= -->
 <script>
   function toggleFAQ(button) {
     const content = button.nextElementSibling;
     const icon = button.querySelector('svg');
+    const iconWrapper = button.querySelector('.faq-icon-wrapper');
 
-    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-      content.style.maxHeight = '0';
-      icon.classList.remove('rotate-180');
+    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+    if (isOpen) {
+      content.style.maxHeight = '0px';
+      button.setAttribute('aria-expanded', 'false');
+      if (icon) icon.classList.remove('rotate-180');
+      if (iconWrapper) {
+        iconWrapper.classList.remove('bg-primary', 'text-white');
+        iconWrapper.classList.add('bg-purple-50', 'text-primary');
+      }
     } else {
       content.style.maxHeight = content.scrollHeight + 'px';
-      icon.classList.add('rotate-180');
+      button.setAttribute('aria-expanded', 'true');
+      if (icon) icon.classList.add('rotate-180');
+      if (iconWrapper) {
+        iconWrapper.classList.add('bg-primary', 'text-white');
+        iconWrapper.classList.remove('bg-purple-50', 'text-primary');
+      }
     }
   }
 </script>
+
+{% endblock %}
 
 {% endblock %}
 

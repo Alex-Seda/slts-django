@@ -4,123 +4,259 @@
 
 {% block content %}
 
-<div class="flex flex-col justify-center bg-c_transparent_purple">
-  <img src="{% static 'images/SLTS_WIDE.webp' %}" class="object-cover h-120">
+<!-- Main Page Container -->
+<div class="w-full bg-slate-50 flex flex-col pt-20">
 
-  <div class="mx-auto flex flex-col lg:flex-row gap-10 text-center -mt-60 z-10 ">
-    
-    {% if n_seminar %}
-    <div class="flex flex-1 flex-col gap-4 p-12 justify-center  rounded-md bg-c_faint_purple/90  max-w-md bg-blur-md">
-      <!-- Seminar Info -->
-      <div class="space-y-1">
-        <h3 class="text-2xl font-bold text-gray-800">{{ n_seminar.title }}</h3>
-        <p class="text-lf font-semibold text-gray-700">{{ n_seminar.subtitle }}</p>
-      </div>
+  <!-- =========================================================================
+       HERO & BANNER SECTION
+       Displays the wide seminar photo with an elegant dark overlay, title, and tagline
+       ========================================================================= -->
+  <section class="relative w-full overflow-hidden bg-c_dark_purple shadow-md">
+    <div class="relative w-full min-h-[300px] sm:min-h-[380px] lg:min-h-[440px] flex items-center justify-center">
+      <!-- Background Seminar Photo -->
+      <img 
+        src="{% static 'images/SLTS_WIDE.webp' %}" 
+        alt="Senior Living Truth Series Seminar" 
+        class="absolute inset-0 w-full h-full object-cover object-center"
+      >
+      <!-- Gradient Overlay for Contrast & Readability -->
+      <div class="absolute inset-0 bg-gradient-to-t from-c_dark_purple/70 via-c_dark_purple/50 to-c_dark_purple/60"></div>
 
-      <div class="flex flex-col text-lg text-gray-700 font-extrabold">
-        <p>{{ n_seminar.date|date:"F j, Y" }}</p>
-        <p>{{ n_seminar.get_location_display }}</p>
-      </div>
-
-      <!-- Register Button -->
-      <a href="{% url 'slts:register' event_id=n_seminar.id event_type='seminar' %}"
-        class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
-        Register Now!
-      </a>
-    </div>
-    {% endif %}
-
-
-    {% if s_seminar %}
-    <div class="relative flex flex-1 flex-col gap-4 p-12 justify-center  rounded-md bg-c_faint_purple/90  max-w-md bg-blur-md">
-      <!-- New Seminar Tag -->
-      <div class="absolute top-0 right-0 px-2 py-1 rounded-t-sm text-md font-bold text-yellow-400 bg-primary/40 w-full">
-        ★ NEW LOCATION ★
-      </div>
-
-      <!-- Seminar Info -->
-      <div class="space-y-1">
-        <h3 class="text-2xl font-bold text-gray-800">{{ s_seminar.title }}</h3>
-        <p class="text-lf font-semibold text-gray-700">{{ s_seminar.subtitle }}</p>
-      </div>
-
-      <div class="flex flex-col text-lg text-gray-700 font-extrabold">
-        <p>{{ s_seminar.date|date:"F j, Y" }}</p>
-        <p>{{ s_seminar.get_location_display }}</p>
-      </div>
-
-      <!-- Register Button -->
-      <a href="{% url 'slts:register' event_id=s_seminar.id event_type='seminar' %}"
-        class="bg-primary text-white text-xl font-semibold px-8 py-4 rounded-xl hover:bg-c_dark_purple hover:shadow-sm shadow-black/50">
-        Register Now!
-      </a>
-    </div>
-    {% endif %}
-    
-
-  </div>
-
-  <section class="bg-c_transparent_purple py-40 px-10 mt-16">
-    <div class="max-w-4xl mx-auto text-center flex flex-col md:flex-row items-center gap-20">
-      
-      <!-- Host image -->
-      <img src="{% static 'images/roberto-and-becky.png' %}" 
-          alt="Roberto and Becky Seda" 
-          class="w-80 h-auto mx-auto md:mx-0">
-      
-      <!-- Host info -->
-      <div class="md:text-left text-center space-y-4">
-        <h2 class="text-5xl font-bold text-gray-900">Meet Your Hosts</h2>
-        <p class="text-lg text-gray-700">
-          Senior Living Truth Series is hosted by Becky and Roberto Seda, Oklahoma City residents committed to giving seniors and families clear,
-          honest information for life-changing decisions.
-        </p>
-
-        <p class="text-lg text-gray-700">
-          Through their work in real estate, move coordination, and elder law, they’ve guided hundreds of local families and seen firsthand that
-          people are often shown only the options being sold to them.
-        </p>
-
-        <p class="text-lg text-gray-700">
-          In 2025, they stepped into ownership of the Senior Living Truth Series to change that—creating free, expert-led seminars moderated by Becky
-          that cover housing, healthcare, financial, and legal planning.
-        </p>
-
-        <p class="text-lg text-gray-700">
-          This isn’t a sales pitch. It’s honest, practical education designed to help Oklahoma City seniors plan ahead and make confident decisions
-          from clarity, not crisis.
+      <!-- Hero Content Over the Banner -->
+      <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24 text-center">
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight drop-shadow-md">
+          Senior Living Truth Series
+        </h1>
+        <p class="text-lg sm:text-2xl text-purple-100 font-medium max-w-2xl mx-auto drop-shadow-sm mt-3 sm:mt-4">
+          Honest Conversations that Make a Difference
         </p>
       </div>
     </div>
   </section>
 
 
-  <section class="border-y-5 border-primary overflow-hidden">
+  <!-- =========================================================================
+       UPCOMING SEMINARS & REGISTRATION SECTION
+       High-contrast, senior-friendly cards with generous spacing & clean layout.
+       Elevated cards provide an inviting, readable look without harsh blockiness.
+       ========================================================================= -->
+  {% if n_seminar or s_seminar %}
+  <section class="relative z-10 -mt-10 sm:-mt-16 lg:-mt-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+    <div class="grid grid-cols-1 {% if n_seminar and s_seminar %}lg:grid-cols-2{% else %}max-w-xl mx-auto{% endif %} gap-8 lg:gap-10 items-stretch">
+      
+      <!-- North Seminar Card -->
+      {% if n_seminar %}
+      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-between hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
+        
+        <div>
+          <!-- Location Pill Tag -->
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 text-primary border border-purple-200/80 text-xs sm:text-sm font-bold tracking-wide">
+              <i class="fa-solid fa-location-dot text-primary"></i>
+              {{ n_seminar.get_location_display }}
+            </span>
+          </div>
+
+          <!-- Seminar Title & Subtitle -->
+          <div class="space-y-2 mb-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-primary transition-colors">
+              {{ n_seminar.title }}
+            </h3>
+            {% if n_seminar.subtitle %}
+            <p class="text-base sm:text-lg font-semibold text-gray-700 leading-relaxed">
+              {{ n_seminar.subtitle }}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div>
+          <!-- Date & Location Meta Details Block -->
+          <div class="bg-purple-50/50 rounded-2xl p-5 border border-purple-100/70 mb-6 space-y-3">
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-lg sm:text-xl">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-primary flex items-center justify-center flex-shrink-0">
+                <i class="fa-regular fa-calendar-days text-lg"></i>
+              </div>
+              <p>{{ n_seminar.date|date:"F j, Y" }}</p>
+            </div>
+            
+            <div class="flex items-center gap-3 text-gray-700 font-extrabold text-base sm:text-lg">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-primary flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-building-columns text-lg"></i>
+              </div>
+              <p>{{ n_seminar.get_location_display }}</p>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <a href="{% url 'slts:register' event_id=n_seminar.id event_type='seminar' %}"
+             class="w-full inline-flex items-center justify-center gap-3 bg-primary hover:bg-c_dark_purple text-white text-lg sm:text-xl font-bold px-8 py-4 sm:py-4.5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 focus:ring-4 focus:ring-purple-300 focus:outline-none cursor-pointer">
+            <span>Register Now!</span>
+            <i class="fa-solid fa-arrow-right text-base transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </div>
+
+      </div>
+      {% endif %}
+
+
+      <!-- South Seminar Card -->
+      {% if s_seminar %}
+      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-between hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
+        
+        <div>
+          <!-- New Seminar Tag & Location -->
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-50 text-amber-900 border border-amber-300 text-xs sm:text-sm font-bold tracking-wider uppercase shadow-xs">
+              ★ NEW LOCATION ★
+            </span>
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 text-primary border border-purple-200/80 text-xs sm:text-sm font-bold tracking-wide">
+              <i class="fa-solid fa-location-dot text-primary"></i>
+              {{ s_seminar.get_location_display }}
+            </span>
+          </div>
+
+          <!-- Seminar Title & Subtitle -->
+          <div class="space-y-2 mb-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-primary transition-colors">
+              {{ s_seminar.title }}
+            </h3>
+            {% if s_seminar.subtitle %}
+            <p class="text-base sm:text-lg font-semibold text-gray-700 leading-relaxed">
+              {{ s_seminar.subtitle }}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div>
+          <!-- Date & Location Meta Details Block -->
+          <div class="bg-purple-50/50 rounded-2xl p-5 border border-purple-100/70 mb-6 space-y-3">
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-lg sm:text-xl">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-primary flex items-center justify-center flex-shrink-0">
+                <i class="fa-regular fa-calendar-days text-lg"></i>
+              </div>
+              <p>{{ s_seminar.date|date:"F j, Y" }}</p>
+            </div>
+            
+            <div class="flex items-center gap-3 text-gray-700 font-extrabold text-base sm:text-lg">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-primary flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-building-columns text-lg"></i>
+              </div>
+              <p>{{ s_seminar.get_location_display }}</p>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <a href="{% url 'slts:register' event_id=s_seminar.id event_type='seminar' %}"
+             class="w-full inline-flex items-center justify-center gap-3 bg-primary hover:bg-c_dark_purple text-white text-lg sm:text-xl font-bold px-8 py-4 sm:py-4.5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 focus:ring-4 focus:ring-purple-300 focus:outline-none cursor-pointer">
+            <span>Register Now!</span>
+            <i class="fa-solid fa-arrow-right text-base transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </div>
+
+      </div>
+      {% endif %}
+
+    </div>
+  </section>
+  {% endif %}
+
+
+  <!-- =========================================================================
+       MEET YOUR HOSTS SECTION
+       Warm, high-end editorial layout with generous readability for seniors
+       ========================================================================= -->
+  <section class="py-20 sm:py-28 px-6 sm:px-10 mt-12 bg-gradient-to-b from-purple-50/40 via-purple-50/20 to-slate-50">
+    <div class="max-w-5xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
+      
+      <!-- Host image -->
+      <div class="w-full lg:w-5/12 flex justify-center lg:justify-start flex-shrink-0">
+        <div class="relative max-w-[320px] sm:max-w-[360px]">
+          <div class="absolute -inset-3 bg-purple-200/50 rounded-3xl transform -rotate-2 hidden sm:block"></div>
+          <img 
+            src="{% static 'images/roberto-and-becky.png' %}" 
+            alt="Roberto and Becky Seda" 
+            class="relative rounded-3xl shadow-xl shadow-purple-950/10 border border-purple-100 bg-white p-2 w-full h-auto object-cover"
+          >
+        </div>
+      </div>
+      
+      <!-- Host info -->
+      <div class="w-full lg:w-7/12 text-center lg:text-left space-y-6">
+        <div class="space-y-3">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">Meet Your Hosts</h2>
+          <div class="h-1.5 w-20 bg-primary rounded-full mx-auto lg:mx-0"></div>
+        </div>
+
+        <div class="space-y-4 text-lg text-gray-700 leading-relaxed">
+          <p>
+            Senior Living Truth Series is hosted by Becky and Roberto Seda, Oklahoma City residents committed to giving seniors and families clear,
+            honest information for life-changing decisions.
+          </p>
+
+          <p>
+            Through their work in real estate, move coordination, and elder law, they’ve guided hundreds of local families and seen firsthand that
+            people are often shown only the options being sold to them.
+          </p>
+
+          <p>
+            In 2025, they stepped into ownership of the Senior Living Truth Series to change that—creating free, expert-led seminars moderated by Becky
+            that cover housing, healthcare, financial, and legal planning.
+          </p>
+
+          <p>
+            This isn’t a sales pitch. It’s honest, practical education designed to help Oklahoma City seniors plan ahead and make confident decisions
+            from clarity, not crisis.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       EDUCATION PARTNERS SECTION
+       ========================================================================= -->
+  <section class="border-y border-purple-100 bg-white overflow-hidden py-4">
     {% include 'slts/partials/education-partners.html' %}
   </section>
 
 
+  <!-- Google Reviews Partial (Preserved if enabled in future) -->
   <!-- {% include 'slts/partials/google-reviews.html' %} -->
 
 
-  <section class="max-w-6xl mx-auto px-6 py-30">
-    <h2 class="text-5xl font-bold text-center mb-20 px-10">Frequently Asked Questions</h2>
+  <!-- =========================================================================
+       FREQUENTLY ASKED QUESTIONS SECTION
+       Single-column, accessible accordion cards for senior-friendly readability
+       ========================================================================= -->
+  {% if faqs %}
+  <section class="max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-28 w-full">
+    <div class="text-center mb-12 sm:mb-16 space-y-3">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center tracking-tight text-gray-900">Frequently Asked Questions</h2>
+      <div class="h-1.5 w-20 bg-primary rounded-full mx-auto"></div>
+    </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+    <div class="max-w-4xl mx-auto space-y-4">
       {% for faq in faqs %}
-        <div class="bg-white shadow-md shadow-black/25 rounded-2xl overflow-hidden flex flex-col items-start">
+        <div class="bg-white rounded-2xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
           <button 
             type="button"
-            class="w-full px-6 py-4 text-left flex justify-between items-center font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full px-6 sm:px-8 py-5 sm:py-6 text-left flex justify-between items-center gap-4 font-bold text-lg sm:text-xl text-gray-800 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
             onclick="toggleFAQ(this)"
+            aria-expanded="false"
           >
-            {{ faq.question }}
-            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
+            <span class="flex-1 pr-2">{{ faq.question }}</span>
+            <span class="faq-icon-wrapper w-10 h-10 rounded-full bg-purple-50 text-primary flex items-center justify-center flex-shrink-0 transition-transform duration-300">
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
           </button>
-          <div class="w-full px-6 overflow-hidden max-h-0 transition-all duration-300 text-gray-700">
-            <div class="py-2">
+          <div class="faq-content w-full px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out text-gray-700">
+            <div class="py-4 text-base sm:text-lg leading-relaxed border-t border-purple-50 text-gray-700">
               {{ faq.answer|linebreaks }}
             </div>
           </div>
@@ -128,47 +264,61 @@
       {% endfor %}
     </div>
   </section>
-
+  {% endif %}
 
 </div>
 
-<!-- Education Partners Script -->
+
+<!-- =========================================================================
+     PAGE SCRIPTS
+     ========================================================================= -->
 <script>
-  const track = document.getElementById('carousel-track');
-  const container = document.getElementById('carousel-container');
-
-  let speed = 1.5; // pixels per frame
-  let offset = 0;
-  let animationId;
-
-  function step() {
-    offset += speed;
-    if(offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
-    track.style.transform = `translateX(-${offset}px)`;
-    animationId = requestAnimationFrame(step);
-  }
-
-  // Start animation
-  animationId = requestAnimationFrame(step);
-
-  // Pause on hover
-  container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
-  container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
-</script>
-
-<!-- FAQs Script -->
-<script>
+  // FAQs Accordion Script
   function toggleFAQ(button) {
     const content = button.nextElementSibling;
     const icon = button.querySelector('svg');
+    const iconWrapper = button.querySelector('.faq-icon-wrapper');
 
-    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-      content.style.maxHeight = '0';
-      icon.classList.remove('rotate-180');
+    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+    if (isOpen) {
+      content.style.maxHeight = '0px';
+      button.setAttribute('aria-expanded', 'false');
+      if (icon) icon.classList.remove('rotate-180');
+      if (iconWrapper) {
+        iconWrapper.classList.remove('bg-primary', 'text-white');
+        iconWrapper.classList.add('bg-purple-50', 'text-primary');
+      }
     } else {
       content.style.maxHeight = content.scrollHeight + 'px';
-      icon.classList.add('rotate-180');
+      button.setAttribute('aria-expanded', 'true');
+      if (icon) icon.classList.add('rotate-180');
+      if (iconWrapper) {
+        iconWrapper.classList.add('bg-primary', 'text-white');
+        iconWrapper.classList.remove('bg-purple-50', 'text-primary');
+      }
     }
+  }
+
+  // Safe Education Partners Animation fallback (if carousel-track exists)
+  const track = document.getElementById('carousel-track');
+  const container = document.getElementById('carousel-container');
+
+  if (track && container) {
+    let speed = 1.5; // pixels per frame
+    let offset = 0;
+    let animationId;
+
+    function step() {
+      offset += speed;
+      if (offset >= track.scrollWidth / 2) offset = 0; // reset for infinite scroll
+      track.style.transform = `translateX(-${offset}px)`;
+      animationId = requestAnimationFrame(step);
+    }
+
+    animationId = requestAnimationFrame(step);
+    container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
+    container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
   }
 </script>
 
