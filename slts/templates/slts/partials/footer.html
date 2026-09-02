@@ -23,7 +23,7 @@
         <h3 class="text-lg font-bold text-white">Quick Links</h3>
         <ul class="space-y-2 text-base text-purple-100">
           <li><a href="{% url 'slts:home' %}" class="transition-colors hover:text-white">Home</a></li>
-          <li><a href="{% url 'slts:schedule' 'seminars' %}" class="transition-colors hover:text-white">Seminars</a></li>
+          <li><a href="{% url 'slts:schedule' event_type='seminars' event_year=2026 %}" class="transition-colors hover:text-white">Seminars</a></li>
           <li><a href="{% url 'slts:about' %}" class="transition-colors hover:text-white">About</a></li>
           <li><a href="{% url 'slts:education_partners' %}" class="transition-colors hover:text-white">Education Partners</a></li>
         </ul>

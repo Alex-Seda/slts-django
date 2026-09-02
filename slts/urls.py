@@ -11,7 +11,7 @@ urlpatterns = [
     path("", views.home, name="home"),
 
     # Event Related Pages
-    path("<str:event_type>/schedule/", views.schedule, name="schedule"),
+    path("<str:event_type>/<int:event_year>/schedule/", views.schedule, name="schedule"),
     path("<int:year>/seminar_recordings/", views.recordings, name="recordings"),
 
     # Registration Related Pages
