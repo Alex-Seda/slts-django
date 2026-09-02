@@ -35,20 +35,23 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 
-def schedule(request, event_type):
+def schedule(request, event_type, event_year):
     if(event_type == 'seminars'):
         context = {
             "event_type": "Seminar",
-            "events": Seminar.objects.get_seminars_by_year(2026)
+            "event_year": event_year,
+            "events": Seminar.objects.get_seminars_by_year(event_year)
         }
     elif(event_type == 'tours'):
         context = {
             "event_type": "Tour",
+            "event_year": event_year,
             "events": OtherEvent.objects.get_tours()
         }
     elif(event_type == 'expert-insights'):
         context = {
             "event_type": "Expert Insights",
+            "event_year": event_year,
             "events": OtherEvent.objects.get_expert_insights()
         }
     else:
