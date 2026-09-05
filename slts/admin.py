@@ -116,6 +116,7 @@ class SeminarAdmin(SummernoteModelAdmin):
         'title',
         'date',
         'location',
+        'location_fk',
         'status',
         'view_registrations_link',
     ]
