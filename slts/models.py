@@ -283,10 +283,13 @@ class Location(models.Model):
         "lime" : "Lime",
     }
 
-    short_name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)
     series = models.CharField(max_length=5, choices=SERIES_CHOICES)
-    email_signature = models.TextField()
+    address = models.CharField(max_length=60)
+    city = models.CharField(max_length=20)
+    state = USStateField(default="OK")
+    zip_code = USZipCodeField()
     color = models.CharField(max_length=6, choices=COLOR_CHOICES)
 
     def __str__(self):
-        return self.short_name + " (" + self.series.title() + " Series)"
+        return self.name + " (" + self.series.title() + " Series)"
