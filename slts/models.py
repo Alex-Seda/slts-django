@@ -284,6 +284,7 @@ class Location(models.Model):
     }
 
     name = models.CharField(max_length=60)
+    full_name = models.CharField(max_length=100)
     series = models.CharField(max_length=5, choices=SERIES_CHOICES)
     address = models.CharField(max_length=60)
     city = models.CharField(max_length=20)
