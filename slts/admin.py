@@ -115,7 +115,6 @@ class SeminarAdmin(SummernoteModelAdmin):
     list_display = [
         'title',
         'date',
-        'location',
         'location_fk',
         'status',
         'view_registrations_link',
@@ -123,7 +122,6 @@ class SeminarAdmin(SummernoteModelAdmin):
 
     list_filter = [
         'status',
-        'location',
         'location_fk',
     ]
 
@@ -152,7 +150,6 @@ class SeminarAdmin(SummernoteModelAdmin):
         ('Scheduling', {'fields': [
             'date',
             'time',
-            'location',
             'location_fk',
         ]}),
     ]
