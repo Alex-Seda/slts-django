@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
 from .admin_views import export_signin, export_nametags, export_raw
-from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview
+from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview, Location
 
 
 
@@ -151,6 +151,7 @@ class SeminarAdmin(SummernoteModelAdmin):
             'date',
             'time',
             'location',
+            'location_fk',
         ]}),
     ]
     #inlines = [RegistrationInline]
@@ -400,6 +401,24 @@ class RegistrationAdmin(admin.ModelAdmin):
     ]
 
 
+class LocationAdmin(admin.ModelAdmin):
+    list_per_page = 10
+
+    list_display = [
+        'short_name',
+        'series',
+        'color',
+    ]
+
+    list_filter = [
+        'series',
+    ]
+
+    search_fields = [
+        'short_name',
+    ]
+
+
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Seminar, SeminarAdmin)
 admin.site.register(Registration, RegistrationAdmin)
@@ -407,3 +426,4 @@ admin.site.register(OtherEvent, OtherEventAdmin)
 admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(GoogleReview, GoogleReviewAdmin)
+admin.site.register(Location, LocationAdmin)

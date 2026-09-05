@@ -75,6 +75,7 @@ class Seminar(models.Model):
     date = models.DateField()
     time = models.TimeField(default=time(10,0))
     location = models.CharField(max_length=9, choices=LOCATION_CHOICES)
+    location_fk = models.ForeignKey("Location", null=True, blank=True, on_delete=models.PROTECT)
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
     image = models.ImageField(upload_to='seminars/', blank=True)
     handout = models.FileField(upload_to='seminar-handouts/', blank=True)
@@ -266,3 +267,26 @@ class GoogleReview(models.Model):
     def __str__(self):
         return self.name
 
+class Location(models.Model):
+    SERIES_CHOICES = {
+        "north" : "North",
+        "south" : "South",
+    }
+
+    COLOR_CHOICES = {
+        "purple" : "Purple (Primary)",
+        "pink" : "Pink",
+        "red" : "Red",
+        "orange" : "Orange",
+        "blue" : "Blue",
+        "green" : "Green",
+        "lime" : "Lime",
+    }
+
+    short_name = models.CharField(max_length=60)
+    series = models.CharField(max_length=5, choices=SERIES_CHOICES)
+    email_signature = models.TextField()
+    color = models.CharField(max_length=6, choices=COLOR_CHOICES)
+
+    def __str__(self):
+        return self.short_name + " (" + self.series.title() + ")"
