@@ -289,4 +289,4 @@ class Location(models.Model):
     color = models.CharField(max_length=6, choices=COLOR_CHOICES)
 
     def __str__(self):
-        return self.short_name + " (" + self.series.title() + ")"
+        return self.short_name + " (" + self.series.title() + " Series)"
