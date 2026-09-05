@@ -124,6 +124,7 @@ class SeminarAdmin(SummernoteModelAdmin):
     list_filter = [
         'status',
         'location',
+        'location_fk',
     ]
 
     search_fields = [
