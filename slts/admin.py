@@ -407,8 +407,10 @@ class LocationAdmin(admin.ModelAdmin):
     list_per_page = 10
 
     list_display = [
-        'short_name',
+        'name',
         'series',
+        'address',
+        'city',
         'color',
     ]
 
@@ -417,7 +419,8 @@ class LocationAdmin(admin.ModelAdmin):
     ]
 
     search_fields = [
-        'short_name',
+        'name',
+        'address',
     ]
 
 
