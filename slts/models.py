@@ -57,12 +57,6 @@ class OtherEventQuerySet(models.QuerySet):
 
 
 class Seminar(models.Model):
-    LOCATION_CHOICES = {
-        "north": "North Campus (Francis Tuttle)",
-        "south": "South Campus (MNTC, S. Penn)",
-        "new_north": "North Campus (Portland)",
-    }
-
     SEMINAR_STATUS_CHOICES = {
         "draft" : "Draft",
         "scheduled" : "Scheduled",
@@ -74,7 +68,6 @@ class Seminar(models.Model):
     description = models.TextField(blank=True)
     date = models.DateField()
     time = models.TimeField(default=time(10,0))
-    location = models.CharField(max_length=9, choices=LOCATION_CHOICES)
     location_fk = models.ForeignKey("Location", on_delete=models.PROTECT,verbose_name="Location")
     status = models.CharField(max_length=9, choices=SEMINAR_STATUS_CHOICES)
     image = models.ImageField(upload_to='seminars/', blank=True)
