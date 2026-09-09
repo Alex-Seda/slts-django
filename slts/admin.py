@@ -400,6 +400,44 @@ class RegistrationAdmin(admin.ModelAdmin):
     ]
 
 
+class EventRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('attendee', 'event', 'status')
+    list_filter = ('event','status')
+    search_fields = ('attendee__first_name', 'attendee__last_name', 'event__title')
+    autocomplete_fields = ('attendee', 'event')
+    list_per_page = 10
+
+    actions = ['mark_attended','mark_cancelled']
+
+    @admin.action(description="Mark selected registrations as Attended")
+    def mark_attended(self, request, queryset):
+        updated = queryset.update(status='attended')
+        self.message_user(
+            request, f"{updated} registration(s) marked as attended."
+        )
+
+    @admin.action(description="Mark selected registrations as Cancelled")
+    def mark_cancelled(self, request, queryset):
+        updated = queryset.update(status='cancelled')
+        self.message_user(
+            request, f"{updated} registration(s) marked as cancelled."
+        )
+
+    # Make attendee and seminar editable only when adding a registration
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['attendee','event']
+        return []
+
+    fieldsets = [
+        ('Registration', {'fields': [
+            'attendee',
+            'event',
+            'status',
+        ]})
+    ]
+
+
 class LocationAdmin(admin.ModelAdmin):
     list_per_page = 10
 
@@ -425,6 +463,7 @@ admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Seminar, SeminarAdmin)
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(OtherEvent, OtherEventAdmin)
+admin.site.register(EventRegistration, EventRegistrationAdmin)
 admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(GoogleReview, GoogleReviewAdmin)

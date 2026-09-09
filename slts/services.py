@@ -70,12 +70,12 @@ def send_confirmation_email(email, event_id, event_type):
     html_message = f"""
     <p>Thank you for registering for:<br></p>
 
-    <p><b>{event.title}{' : ' if subtitle else ''}{subtitle or ''}</b><br></p>
+    <p><b>{event.title}{f' : {subtitle}' if subtitle else ''}</b><br></p>
 
     <p><strong>{event.date.strftime("%A").upper()}</strong>, {event.date.strftime("%B")} {event.date.day} @ {event.time.strftime("%I:%M %p")}
-    (Doors open at {(datetime.combine(date.today(), event.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br></p>
+    {f'(Doors open at {(datetime.combine(date.today(), event.time) - timedelta(minutes=30)).time().strftime("%I:%M %p")})<br>' if event_type == 'seminar' else ''}</p>
 
-    <p>{location_name if location_name else ''}{"<br>" if location_name else ''}
+    <p>{f'{location_name}<br>' if location_name else ''}
     {address},<br>
     {city}, {state} {zip_code}<br>
     (Follow The Purple Signs)<br></p>'''
