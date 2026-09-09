@@ -213,6 +213,10 @@ class Registration(models.Model):
 
 
 class EventRegistration(models.Model):
+    class Meta:
+        verbose_name = "Other Event Registration"
+        verbose_name_plural = "Other Event Registrations"
+
     REGISTRATION_STATUS_CHOICES = {
         "registered" : "Registered",
         "attended" : "Attended",
