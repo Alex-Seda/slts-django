@@ -193,6 +193,39 @@ class AttendeeAdmin(admin.ModelAdmin):
         )
     cancellation_summary.short_description = "Cancellations"
 
+    def other_events_registration_summary(self, obj):
+        if obj is None:
+            return "—"
+
+        count = obj.eventRegistrations.filter(status="registered").count()
+        return format_html(
+            '<strong style="font-size:16px;">{} Other Event(s) Currently Registered For</strong>',
+            count
+        )
+    other_events_registration_summary.short_description = "Other Event Registrations"
+
+    def other_events_attendance_summary(self, obj):
+        if obj is None:
+            return "—"
+
+        count = obj.eventRegistrations.filter(status="attended").count()
+        return format_html(
+            '<strong style="font-size:16px;">{} Other Event(s) Attended</strong>',
+            count
+        )
+    other_events_attendance_summary.short_description = "Other Event Attendance"
+
+    def other_events_cancellation_summary(self, obj):
+        if obj is None:
+            return "—"
+
+        count = obj.eventRegistrations.filter(status="cancelled").count()
+        return format_html(
+            '<strong style="font-size:16px;">{} Other Event(s) Cancelled / No Show</strong>',
+            count
+        )
+    other_events_cancellation_summary.short_description = "Other Event Cancellations"
+
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
 
@@ -200,7 +233,14 @@ class AttendeeAdmin(admin.ModelAdmin):
         return u", ".join(o.name for o in obj.tags.all())
 
     autocomplete_fields = ['married_to']  # <-- searchable dropdown
-    readonly_fields = ['registration_summary','attendance_summary','cancellation_summary']
+    readonly_fields = [
+        'registration_summary',
+        'attendance_summary',
+        'cancellation_summary',
+        'other_events_registration_summary',
+        'other_events_attendance_summary',
+        'other_events_cancellation_summary'
+    ]
 
     list_display = [
         'first_name',
@@ -240,9 +280,15 @@ class AttendeeAdmin(admin.ModelAdmin):
             'email',
             'phone',
             'heard_from',
+        ]}),
+
+        ('Attendance Statistics', {'fields': [
             'registration_summary',
             'attendance_summary',
-            'cancellation_summary'
+            'cancellation_summary',
+            'other_events_registration_summary',
+            'other_events_attendance_summary',
+            'other_events_cancellation_summary',
         ]}),
 
         ('Address', {'fields': [
