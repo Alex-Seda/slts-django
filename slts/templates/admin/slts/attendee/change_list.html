@@ -3,5 +3,6 @@
 {% block object-tools-items %}
     <a href="{% url 'slts:export_attendee_analytics_csv' %}" class="btn btn-sm btn-outline btn-primary">Export Attendee Analytics</a>
     <a href="{% url 'slts:export_attendees_csv' %}" class="btn btn-sm btn-outline btn-primary">Export All Attendees</a>
+    <a href="{% url 'admin:attendee_export_filtered_csv' %}{{ cl.get_query_string }}" class="btn btn-sm btn-outline btn-primary">Export Filtered Attendees</a>
     {{ block.super }}
 {% endblock %}

@@ -1,9 +1,9 @@
 import csv
 from django.urls import path, reverse
-from django.contrib import admin
+from django.contrib import admin,messages
 from django.utils.html import format_html
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
 from .admin_views import export_signin, export_nametags, export_raw
@@ -159,6 +159,39 @@ class SeminarAdmin(SummernoteModelAdmin):
 
 class AttendeeAdmin(admin.ModelAdmin):
     change_list_template = "admin/slts/attendee/change_list.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom = [
+            path(
+                "export-filtered/",
+                self.admin_site.admin_view(self.export_filtered),
+                name="attendee_export_filtered_csv",
+            ),
+        ]
+        return custom + urls
+
+    def export_filtered(self, request):
+        cl = self.get_changelist_instance(request)
+
+        if not request.GET:
+            messages.error(request, "You must filter the attendees before exporting.")
+            return redirect("admin:slts_attendee_changelist")
+
+        queryset = cl.get_queryset(request)  # respects tags filter, search, ordering — no pagination
+    
+        model = self.model
+        exclude = {"id", "married_to"}
+        field_names = [f.name for f in model._meta.fields if f.name not in exclude]
+        header_names = [f.name.replace("_"," ").title() for f in model._meta.fields if f.name not in exclude]
+
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="filtered_attendees.csv"'
+        writer = csv.writer(response)
+        writer.writerow(header_names)
+        for a in queryset:
+            writer.writerow([getattr(a, f) for f in field_names])
+        return response
 
     def registration_summary(self, obj):
         if obj is None:

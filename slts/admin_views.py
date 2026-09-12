@@ -39,6 +39,7 @@ def export_all_attendees(request):
 
     return response
 
+@staff_member_required
 def export_attendee_analytics(request):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="attendee_analytics.csv"'
