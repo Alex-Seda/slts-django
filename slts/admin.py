@@ -181,7 +181,7 @@ class AttendeeAdmin(admin.ModelAdmin):
         queryset = cl.get_queryset(request)  # respects tags filter, search, ordering — no pagination
     
         model = self.model
-        exclude = {"id", "married_to"}
+        exclude = {"id", "married_to", "local", "deceased"}
         field_names = [f.name for f in model._meta.fields if f.name not in exclude]
         header_names = [f.name.replace("_"," ").title() for f in model._meta.fields if f.name not in exclude]
 
