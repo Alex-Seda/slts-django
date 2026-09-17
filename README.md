@@ -216,4 +216,4 @@ These exports can contain personal information. Treat generated CSV files as con
 
 Copyright © 2026 Alex Seda. All rights reserved.
 
-This repository is published for read-only portfolio and evaluation purposes. It is not open-source software, and no license is granted to copy, modify, fork, redistribute, sublicense, or use the code or associated assets without prior written permission from the copyright holder. Public visibility on GitHub does not constitute authorization to reuse the project.
+This repository is published as a portfolio and evaluation resource. The source code and associated assets remain the property of the copyright holder and are not offered under an open-source license. GitHub users may view and interact with this repository using GitHub’s platform features, subject to GitHub’s Terms of Service. Any use beyond those platform features—including reproduction, modification, redistribution, sublicensing, or commercial use—requires prior written permission from the copyright holder.
