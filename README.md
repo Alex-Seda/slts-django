@@ -212,6 +212,8 @@ These exports can contain personal information. Treat generated CSV files as con
 - Keep environment-specific configuration outside source control.
 - Review authorization and personal-data implications for every new administrative or export feature.
 
-## License and ownership
+## Ownership and usage
 
-This repository is presented as a portfolio and engineering project. Add the organization’s preferred license and contribution terms before accepting external contributions or distributing the application for reuse.
+Copyright © 2026 Alex Seda. All rights reserved.
+
+This repository is published for read-only portfolio and evaluation purposes. It is not open-source software, and no license is granted to copy, modify, fork, redistribute, sublicense, or use the code or associated assets without prior written permission from the copyright holder. Public visibility on GitHub does not constitute authorization to reuse the project.
