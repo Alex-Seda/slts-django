@@ -1,0 +1,66 @@
+{% extends "slts/base.html" %}
+
+{% block title %}In the News{% endblock %}
+
+{% block content %}
+<div class="w-full bg-slate-50 flex flex-col pt-20">
+  <header class="relative overflow-hidden bg-c_dark_purple text-white">
+    <div class="absolute -right-20 -top-24 h-72 w-72 rounded-full border-[24px] border-amber-300/20"></div>
+    <div class="absolute -bottom-24 left-1/4 h-52 w-52 rounded-full bg-rose-300/10"></div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-amber-200">Senior Living Truth Series</p>
+      <h1 class="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight">In the News</h1>
+      <div class="h-1.5 w-20 bg-amber-300 rounded-full mt-4"></div>
+      <p class="mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-purple-100">
+        See how local news outlets are helping share honest conversations about senior living with Oklahoma families.
+      </p>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 w-full">
+    <div class="flex items-end justify-between gap-6 mb-10">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Press &amp; media</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">Recent coverage</h2>
+      </div>
+      <div class="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 text-2xl rotate-3">
+        <i class="fa-solid fa-newspaper"></i>
+      </div>
+    </div>
+
+    {% if news_mentions %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {% for mention in news_mentions %}
+          <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-purple-100 bg-white shadow-xl shadow-purple-950/5 transition-transform duration-200 hover:-translate-y-1">
+            <div class="h-2 bg-gradient-to-r from-amber-300 via-rose-300 to-purple-400"></div>
+            <div class="flex flex-1 flex-col p-7 sm:p-8">
+              <div class="flex items-center justify-between gap-4 text-sm">
+                <span class="font-bold uppercase tracking-[0.16em] text-primary">{{ mention.outlet_name }}</span>
+                <time datetime="{{ mention.published_date|date:'Y-m-d' }}" class="whitespace-nowrap text-gray-500">
+                  {{ mention.published_date|date:"M j, Y" }}
+                </time>
+              </div>
+              <h3 class="mt-5 text-2xl font-extrabold leading-tight text-gray-900 group-hover:text-primary transition-colors">
+                {{ mention.article_title }}
+              </h3>
+              {% if mention.excerpt %}
+                <p class="mt-4 flex-1 text-lg leading-relaxed text-gray-700">{{ mention.excerpt|linebreaksbr }}</p>
+              {% else %}
+                <p class="mt-4 flex-1 text-lg leading-relaxed text-gray-600">Read the full story from {{ mention.outlet_name }}.</p>
+              {% endif %}
+              <a href="{% url 'slts:in_the_news_single' mention_id=mention.id %}" class="mt-7 inline-flex w-fit items-center gap-2 rounded-xl bg-primary px-5 py-3 font-bold text-white shadow-md transition-colors hover:bg-c_dark_purple focus:outline-none focus:ring-4 focus:ring-purple-300">
+                Read coverage
+                <i class="fa-solid fa-arrow-right text-sm transition-transform group-hover:translate-x-1"></i>
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="bg-white rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5 p-8 text-center">
+        <p class="text-xl text-gray-600">No news coverage is currently available.</p>
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -264,6 +264,19 @@ class GoogleReview(models.Model):
     def __str__(self):
         return self.name
 
+class NewsMention(models.Model):
+    STATUS_CHOICES = {
+        "draft" : "Draft",
+        "published" : "Published",
+    }
+
+    outlet_name = models.CharField(max_length=200)
+    article_title = models.CharField(max_length=300)
+    article_url = models.URLField(max_length=500)
+    published_date = models.DateField()
+    excerpt = models.TextField(blank=True)
+    status = models.CharField(max_length=9, choices=STATUS_CHOICES)
+
 class Location(models.Model):
     SERIES_CHOICES = {
         "north" : "North",

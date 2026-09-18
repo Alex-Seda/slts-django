@@ -28,6 +28,8 @@ urlpatterns = [
     path("about_us/", views.about, name="about"),
     path("terms-of-use/", views.terms_of_use, name="terms_of_use"),
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
+    path("in-the-news/", views.in_the_news, name="in_the_news"),
+    path("<int:mention_id>/in-the-news/", views.in_the_news_single, name="in_the_news_single"),
 
     # API URL
     path('api/register/submit/', views.api_register_submit, name='api_register_submit'),

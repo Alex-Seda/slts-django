@@ -1,7 +1,6 @@
 import json
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.template import loader
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -11,7 +10,7 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
-from .models import EducationPartner, EventRegistration, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview
+from .models import EducationPartner, EventRegistration, Registration, Attendee, Seminar, SeminarQuerySet, OtherEvent, OtherEventQuerySet, FAQ, GoogleReview, NewsMention
 from .services import send_confirmation_email, normalize_phone, get_or_create_attendee, get_or_create_spouse, check_api_key, check_registration_info
 from .forms import AttendeeForm
 
@@ -252,6 +251,26 @@ def about(request):
     faqs = FAQ.objects.all()
     template = loader.get_template("slts/pages/about.html")
     context = {"education_partners": education_partners, "faqs": faqs,}
+    return HttpResponse(template.render(context, request))
+
+def in_the_news(request):
+    news_mentions = NewsMention.objects.filter(status="published").order_by("-published_date", "-id")
+    template = loader.get_template("slts/pages/in_the_news.html")
+    context = {"news_mentions": news_mentions}
+    return HttpResponse(template.render(context, request))
+
+def in_the_news_single(request, mention_id):
+    try:
+        news_mention = get_object_or_404(
+            NewsMention,
+            id=mention_id,
+            status="published",
+        )
+    except Http404:
+        return redirect("slts:in_the_news")
+
+    template = loader.get_template("slts/pages/in_the_news_single.html")
+    context = {"news_mention": news_mention}
     return HttpResponse(template.render(context, request))
 
 def terms_of_use(request):

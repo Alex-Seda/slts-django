@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
 from .admin_views import export_signin, export_nametags, export_raw
-from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview, Location
+from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview, Location, NewsMention
 
 
 
@@ -517,6 +517,27 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     ]
 
 
+class NewsMentionAdmin(admin.ModelAdmin):
+    list_per_page = 10
+
+    list_display = [
+        'article_title',
+        'outlet_name',
+        'published_date',
+        'status',
+    ]
+
+    list_filter = [
+        'outlet_name',
+        'status',
+    ]
+
+    search_fields = [
+        'outlet_name',
+        'article_title',
+    ]
+
+
 class LocationAdmin(admin.ModelAdmin):
     list_per_page = 10
 
@@ -547,3 +568,4 @@ admin.site.register(EducationPartner, EducationPartnerAdmin)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(GoogleReview, GoogleReviewAdmin)
 admin.site.register(Location, LocationAdmin)
+admin.site.register(NewsMention, NewsMentionAdmin)

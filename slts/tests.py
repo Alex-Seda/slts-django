@@ -13,6 +13,7 @@ from .forms import AttendeeForm
 from .models import (
     Attendee,
     Location,
+    NewsMention,
     OtherEvent,
     Registration,
     Seminar,
@@ -86,6 +87,18 @@ class TestDataMixin:
         }
         values.update(kwargs)
         return Attendee.objects.create(**values)
+
+    def create_news_mention(self, **kwargs):
+        values = {
+            "outlet_name": "Oklahoma Gazette",
+            "article_title": "Senior Living Truth Series Helps Families Plan Ahead",
+            "article_url": "https://example.com/news/senior-living-truth-series",
+            "published_date": date(2026, 9, 1),
+            "excerpt": "A story about planning ahead.",
+            "status": "published",
+        }
+        values.update(kwargs)
+        return NewsMention.objects.create(**values)
 
 
 class AttendeeFormTests(TestCase):
@@ -274,6 +287,60 @@ class ViewTests(TestDataMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Scheduled Seminar")
         self.assertNotContains(response, "Draft Seminar")
+
+    def test_in_the_news_lists_published_mentions_in_reverse_date_order(self):
+        self.create_news_mention(
+            article_title="Older Coverage",
+            published_date=date(2026, 1, 1),
+        )
+        self.create_news_mention(
+            article_title="Newer Coverage",
+            published_date=date(2026, 9, 15),
+        )
+        self.create_news_mention(
+            article_title="Draft Coverage",
+            status="draft",
+            published_date=date(2026, 12, 1),
+        )
+
+        response = self.client.get(reverse("slts:in_the_news"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Newer Coverage")
+        self.assertContains(response, "Older Coverage")
+        self.assertNotContains(response, "Draft Coverage")
+        self.assertLess(
+            response.content.index(b"Newer Coverage"),
+            response.content.index(b"Older Coverage"),
+        )
+
+    def test_in_the_news_shows_empty_state_without_published_mentions(self):
+        self.create_news_mention(status="draft")
+
+        response = self.client.get(reverse("slts:in_the_news"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No news coverage is currently available.")
+
+    def test_in_the_news_single_renders_published_mention(self):
+        mention = self.create_news_mention()
+
+        response = self.client.get(
+            reverse("slts:in_the_news_single", args=(mention.id,))
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, mention.article_title)
+        self.assertContains(response, mention.article_url)
+
+    def test_in_the_news_single_redirects_for_draft(self):
+        mention = self.create_news_mention(status="draft")
+
+        response = self.client.get(
+            reverse("slts:in_the_news_single", args=(mention.id,))
+        )
+
+        self.assertRedirects(response, reverse("slts:in_the_news"))
 
     def test_register_redirects_for_non_scheduled_event(self):
         seminar = self.create_seminar(status="completed")
