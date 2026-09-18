@@ -11,7 +11,7 @@ The project combines a public-facing event experience with a purpose-built admin
   - Year-based seminar schedules
   - Seminar recording archive
   - Tours and Expert Insights event types
-  - Education partners, FAQs, testimonials, About, Terms, and Privacy pages
+  - News coverage, education partners, FAQs, testimonials, About, Terms, and Privacy pages
   - Responsive Tailwind CSS interface
 
 - **Registration workflow**
@@ -55,7 +55,7 @@ The application is organized as a conventional Django project:
 ```text
 config/                 Project settings, URL configuration, ASGI/WSGI entrypoints
 slts/
-  models.py             Events, attendees, registrations, locations, partners, FAQs
+  models.py             Events, attendees, registrations, locations, partners, news, FAQs
   forms.py              Public registration form validation
   services.py           Registration, email, phone, and CSV service layer
   views.py              Public pages and registration/API endpoints
@@ -161,6 +161,7 @@ The test suite covers:
 - Confirmation email content
 - CSV export formats and ordering
 - Public schedule and registration flows
+- Published NewsMentions list and detail pages, including draft filtering and empty states
 - Authenticated API registration behavior
 
 Before opening a pull request, also rebuild the frontend assets when Tailwind source files have changed:
