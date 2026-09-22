@@ -8,6 +8,7 @@ from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
 from .admin_views import export_signin, export_nametags, export_raw
 from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview, Location, NewsMention
+from .admin_site import site
 
 
 
@@ -559,13 +560,13 @@ class LocationAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(Attendee, AttendeeAdmin)
-admin.site.register(Seminar, SeminarAdmin)
-admin.site.register(Registration, RegistrationAdmin)
-admin.site.register(OtherEvent, OtherEventAdmin)
-admin.site.register(EventRegistration, EventRegistrationAdmin)
-admin.site.register(EducationPartner, EducationPartnerAdmin)
-admin.site.register(FAQ, FaqAdmin)
-admin.site.register(GoogleReview, GoogleReviewAdmin)
-admin.site.register(Location, LocationAdmin)
-admin.site.register(NewsMention, NewsMentionAdmin)
+site.register(Attendee, AttendeeAdmin)
+site.register(Seminar, SeminarAdmin)
+site.register(Registration, RegistrationAdmin)
+site.register(OtherEvent, OtherEventAdmin)
+site.register(EventRegistration, EventRegistrationAdmin)
+site.register(EducationPartner, EducationPartnerAdmin)
+site.register(FAQ, FaqAdmin)
+site.register(GoogleReview, GoogleReviewAdmin)
+site.register(Location, LocationAdmin)
+site.register(NewsMention, NewsMentionAdmin)

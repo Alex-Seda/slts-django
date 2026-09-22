@@ -1,0 +1,125 @@
+{% extends "admin/base_site.html" %}
+{% load humanize %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .slts-dashboard { max-width: 1440px; }
+    .slts-dashboard .dashboard-eyebrow { color: #8f44b8; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .slts-dashboard .dashboard-title { color: #420264; font-size: clamp(1.8rem, 3vw, 2.65rem); font-weight: 800; line-height: 1.1; margin: .25rem 0 .5rem; }
+    .slts-dashboard .dashboard-subtitle { color: #6b7280; margin: 0; }
+    .slts-dashboard .metric-grid, .slts-dashboard .link-grid { display: grid; gap: 1rem; }
+    .slts-dashboard .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 2rem 0; }
+    .slts-dashboard .link-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+    .slts-dashboard .panel { background: #fff; border: 1px solid #eadff0; border-radius: 1rem; box-shadow: 0 8px 24px rgba(66, 2, 100, .06); }
+    .slts-dashboard .metric { padding: 1.25rem; position: relative; overflow: hidden; }
+    .slts-dashboard .metric:after { background: #f6e5ff; border-radius: 999px; content: ""; height: 6rem; position: absolute; right: -2rem; top: -2rem; width: 6rem; }
+    .slts-dashboard .metric-label { color: #6b7280; font-size: .8rem; font-weight: 700; position: relative; text-transform: uppercase; z-index: 1; }
+    .slts-dashboard .metric-value { color: #420264; font-size: 2rem; font-weight: 800; margin-top: .6rem; position: relative; z-index: 1; }
+    .slts-dashboard .metric-note { color: #8f44b8; font-size: .8rem; margin-top: .25rem; position: relative; z-index: 1; }
+    .slts-dashboard .content-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); }
+    .slts-dashboard .panel-header { align-items: center; border-bottom: 1px solid #f0eaf3; display: flex; justify-content: space-between; padding: 1.1rem 1.25rem; }
+    .slts-dashboard .panel-title { color: #420264; font-size: 1rem; font-weight: 800; margin: 0; }
+    .slts-dashboard .panel-link { color: #8f44b8; font-size: .8rem; font-weight: 700; }
+    .slts-dashboard .event-list { list-style: none; margin: 0; padding: 0; }
+    .slts-dashboard .event-item { align-items: center; border-bottom: 1px solid #f5f1f7; display: flex; gap: 1rem; justify-content: space-between; padding: 1rem 1.25rem; }
+    .slts-dashboard .event-item:last-child { border-bottom: 0; }
+    .slts-dashboard .event-name { color: #25202a; font-weight: 700; }
+    .slts-dashboard .event-meta { color: #7d7182; font-size: .8rem; margin-top: .25rem; }
+    .slts-dashboard .event-count { background: #f7e8ff; border-radius: 999px; color: #5d1982; font-size: .75rem; font-weight: 700; padding: .35rem .6rem; white-space: nowrap; }
+    .slts-dashboard .empty { color: #7d7182; padding: 1.25rem; }
+    .slts-dashboard .quick-links { margin-top: 1rem; }
+    .slts-dashboard .quick-link { align-items: center; display: flex; gap: .8rem; min-height: 7rem; min-width: 0; overflow-wrap: anywhere; padding: 1rem; transition: transform .15s ease, box-shadow .15s ease; }
+    .slts-dashboard .quick-link:hover { box-shadow: 0 12px 28px rgba(66, 2, 100, .12); transform: translateY(-2px); }
+    .slts-dashboard .quick-icon { align-items: center; border-radius: .75rem; display: flex; flex: 0 0 2.5rem; height: 2.5rem; justify-content: center; }
+    .slts-dashboard .quick-icon.purple { background: #f0d9fa; color: #6d218e; }
+    .slts-dashboard .quick-icon.yellow { background: #fff3bf; color: #8a6900; }
+    .slts-dashboard .quick-icon.blue { background: #dceeff; color: #1e6091; }
+    .slts-dashboard .quick-icon.green { background: #dcf8e8; color: #187244; }
+    .slts-dashboard .quick-link > span:last-child { flex: 1 1 0%; min-width: 0; overflow-wrap: normal; white-space: normal; writing-mode: horizontal-tb; }
+    .slts-dashboard .quick-label { color: #420264; display: block; font-weight: 800; line-height: 1.25; }
+    .slts-dashboard .quick-description { color: #7d7182; display: block; font-size: .75rem; line-height: 1.35; margin-top: .25rem; }
+    @media (max-width: 1100px) { .slts-dashboard .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 760px) {
+        .slts-dashboard .content-grid, .slts-dashboard .link-grid { grid-template-columns: 1fr; }
+        .slts-dashboard .quick-link { min-height: 0; }
+    }
+    @media (max-width: 520px) { .slts-dashboard .metric-grid, .slts-dashboard .link-grid { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="slts-dashboard">
+    <div class="dashboard-eyebrow">SLTS admin</div>
+    <h1 class="dashboard-title">Good to see you, {{ user.first_name|default:user.username }}.</h1>
+    <p class="dashboard-subtitle">Here’s the latest activity across seminars, events, and attendees.</p>
+
+    <div class="metric-grid">
+        <div class="panel metric">
+            <div class="metric-label">Total attendees</div>
+            <div class="metric-value">{{ dashboard_metrics.attendees|intcomma }}</div>
+            <div class="metric-note">People in your community</div>
+        </div>
+        <div class="panel metric">
+            <div class="metric-label">Upcoming events</div>
+            <div class="metric-value">{{ dashboard_metrics.upcoming_events|intcomma }}</div>
+            <div class="metric-note">Scheduled from today forward</div>
+        </div>
+        <div class="panel metric">
+            <div class="metric-label">This month</div>
+            <div class="metric-value">{{ dashboard_metrics.registrations_this_month|intcomma }}</div>
+            <div class="metric-note">Registrations dated this month</div>
+        </div>
+        <div class="panel metric">
+            <div class="metric-label">Attendance rate</div>
+            <div class="metric-value">{{ dashboard_metrics.attendance_rate }}%</div>
+            <div class="metric-note">Across all registrations</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Upcoming schedule</h2>
+                <a class="panel-link" href="{% url 'admin:slts_seminar_changelist' %}">Manage events →</a>
+            </div>
+            <ul class="event-list">
+                {% for seminar in upcoming_seminars %}
+                <li class="event-item">
+                    <div>
+                        <a class="event-name" href="{% url 'admin:slts_seminar_change' seminar.pk %}">{{ seminar.title }}</a>
+                        <div class="event-meta">{{ seminar.date|date:"M j, Y" }} · {{ seminar.location_fk.name }}</div>
+                    </div>
+                    <span class="event-count">{{ seminar.registration_count }} registered</span>
+                </li>
+                {% endfor %}
+                {% for event in upcoming_events %}
+                <li class="event-item">
+                    <div>
+                        <a class="event-name" href="{% url 'admin:slts_otherevent_change' event.pk %}">{{ event.title }}</a>
+                        <div class="event-meta">{{ event.date|date:"M j, Y" }} · {{ event.get_event_type_display }}</div>
+                    </div>
+                    <span class="event-count">{{ event.registration_count }} registered</span>
+                </li>
+                {% empty %}
+                {% if not upcoming_seminars %}<li class="empty">No upcoming events are scheduled.</li>{% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Quick links</h2>
+            </div>
+            <div class="link-grid" style="padding: 1rem;">
+                {% for link in dashboard_links %}
+                <a class="panel quick-link" href="{{ link.url }}">
+                    <span class="quick-icon {{ link.tone }}"><i class="fa-solid {{ link.icon }}"></i></span>
+                    <span><span class="quick-label">{{ link.label }}</span><span class="quick-description">{{ link.description }}</span></span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
