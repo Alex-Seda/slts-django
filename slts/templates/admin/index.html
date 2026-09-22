@@ -39,6 +39,25 @@
     .slts-dashboard .quick-link > span:last-child { flex: 1 1 0%; min-width: 0; overflow-wrap: normal; white-space: normal; writing-mode: horizontal-tb; }
     .slts-dashboard .quick-label { color: #420264; display: block; font-weight: 800; line-height: 1.25; }
     .slts-dashboard .quick-description { color: #7d7182; display: block; font-size: .75rem; line-height: 1.35; margin-top: .25rem; }
+    [data-theme="dark"] .slts-dashboard .dashboard-title,
+    [data-theme="dark"] .slts-dashboard .panel-title,
+    [data-theme="dark"] .slts-dashboard .metric-value,
+    [data-theme="dark"] .slts-dashboard .quick-label { color: #f3e8ff; }
+    [data-theme="dark"] .slts-dashboard .dashboard-subtitle,
+    [data-theme="dark"] .slts-dashboard .metric-label,
+    [data-theme="dark"] .slts-dashboard .event-meta,
+    [data-theme="dark"] .slts-dashboard .quick-description { color: #c4b5c9; }
+    [data-theme="dark"] .slts-dashboard .panel { background: #211a27; border-color: #493650; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
+    [data-theme="dark"] .slts-dashboard .metric:after { background: #382544; }
+    [data-theme="dark"] .slts-dashboard .panel-header,
+    [data-theme="dark"] .slts-dashboard .event-item { border-color: #382b3d; }
+    [data-theme="dark"] .slts-dashboard .event-name { color: #f5eafa; }
+    [data-theme="dark"] .slts-dashboard .event-count { background: #49305b; color: #f1d8ff; }
+    [data-theme="dark"] .slts-dashboard .empty { color: #c4b5c9; }
+    [data-theme="dark"] .slts-dashboard .quick-icon.purple { background: #4b2d5c; color: #e9c6fa; }
+    [data-theme="dark"] .slts-dashboard .quick-icon.yellow { background: #51451f; color: #ffe890; }
+    [data-theme="dark"] .slts-dashboard .quick-icon.blue { background: #213e56; color: #a8d8ff; }
+    [data-theme="dark"] .slts-dashboard .quick-icon.green { background: #1e4935; color: #a6efc5; }
     @media (max-width: 1100px) { .slts-dashboard .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 760px) {
         .slts-dashboard .content-grid, .slts-dashboard .link-grid { grid-template-columns: 1fr; }
