@@ -32,26 +32,38 @@ class DashboardAdminSite(DaisyAdminSite):
         )
 
         context = {
-            "dashboard_metrics": {
-                "attendees": Attendee.objects.count(),
-                "upcoming_events": (
-                    Seminar.objects.filter(date__gte=today, status="scheduled").count()
-                    + OtherEvent.objects.filter(
-                        date__gte=today, status="scheduled"
-                    ).count()
-                ),
-                "registrations_this_month": (
-                    Registration.objects.filter(
-                        seminar__date__gte=month_start,
-                        seminar__date__lte=today,
-                    ).count()
-                    + EventRegistration.objects.filter(
-                        event__date__gte=month_start,
-                        event__date__lte=today,
-                    ).count()
-                ),
-                "attendance_rate": self._attendance_rate(),
-            },
+            "dashboard_metrics": [
+                {"key": "attendees", "label": "Total Attendees", "value": Attendee.objects.count()},
+                {
+                    "key": "upcoming_events",
+                    "label": "Upcoming events",
+                    "value": (
+                        Seminar.objects.filter(date__gte=today, status="scheduled").count()
+                        + OtherEvent.objects.filter(
+                            date__gte=today, status="scheduled"
+                        ).count()
+                    ),
+                },
+                {
+                    "key": "registrations_this_month",
+                    "label": "Registrations this month",
+                    "value": (
+                        Registration.objects.filter(
+                            seminar__date__gte=month_start,
+                            seminar__date__lte=today,
+                        ).count()
+                        + EventRegistration.objects.filter(
+                            event__date__gte=month_start,
+                            event__date__lte=today,
+                        ).count()
+                    ),
+                },
+                {
+                    "key": "attendance_rate",
+                    "label": "Attendance rate",
+                    "value": self._attendance_rate(),
+                },
+            ],
             "upcoming_seminars": upcoming_seminars,
             "upcoming_events": upcoming_events,
             "dashboard_links": [
@@ -90,8 +102,8 @@ class DashboardAdminSite(DaisyAdminSite):
     @staticmethod
     def _attendance_rate():
         total = (
-            Registration.objects.exclude(status="cancelled").count()
-            + EventRegistration.objects.exclude(status="cancelled").count()
+            Registration.objects.exclude(status="registered").count()
+            + EventRegistration.objects.exclude(status="registered").count()
         )
         attended = (
             Registration.objects.filter(status="attended").count()

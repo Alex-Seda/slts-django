@@ -10,11 +10,11 @@
     <p class="text-base-content/60">Here’s the latest activity across seminars, events, and attendees.</p>
 
     <div class="my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {% for metric in dashboard_metrics.items %}
+        {% for metric in dashboard_metrics %}
         <div class="card border border-base-200 bg-base-100 shadow-sm">
             <div class="card-body p-5">
-                <p class="text-xs font-bold uppercase text-base-content/60">{{ metric.0|cut:"_"|title }}</p>
-                <p class="text-3xl font-extrabold text-primary">{{ metric.1|intcomma }}{% if metric.0 == "attendance_rate" %}%{% endif %}</p>
+                <p class="text-xs font-bold uppercase text-base-content/60">{{ metric.label }}</p>
+                <p class="text-3xl font-extrabold text-primary">{{ metric.value|intcomma }}{% if metric.key == "attendance_rate" %}%{% endif %}</p>
             </div>
         </div>
         {% endfor %}
