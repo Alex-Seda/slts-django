@@ -27,7 +27,7 @@ The project combines a public-facing event experience with a purpose-built admin
   - Location and event-series management
   - Attendee search, filtering, tagging, and relationship tracking
   - Registration status actions for registered, attended, and cancelled records
-  - Attendance summaries embedded in admin views
+  - Custom dashboard admin interface built on `django-daisy` with operational summaries
   - Export tools for sign-in sheets, nametags, attendee data, filtered attendees, and analytics
 
 - **Maintainability**
@@ -40,17 +40,17 @@ The project combines a public-facing event experience with a purpose-built admin
 
 | Area | Technology |
 | --- | --- |
-| Application | Python, Django |
-| Database | PostgreSQL in deployment; SQLite may be used for local development |
+| Application | Python, Django 6.0.1 |
+| Database | SQLite by default for local development; PostgreSQL is supported via the configured Django DB settings |
 | UI | Django templates, Tailwind CSS |
-| Administration | Django Admin, Jazzmin, DaisyUI |
+| Administration | Django Admin with a custom `DashboardAdminSite` extending `django-daisy` |
 | Content editing | Django Summernote |
-| Integrations | SendGrid-compatible email delivery and authenticated registration API |
+| Integrations | Django email backend (SMTP/console), SendGrid client library, and an authenticated registration API |
 | Supporting packages | django-environ, django-localflavor, django-phonenumber-field, django-taggit, Pillow |
 
 ## Architecture at a glance
 
-The application is organized as a conventional Django project:
+The application is organized as a conventional Django project, with a custom admin site layered on top of the Daisy admin base:
 
 ```text
 config/                 Project settings, URL configuration, ASGI/WSGI entrypoints
@@ -59,7 +59,8 @@ slts/
   forms.py              Public registration form validation
   services.py           Registration, email, phone, and CSV service layer
   views.py              Public pages and registration/API endpoints
-  admin.py              Staff administration and operational actions
+  admin.py              Registered admin models and custom actions
+  admin_site.py         Custom DashboardAdminSite inheriting from django-daisy
   admin_views.py        Staff-only export endpoints
   templates/            Public and administrative presentation
   migrations/           Versioned database schema
@@ -74,7 +75,7 @@ manage.py               Django command-line entrypoint
 
 - Python 3.12 or newer
 - Node.js and npm
-- A PostgreSQL database for production-like development, or SQLite for a lightweight local environment
+- SQLite for the default local setup, or PostgreSQL if you want to override the database settings
 
 ### 1. Create a Python environment
 
@@ -104,13 +105,15 @@ cd ..
 
 ### 3. Configure the environment
 
-Copy the example configuration and replace every placeholder with local values:
+Copy the example configuration and replace any placeholders that matter for your local setup:
 
 ```bash
 cp env.example .env
 ```
 
-The application reads database, email, host, static-file, media, and site URL settings from `.env`. Keep `.env`, local databases, uploaded media, and other runtime data outside version control. Never use example credentials in a deployed environment.
+The project reads its runtime settings from `.env`, including the database, email, static/media paths, and site URL. For the shipped default local setup, the repository already includes a working `.env` using SQLite and console email output.
+
+If you are switching to PostgreSQL or a different mail provider, update the corresponding variables in `.env` before running Django commands.
 
 ### 4. Initialize the database
 
@@ -161,7 +164,7 @@ The test suite covers:
 - Confirmation email content
 - CSV export formats and ordering
 - Public schedule and registration flows
-- Published NewsMentions list and detail pages, including draft filtering and empty states
+- Published NewsMention list and detail pages, including draft filtering and empty states
 - Authenticated API registration behavior
 
 Before opening a pull request, also rebuild the frontend assets when Tailwind source files have changed:
@@ -177,8 +180,8 @@ Production configuration should provide:
 - A strong, unique Django secret key
 - `DEBUG=False`
 - Explicit production `ALLOWED_HOSTS`
-- PostgreSQL connection settings
-- Secure email provider settings
+- PostgreSQL connection settings or another supported production database
+- Secure email provider settings and a non-console backend for real delivery
 - Persistent static and media storage
 - A production WSGI/ASGI process manager such as Gunicorn
 
