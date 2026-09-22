@@ -1,14 +1,16 @@
-from django.contrib.admin import AdminSite
 from django.contrib.auth.admin import GroupAdmin, UserAdmin
 from django.contrib.auth.models import Group, User
+from django.contrib.admin.models import LogEntry
 from django.db.models import Count
 from django.urls import reverse
 from django.utils import timezone
+from django_daisy.admin import DaisyAdminSite
+from django_daisy.logentry_admin import LogentryAdmin
 
 from .models import Attendee, EventRegistration, OtherEvent, Registration, Seminar
 
 
-class DashboardAdminSite(AdminSite):
+class DashboardAdminSite(DaisyAdminSite):
     site_header = "SLTS Administration"
     site_title = "SLTS Admin"
     index_title = "Dashboard"
@@ -99,5 +101,6 @@ class DashboardAdminSite(AdminSite):
 
 
 site = DashboardAdminSite(name="admin")
+site.register(LogEntry, LogentryAdmin)
 site.register(User, UserAdmin)
 site.register(Group, GroupAdmin)

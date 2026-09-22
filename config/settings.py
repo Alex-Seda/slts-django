@@ -192,6 +192,7 @@ DAISY_SETTINGS = {
     'EXTRA_SCRIPTS': [],  # List of extra script URLs to be loaded in base.html (optional)
     'LOAD_FULL_STYLES': False,  # If True, loads full DaisyUI components in the admin (useful if you have custom template overrides)
     'SHOW_CHANGELIST_FILTER': False,  # If True, the filter sidebar will open by default on changelist views
+    'SHOW_THEME_SELECTOR': True,  # Show the light/dark theme selector in the admin navbar
     'APPS_REORDER': {
         # Custom configurations for third-party apps that can't be modified directly in their `apps.py`
         'auth': {
