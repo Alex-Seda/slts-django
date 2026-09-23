@@ -49,7 +49,7 @@ def export_attendee_analytics(request):
     event_type_keys = list(event_type_labels.keys())
 
     # data[year]["seminar" | event_type]["registered"/"attended"] = count
-    data = defaultdict(lambda: defaultdict(lambda: {"registered": 0, "attended": 0}))
+    data = defaultdict(lambda: defaultdict(lambda: {"registered": 0, "attended": 0, "unique_attendees": 0}))
 
     seminar_rows = (
         Registration.objects
@@ -58,11 +58,13 @@ def export_attendee_analytics(request):
         .annotate(
             registered=Count("id"),
             attended=Count("id", filter=Q(status="attended")),
+            unique_attendees=Count("attendee",filter=Q(status="attended"),distinct=True)
         )
     )
     for row in seminar_rows:
         data[row["year"]]["seminar"]["registered"] = row["registered"]
         data[row["year"]]["seminar"]["attended"] = row["attended"]
+        data[row["year"]]["seminar"]["unique_attendees"] = row["unique_attendees"]
 
     event_rows = (
         EventRegistration.objects
@@ -71,27 +73,29 @@ def export_attendee_analytics(request):
         .annotate(
             registered=Count("id"),
             attended=Count("id", filter=Q(status="attended")),
+            unique_attendees=Count("attendee",filter=Q(status="attended"),distinct=True)
         )
     )
     for row in event_rows:
         event_type = row["event__event_type"]
         data[row["year"]][event_type]["registered"] = row["registered"]
         data[row["year"]][event_type]["attended"] = row["attended"]
+        data[row["year"]][event_type]["unique_attendees"] = row["unique_attendees"]
 
     years = sorted(data.keys())
 
-    header = ["Year", "Seminar Registrations", "Seminar Attendance"]
+    header = ["Year", "Seminar Registrations", "Seminar Attendance", "Unique Seminar Attendees"]
     for key in event_type_keys:
         label = event_type_labels[key]
-        header += [f"{label} Registrations", f"{label} Attendance"]
+        header += [f"{label} Registrations", f"{label} Attendance", f"Unique {label} Attendees"]
 
     writer = csv.writer(response)
     writer.writerow(header)
 
     for yr in years:
-        row = [yr, data[yr]["seminar"]["registered"], data[yr]["seminar"]["attended"]]
+        row = [yr, data[yr]["seminar"]["registered"], data[yr]["seminar"]["attended"], data[yr]["seminar"]["unique_attendees"]]
         for key in event_type_keys:
-            row += [data[yr][key]["registered"], data[yr][key]["attended"]]
+            row += [data[yr][key]["registered"], data[yr][key]["attended"], data[yr][key]["unique_attendees"]]
         writer.writerow(row)
 
     return response
