@@ -5,13 +5,16 @@ import os
 from datetime import date, time
 from unittest.mock import patch
 
+from django.contrib.auth import get_user_model
 from django.core import mail
-from django.test import TestCase, override_settings
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
+from .admin_views import export_attendee_analytics
 from .forms import AttendeeForm
 from .models import (
     Attendee,
+    EventRegistration,
     Location,
     NewsMention,
     OtherEvent,
@@ -434,3 +437,96 @@ class ApiRegistrationTests(TestDataMixin, TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json()["error"], "no seminar found on that date")
+
+
+class AttendeeAnalyticsExportTests(TestDataMixin, TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.staff = User.objects.create_user(username="staff", password="pw", is_staff=True)
+        self.regular = User.objects.create_user(username="regular", password="pw")
+
+        alice = self.create_attendee(first_name="Alice", last_name="Adams", email="alice@example.com")
+        bob = self.create_attendee(first_name="Bob", last_name="Brown", email="bob@example.com")
+        carol = self.create_attendee(first_name="Carol", last_name="Clark", email="carol@example.com")
+        dave = self.create_attendee(first_name="Dave", last_name="Davis", email="dave@example.com")
+
+        s24a = self.create_seminar(title="2024 A", date=date(2024, 3, 1))
+        s24b = self.create_seminar(title="2024 B", date=date(2024, 9, 1))
+        s25 = self.create_seminar(title="2025 C", date=date(2025, 2, 1))
+
+        def seminar_reg(attendee, seminar, status):
+            Registration.objects.create(seminar=seminar, attendee=attendee, status=status)
+
+        # 2024 seminars: 6 registered, 3 attended, 2 unique (Alice, Bob).
+        # Alice attends twice (counts twice in attended, once in unique);
+        # Carol registers twice but never attends.
+        seminar_reg(alice, s24a, "attended")
+        seminar_reg(alice, s24b, "attended")
+        seminar_reg(bob, s24a, "attended")
+        seminar_reg(bob, s24b, "cancelled")
+        seminar_reg(carol, s24a, "registered")
+        seminar_reg(carol, s24b, "registered")
+        # 2025 seminars: 2 registered, 1 attended, 1 unique (Alice again, new year)
+        seminar_reg(alice, s25, "attended")
+        seminar_reg(dave, s25, "cancelled")
+
+        def event_reg(attendee, event, status):
+            EventRegistration.objects.create(event=event, attendee=attendee, status=status)
+
+        # 2024 tours: 3 registered, 2 attended, 2 unique
+        tour24 = self.create_other_event(title="Tour 2024", event_type="tour", date=date(2024, 5, 1))
+        event_reg(alice, tour24, "attended")
+        event_reg(bob, tour24, "attended")
+        event_reg(carol, tour24, "cancelled")
+
+        # 2025 expert insights across two events: 3 registered, 3 attended,
+        # 2 unique (Alice attends both)
+        exin1 = self.create_other_event(title="Exin 1", event_type="exin", date=date(2025, 6, 1))
+        exin2 = self.create_other_event(title="Exin 2", event_type="exin", date=date(2025, 7, 1))
+        event_reg(alice, exin1, "attended")
+        event_reg(dave, exin1, "attended")
+        event_reg(alice, exin2, "attended")
+
+        # 2026 has a tour but no seminars, so the seminar columns must be zero
+        tour26 = self.create_other_event(title="Tour 2026", event_type="tour", date=date(2026, 1, 15))
+        event_reg(bob, tour26, "attended")
+
+    def get_csv(self, user=None):
+        request = RequestFactory().get("/")
+        request.user = user or self.staff
+        response = export_attendee_analytics(request)
+        self.assertEqual(response.status_code, 200)
+        return list(csv.reader(io.StringIO(response.content.decode())))
+
+    def test_header_has_columns_for_seminars_and_each_event_type(self):
+        self.assertEqual(
+            self.get_csv()[0],
+            [
+                "Year",
+                "Seminar Registrations", "Seminar Attendance", "Unique Seminar Attendees",
+                "Tour Registrations", "Tour Attendance", "Unique Tour Attendees",
+                "Expert Insights Registrations", "Expert Insights Attendance",
+                "Unique Expert Insights Attendees",
+            ],
+        )
+
+    def test_counts_per_year(self):
+        rows = [[int(v) for v in row] for row in self.get_csv()[1:]]
+
+        self.assertEqual(
+            rows,
+            [
+                # year, seminar (reg, att, uniq), tour (...), exin (...)
+                [2024, 6, 3, 2, 3, 2, 2, 0, 0, 0],
+                [2025, 2, 1, 1, 0, 0, 0, 3, 3, 2],
+                [2026, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            ],
+        )
+
+    def test_non_staff_is_redirected(self):
+        request = RequestFactory().get("/")
+        request.user = self.regular
+
+        response = export_attendee_analytics(request)
+
+        self.assertEqual(response.status_code, 302)
