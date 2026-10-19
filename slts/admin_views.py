@@ -25,7 +25,12 @@ def export_nametags(request, seminar_id):
 @staff_member_required
 def export_raw(request, seminar_id):
     seminar = get_object_or_404(Seminar, id=seminar_id)
-    return export_attendees_raw_csv(seminar)
+    return export_attendees_raw_csv(seminar,'seminar')
+
+@staff_member_required
+def export_raw_other_event(request, event_id):
+    event = get_object_or_404(OtherEvent, id=event_id)
+    return export_attendees_raw_csv(event,'event')
 
 @staff_member_required
 def export_all_attendees(request):

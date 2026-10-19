@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Avg, Count
 from django_summernote.admin import SummernoteModelAdmin
-from .admin_views import export_signin, export_nametags, export_raw
+from .admin_views import export_signin, export_nametags, export_raw, export_raw_other_event
 from .models import Attendee, Seminar, OtherEvent, Registration, EventRegistration, EducationPartner, FAQ, GoogleReview, Location, NewsMention
 from .admin_site import site
 
@@ -180,7 +180,7 @@ class AttendeeAdmin(admin.ModelAdmin):
             return redirect("admin:slts_attendee_changelist")
 
         queryset = cl.get_queryset(request)  # respects tags filter, search, ordering — no pagination
-    
+
         model = self.model
         exclude = {"id", "married_to", "local", "deceased"}
         field_names = [f.name for f in model._meta.fields if f.name not in exclude]
@@ -399,6 +399,31 @@ class GoogleReviewAdmin(admin.ModelAdmin):
     ]
 
 class OtherEventAdmin(SummernoteModelAdmin):
+    change_form_template = "admin/other_event_change_form.html"
+    # Add Export URL for Post Requests
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "<int:event_id>/export_raw/",
+                self.admin_site.admin_view(export_raw_other_event),
+                name="other_event_export_raw"
+            ),
+        ]
+        return custom_urls + urls
+
+    # Add the export buttons to the Edit Seminar Page
+    def change_view(self, request, object_id, form_url="", extra_context=None):
+        extra_context = extra_context or {}
+        extra_context["other_event_export_raw"] = reverse(
+            "admin:other_event_export_raw",
+            args=[object_id],
+        )
+        return super().change_view(request, object_id, form_url, extra_context)
+
+
+
+
     ordering = ('-date',)
     list_per_page = 10
 

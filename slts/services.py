@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from datetime import time, timedelta, date, datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from .models import Seminar, OtherEvent, Registration, Attendee
+from .models import Seminar, OtherEvent, Registration, EventRegistration, Attendee
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +23,15 @@ def _registrations_for_seminar(seminar):
     return (
         Registration.objects
         .filter(seminar=seminar)
+        .select_related("attendee")
+        .order_by("attendee__last_name", "attendee__first_name")
+    )
+
+
+def _registrations_for_event(event):
+    return (
+        EventRegistration.objects
+        .filter(event=event)
         .select_related("attendee")
         .order_by("attendee__last_name", "attendee__first_name")
     )
@@ -139,12 +148,15 @@ def export_nametags_csv(seminar, include_header=False):
 
     return response
 
-def export_attendees_raw_csv(seminar):
-    registrations = _registrations_for_seminar(seminar)
+def export_attendees_raw_csv(event, event_type):
+    if(event_type == 'seminar'):
+        registrations = _registrations_for_seminar(event)
+    else:
+        registrations = _registrations_for_event(event)
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        f'attachment; filename="attendee_dump_{seminar.title.replace(" ", "-")}_{seminar.date}.csv"'
+        f'attachment; filename="attendee_dump_{event.title.replace(" ", "-")}_{event.date}.csv"'
     )
 
     writer = csv.writer(response)

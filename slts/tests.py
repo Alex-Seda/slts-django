@@ -266,7 +266,7 @@ class ServiceTests(TestDataMixin, TestCase):
 
         sign_in = list(csv.reader(io.StringIO(export_sign_in_sheet_csv(seminar).content.decode())))
         nametags = list(csv.reader(io.StringIO(export_nametags_csv(seminar, include_header=True).content.decode())))
-        raw = list(csv.reader(io.StringIO(export_attendees_raw_csv(seminar).content.decode())))
+        raw = list(csv.reader(io.StringIO(export_attendees_raw_csv(seminar,'seminar').content.decode())))
 
         self.assertEqual(sign_in[0], ["First Name", "Last Name", "Check In"])
         self.assertEqual(sign_in[1][:2], ["Ada", "Adams"])
@@ -530,3 +530,38 @@ class AttendeeAnalyticsExportTests(TestDataMixin, TestCase):
         response = export_attendee_analytics(request)
 
         self.assertEqual(response.status_code, 302)
+
+
+class OtherEventRawExportTests(TestDataMixin, TestCase):
+    def setUp(self):
+        self.staff = get_user_model().objects.create_superuser(
+            username="event-export-admin",
+            email="admin@example.com",
+            password="test-password",
+        )
+        self.event = self.create_other_event()
+
+        second = self.create_attendee(first_name="Bea", last_name="Smith")
+        first = self.create_attendee(first_name="Ada", last_name="Adams")
+        EventRegistration.objects.create(event=self.event, attendee=second)
+        EventRegistration.objects.create(event=self.event, attendee=first)
+
+        self.assertTrue(self.client.login(username="event-export-admin", password="test-password"))
+
+    def test_change_page_renders_and_follows_other_event_raw_export_button(self):
+        change_url = reverse("admin:slts_otherevent_change", args=[self.event.id])
+        export_url = reverse("admin:other_event_export_raw", args=[self.event.id])
+
+        page_response = self.client.get(change_url)
+
+        self.assertEqual(page_response.status_code, 200)
+        self.assertContains(page_response, "Export All Attendee Info")
+        self.assertContains(page_response, f'href="{export_url}"')
+
+        export_response = self.client.get(export_url)
+        rows = list(csv.reader(io.StringIO(export_response.content.decode())))
+
+        self.assertEqual(export_response.status_code, 200)
+        self.assertEqual(export_response["Content-Type"], "text/csv")
+        self.assertEqual(rows[0][0:3], ["First Name", "Last Name", "Married To"])
+        self.assertEqual([row[0:2] for row in rows[1:]], [["Ada", "Adams"], ["Bea", "Smith"]])
