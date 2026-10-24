@@ -41,12 +41,14 @@
        Elevated cards provide an inviting, readable look without harsh blockiness.
        ========================================================================= -->
   {% if n_seminar or s_seminar %}
-  <section class="relative z-10 -mt-10 sm:-mt-16 lg:-mt-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+  <div id="description-backdrop" class="hidden fixed inset-0 z-10 bg-black/20" aria-hidden="true"></div>
+
+  <section class="relative -mt-10 sm:-mt-16 lg:-mt-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
     <div class="grid grid-cols-1 {% if n_seminar and s_seminar %}lg:grid-cols-2{% else %}max-w-xl mx-auto{% endif %} gap-8 lg:gap-10 items-stretch">
       
       <!-- North Seminar Card -->
       {% if n_seminar %}
-      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-start hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
+      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-between hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
         
         <div>
           <!-- Location Pill Tag -->
@@ -96,12 +98,12 @@
           </a>
 
           {% if n_seminar.description %}
-            <details class="mt-2 rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
+            <details data-event-description class="relative z-20 mt-2 rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
               <summary class="cursor-pointer text-lg font-semibold text-primary list-none">
                 Read more about this event
               </summary>
 
-              <div class="mt-4 text-gray-800 leading-relaxed list-disc list-inside [&>ul]:list-disc [&>ul]:ml-5 [&>ol]:list-decimal [&>ol]:ml-5">
+              <div class="absolute left-0 right-0 top-full z-30 mt-2 max-h-[min(60vh,32rem)] overflow-y-auto rounded-2xl border border-purple-100 bg-white p-4 shadow-xl text-gray-800 leading-relaxed list-disc list-inside [&>ul]:list-disc [&>ul]:ml-5 [&>ol]:list-decimal [&>ol]:ml-5">
                 {{ n_seminar.description|safe }}
               </div>
             </details>
@@ -114,7 +116,7 @@
 
       <!-- South Seminar Card -->
       {% if s_seminar %}
-      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-start hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
+      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl shadow-purple-950/10 border border-purple-100 flex flex-col justify-between hover:shadow-2xl hover:border-purple-200 transition-all duration-300 relative group">
         
         <div>
           <!-- New Seminar Tag & Location -->
@@ -167,12 +169,12 @@
           </a>
 
           {% if s_seminar.description %}
-            <details class="mt-2 rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
+            <details data-event-description class="relative z-20 mt-2 rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
               <summary class="cursor-pointer text-lg font-semibold text-primary list-none">
                 Read more about this event
               </summary>
 
-              <div class="mt-4 text-gray-800 leading-relaxed list-disc list-inside [&>ul]:list-disc [&>ul]:ml-5 [&>ol]:list-decimal [&>ol]:ml-5">
+              <div class="absolute left-0 right-0 top-full z-30 mt-2 max-h-[min(60vh,32rem)] overflow-y-auto rounded-2xl border border-purple-100 bg-white p-4 shadow-xl text-gray-800 leading-relaxed list-disc list-inside [&>ul]:list-disc [&>ul]:ml-5 [&>ol]:list-decimal [&>ol]:ml-5">
                 {{ s_seminar.description|safe }}
               </div>
             </details>
@@ -361,6 +363,33 @@
     container.addEventListener('mouseenter', () => cancelAnimationFrame(animationId));
     container.addEventListener('mouseleave', () => animationId = requestAnimationFrame(step));
   }
+
+  // Keep the expanded event description above a subtle page backdrop.
+  const descriptionBackdrop = document.getElementById('description-backdrop');
+  const eventDescriptions = document.querySelectorAll('[data-event-description]');
+
+  function syncDescriptionBackdrop() {
+    const hasOpenDescription = Array.from(eventDescriptions).some((details) => details.open);
+    descriptionBackdrop.classList.toggle('hidden', !hasOpenDescription);
+  }
+
+  eventDescriptions.forEach((details) => {
+    details.addEventListener('toggle', () => {
+      if (details.open) {
+        eventDescriptions.forEach((otherDetails) => {
+          if (otherDetails !== details) otherDetails.open = false;
+        });
+      }
+      syncDescriptionBackdrop();
+    });
+  });
+
+  descriptionBackdrop.addEventListener('click', () => {
+    eventDescriptions.forEach((details) => {
+      details.open = false;
+    });
+    syncDescriptionBackdrop();
+  });
 </script>
 
 {% endblock %}
