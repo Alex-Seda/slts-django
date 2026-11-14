@@ -272,7 +272,8 @@ class NewsMention(models.Model):
 
     outlet_name = models.CharField(max_length=200)
     article_title = models.CharField(max_length=300)
-    article_url = models.URLField(max_length=500)
+    article_url = models.URLField(max_length=500,blank=True)
+    image = models.ImageField(upload_to='news-mentions/',blank=True)
     published_date = models.DateField()
     excerpt = models.TextField(blank=True)
     status = models.CharField(max_length=9, choices=STATUS_CHOICES)
