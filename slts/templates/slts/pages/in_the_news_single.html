@@ -29,6 +29,12 @@
         </time>
       </div>
 
+      {% if news_mention.image %}
+        <div class="aspect-[16/8] overflow-hidden bg-purple-50">
+          <img src="{{ news_mention.image.url }}" alt="{{ news_mention.article_title }}" class="h-full w-full object-contain">
+        </div>
+      {% endif %}
+
       <div class="p-7 sm:p-10 lg:p-14">
         {% if news_mention.excerpt %}
           <div class="border-l-4 border-amber-300 pl-5 text-xl sm:text-2xl leading-relaxed text-gray-700">
@@ -37,12 +43,17 @@
         {% endif %}
 
         <div class="{% if news_mention.excerpt %}mt-10{% endif %} rounded-2xl bg-purple-50/60 p-6 sm:p-8 text-lg leading-relaxed text-gray-700">
-          <p class="font-semibold text-gray-900">Read the full article from {{ news_mention.outlet_name }}.</p>
-          <p class="mt-2">The story opens in a new tab so you can visit the original publication.</p>
-          <a href="{{ news_mention.article_url }}" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-3 rounded-xl bg-primary px-6 py-3.5 font-bold text-white shadow-md transition-colors hover:bg-c_dark_purple focus:outline-none focus:ring-4 focus:ring-purple-300">
-            Read the original article
-            <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
-          </a>
+          {% if news_mention.article_url %}
+            <p class="font-semibold text-gray-900">Read the full article from {{ news_mention.outlet_name }}.</p>
+            <p class="mt-2">The story opens in a new tab so you can visit the original publication.</p>
+            <a href="{{ news_mention.article_url }}" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-3 rounded-xl bg-primary px-6 py-3.5 font-bold text-white shadow-md transition-colors hover:bg-c_dark_purple focus:outline-none focus:ring-4 focus:ring-purple-300">
+              Read the original article
+              <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+            </a>
+          {% else %}
+            <p class="font-semibold text-gray-900">Coverage from {{ news_mention.outlet_name }}.</p>
+            <p class="mt-2">The original article link is not currently available.</p>
+          {% endif %}
         </div>
       </div>
     </article>

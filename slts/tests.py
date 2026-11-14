@@ -336,6 +336,17 @@ class ViewTests(TestDataMixin, TestCase):
         self.assertContains(response, mention.article_title)
         self.assertContains(response, mention.article_url)
 
+    def test_in_the_news_single_renders_without_article_url(self):
+        mention = self.create_news_mention(article_url="")
+
+        response = self.client.get(
+            reverse("slts:in_the_news_single", args=(mention.id,))
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "The original article link is not currently available.")
+        self.assertNotContains(response, 'href=""')
+
     def test_in_the_news_single_redirects_for_draft(self):
         mention = self.create_news_mention(status="draft")
 

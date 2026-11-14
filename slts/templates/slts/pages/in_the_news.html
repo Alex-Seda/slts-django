@@ -32,6 +32,15 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {% for mention in news_mentions %}
           <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-purple-100 bg-white shadow-xl shadow-purple-950/5 transition-transform duration-200 hover:-translate-y-1">
+            {% if mention.image %}
+              <div class="aspect-[16/9] overflow-hidden bg-purple-50">
+                <img src="{{ mention.image.url }}" alt="{{ mention.article_title }}" class="h-full w-full object-contain">
+              </div>
+            {% else %}
+              <div class="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-c_dark_purple via-primary to-rose-400 text-white">
+                <i class="fa-solid fa-newspaper text-5xl opacity-80" aria-hidden="true"></i>
+              </div>
+            {% endif %}
             <div class="h-2 bg-gradient-to-r from-amber-300 via-rose-300 to-purple-400"></div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex items-center justify-between gap-4 text-sm">
